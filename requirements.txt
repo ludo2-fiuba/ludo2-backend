@@ -1,3 +1,11 @@
 django
+django-cors-headers
+django-extensions
+django-filter
 django-heroku
+djangorestframework
+djangorestframework-simplejwt
+djoser
 gunicorn
+markdown
+python-stdnum
