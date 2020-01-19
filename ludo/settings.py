@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 
     'djoser',
 
+    'drf_yasg',
+
     'rest_framework',
     'rest_framework_simplejwt'
 ]
