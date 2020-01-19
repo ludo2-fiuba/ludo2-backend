@@ -46,3 +46,8 @@ A ReDoc view of the API specification at /redoc/
 
 ## Deployed application
 The application is running at `https://ludo-backend.herokuapp.com`
+
+## License
+This source code is property of er-inc and cannot be publicly distributed without explicit consent.
+
+This project is maintained by **Federico Esteban** (fede.est@gmail.comn) and **Daniela Riesgo** (daniealp.riesgo@gmail.com)
