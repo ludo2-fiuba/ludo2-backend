@@ -1,5 +1,6 @@
-from rest_framework_json_api import serializers
+from rest_framework import serializers
 from .models import *
+
 
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
