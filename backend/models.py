@@ -23,13 +23,24 @@ class CustomStudentManager(UserManager):
         user.save(using=self._db)
         return user
 
+    def create_superuser(self, email, password, username=None, **extra_fields):
+        """Create and save a SuperUser with the given email and password."""
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self._create_user(email, password, **extra_fields)
+
 
 class Student(AbstractUser):
     first_name = models.CharField(max_length=50, blank=False)
     last_name = models.CharField(max_length=50, blank=False)
     dni = models.CharField(validators=[validate_dni], max_length=9, unique=True)
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
-    # email = models.EmailField(max_length=255, unique=True)
     padron = models.CharField(max_length=6, validators=[MinLengthValidator], blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -38,6 +49,11 @@ class Student(AbstractUser):
 
     USERNAME_FIELD = 'dni'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
+
+
+    class Meta:
+        verbose_name = 'Student'
+        verbose_name_plural = 'Students'
 
 
 """

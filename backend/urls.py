@@ -7,6 +7,7 @@ from rest_framework import routers  # add this
 from . import views
 
 router = routers.DefaultRouter()
+router.register(r'students', views.StudentsViewSet, 'student')
 
 
 schema_view = get_schema_view(
