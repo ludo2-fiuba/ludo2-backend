@@ -1,0 +1,176 @@
+swagger: '2.0'
+info:
+  title: LUDO API
+  description: 'Endpoint specification of the LUDO API '
+  contact:
+    email: fede.est@gmail.com, danielap.riesgo@gmail.com
+  version: v1
+host: localhost:8000
+schemes:
+  - http
+  - https
+basePath: /
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Basic:
+    type: basic
+security:
+  - Basic: []
+paths:
+  /auth/jwt/create/:
+    post:
+      operationId: auth_jwt_create_create
+      description: "Takes a set of user credentials and returns an access and refresh\
+        \ JSON web\ntoken pair to prove the authentication of those credentials."
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TokenObtainPair'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/TokenObtainPair'
+      tags:
+        - auth
+    parameters: []
+  /auth/jwt/refresh/:
+    post:
+      operationId: auth_jwt_refresh_create
+      description: "Takes a refresh type JSON web token and returns an access type\
+        \ JSON web\ntoken if the refresh token is valid."
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TokenRefresh'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/TokenRefresh'
+      tags:
+        - auth
+    parameters: []
+  /auth/jwt/verify/:
+    post:
+      operationId: auth_jwt_verify_create
+      description: "Takes a token and indicates if it is valid.  This view provides\
+        \ no\ninformation about a token's fitness for a particular use."
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/TokenVerify'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/TokenVerify'
+      tags:
+        - auth
+    parameters: []
+  /auth/users/:
+    post:
+      operationId: auth_users_create
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Student'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Student'
+      tags:
+        - auth
+    parameters: []
+
+  /auth/users/me/:
+    get:
+      operationId: auth_users_me_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Student'
+      tags:
+        - auth
+definitions:
+  Student:
+    required:
+      - first_name
+      - last_name
+      - dni
+      - email
+    type: object
+    properties:
+      first_name:
+        title: First name
+        type: string
+        maxLength: 50
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 50
+        minLength: 1
+      dni:
+        title: Dni
+        type: string
+        maxLength: 9
+        minLength: 1
+      email:
+        title: Email address
+        type: string
+        format: email
+        maxLength: 254
+      id:
+        title: Id
+        type: string
+  TokenObtainPair:
+    required:
+      - dni
+      - password
+    type: object
+    properties:
+      dni:
+        title: Dni
+        type: string
+        minLength: 1
+      password:
+        title: Password
+        type: string
+        minLength: 1
+  TokenRefresh:
+    required:
+      - refresh
+    type: object
+    properties:
+      refresh:
+        title: Refresh
+        type: string
+        minLength: 1
+  TokenVerify:
+    required:
+      - token
+    type: object
+    properties:
+      token:
+        title: Token
+        type: string
+        minLength: 1
