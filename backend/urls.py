@@ -1,14 +1,13 @@
-from django.urls import path, include, re_path  # add this
+from django.urls import path, include, re_path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from rest_framework import routers  # add this
+from rest_framework import routers
 
 from . import views
 
 router = routers.DefaultRouter()
 router.register(r'students', views.StudentsViewSet, 'student')
-
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -23,7 +22,6 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     # app own routes
-    path('', views.index, name='index'),
     path('api/', include(router.urls)),
 
     # path to djoser end points

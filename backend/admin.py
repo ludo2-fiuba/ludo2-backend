@@ -9,7 +9,7 @@ from .models import *
 
 @admin.register(Student)
 class StudentAdmin(DjangoUserAdmin):
-    """Define admin model for custom User model with no email field."""
+    """Define admin models for custom User models with no email field."""
     title = "Student"
 
     fieldsets = (

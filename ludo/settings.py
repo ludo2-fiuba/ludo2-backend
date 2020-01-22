@@ -111,8 +111,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'backend.Student'
-
 DJOSER = {
     'USER_ID_FIELD': 'dni'
 }
