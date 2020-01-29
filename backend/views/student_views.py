@@ -1,9 +1,9 @@
 from rest_framework.views import APIView
 
 from ..models import Student
-from ..serializers import StudentSerializer
+from backend.serializers.student_serializer import StudentSerializer
 
 
-class StudentsView(APIView):
+class StudentViews(APIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer

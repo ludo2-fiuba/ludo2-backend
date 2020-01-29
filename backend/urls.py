@@ -7,7 +7,7 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'students', views.StudentsViewSet, 'student')
+router.register(r'subjects', views.SubjectViewSet, 'subject')
 
 schema_view = get_schema_view(
     openapi.Info(
