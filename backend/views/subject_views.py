@@ -21,17 +21,19 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def pending(self, request):
-        pending_subjects = Subject.objects.exclude(
-            final__finalexam__grade__gte=Subject.PASSING_GRADE).filter(
-            final__finalexam__student=request.user.id)
+        approved = Subject.objects.filter(final__finalexam__grade__gte=Subject.PASSING_GRADE, final__finalexam__student=request.user.id)
+
+        pending_subjects = Subject.objects.filter(
+            final__finalexam__student=request.user.id).exclude(
+            id__in=[sub.id for sub in approved]
+        )
         return self._serialize(pending_subjects)
 
     @action(detail=True)
     def correlatives(self, request, pk=None):
         subject = self.get_object()
-        correlatives = Subject.objects.filter(correlatives=subject.id)
 
-        return self._serialize(correlatives)
+        return self._serialize(subject.correlatives.all())
 
     def _serialize(self, relation):
         page = self.paginate_queryset(relation)

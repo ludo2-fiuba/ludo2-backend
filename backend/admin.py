@@ -58,6 +58,16 @@ class SubjectAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "Subject"
 
-    list_display = ('name',)
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('name',),
+        }),
+    )
+
+    list_display = ('name', 'list_correlatives')
     search_fields = ('name',)
     ordering = ('name',)
+
+    def list_correlatives(self, obj):
+        return [sub.__str__() for sub in obj.correlatives.all()]
