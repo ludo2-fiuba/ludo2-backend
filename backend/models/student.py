@@ -48,6 +48,9 @@ class Student(AbstractUser):
     USERNAME_FIELD = 'dni'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email', 'padron']
 
+    def __str__(self):
+        return f"{self.last_name}, {self.first_name} ({self.padron})"
+
     class Meta:
         verbose_name = 'Student'
         verbose_name_plural = 'Students'

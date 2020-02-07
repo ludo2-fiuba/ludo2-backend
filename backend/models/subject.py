@@ -8,3 +8,6 @@ class Subject(models.Model):
 
     PASSING_GRADE = 4
     REQUIRED_FIELDS = ['name']
+
+    def __str__(self):
+        return self.name

@@ -33,14 +33,31 @@ class FinalExamAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "FinalExam"
 
+    list_display = ('grade', 'subject', 'student')
+    search_fields = ('grade', 'subject', 'student')
+    ordering = ('grade',)
+
+    def subject(self, obj):
+        return obj.final.subject
+
+    subject.admin_order_field = 'final__subject__name'
+
 
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "Final"
 
+    list_display = ('subject', 'date')
+    search_fields = ('subject', 'date')
+    ordering = ('subject', 'date')
+
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "Subject"
+
+    list_display = ('name',)
+    search_fields = ('name',)
+    ordering = ('name',)
