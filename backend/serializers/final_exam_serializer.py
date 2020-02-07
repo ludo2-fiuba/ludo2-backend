@@ -11,10 +11,8 @@ class ApprovedFinalExamsByStudentListSerializer(serializers.ListSerializer):
 
 
 class FinalExamSerializer(serializers.ModelSerializer):
-    student = serializers.ReadOnlyField(source='student.padron')
-    final = serializers.ReadOnlyField(source='final.subject.name')
 
     class Meta:
         model = FinalExam
         list_serializer_class = ApprovedFinalExamsByStudentListSerializer
-        fields = ('id', 'final', 'student', 'grade')
+        fields = ('id', 'grade')

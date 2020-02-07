@@ -11,17 +11,33 @@ class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    PASSING_GRADE = 4
 
     @action(detail=False)
-    def approved(self, request):
-        approved_subjects = Subject.objects.filter(final__finalexam__grade__gte=self.PASSING_GRADE,
+    def history(self, request):
+        approved_subjects = Subject.objects.filter(final__finalexam__grade__gte=Subject.PASSING_GRADE,
                                                    final__finalexam__student=request.user.id).distinct()
 
-        page = self.paginate_queryset(approved_subjects)
+        return self._serialize(approved_subjects)
+
+    @action(detail=False)
+    def pending(self, request):
+        pending_subjects = Subject.objects.exclude(
+            final__finalexam__grade__gte=Subject.PASSING_GRADE).filter(
+            final__finalexam__student=request.user.id)
+        return self._serialize(pending_subjects)
+
+    @action(detail=True)
+    def correlatives(self, request, pk=None):
+        subject = self.get_object()
+        correlatives = Subject.objects.filter(correlatives=subject.id)
+
+        return self._serialize(correlatives)
+
+    def _serialize(self, relation):
+        page = self.paginate_queryset(relation)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(approved_subjects, many=True)
+        serializer = self.get_serializer(relation, many=True)
         return Response(serializer.data)

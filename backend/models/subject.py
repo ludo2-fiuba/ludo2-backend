@@ -6,4 +6,5 @@ class Subject(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    PASSING_GRADE = 4
     REQUIRED_FIELDS = ['name']

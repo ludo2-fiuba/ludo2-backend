@@ -17,4 +17,4 @@ class FinalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Final
         list_serializer_class = ApprovedFinalsByStudentListSerializer
-        fields = ('id', 'final_exams')
+        fields = ('id', 'date', 'final_exams')
