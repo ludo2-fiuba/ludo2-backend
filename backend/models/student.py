@@ -37,7 +37,7 @@ class CustomStudentManager(UserManager):
 class Student(AbstractUser):
     first_name = models.CharField(max_length=50, blank=False)
     last_name = models.CharField(max_length=50, blank=False)
-    dni = models.CharField(validators=[validate_dni], max_length=9, unique=True)
+    dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False)
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
     padron = models.CharField(max_length=6, validators=[MinLengthValidator(5)], blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
