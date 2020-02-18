@@ -23,7 +23,7 @@ class SubjectTests(APITestCase):
         """
         Should return only passing subjects for the logged in user
         """
-        self.client.force_authenticate(user=self.student_1)
+        self.client.force_authenticate(user=self.student_1.user)
         url = "/api/subjects/history/"
         response = self.client.get(url, format='json')
 
@@ -34,7 +34,7 @@ class SubjectTests(APITestCase):
         """
         Should return empty if the student has no approved subjects
         """
-        self.client.force_authenticate(user=self.student_3)
+        self.client.force_authenticate(user=self.student_3.user)
         url = "/api/subjects/history/"
         response = self.client.get(url, format='json')
 
@@ -54,7 +54,7 @@ class SubjectTests(APITestCase):
         """
         Should return correlatives only with subject info
         """
-        self.client.force_authenticate(user=self.student_1)
+        self.client.force_authenticate(user=self.student_1.user)
         url = f"/api/subjects/{self.subject_1.id}/correlatives/"
         response = self.client.get(url, format='json')
 
@@ -65,7 +65,7 @@ class SubjectTests(APITestCase):
         """
         Should return nothing if subject has no correlatives
         """
-        self.client.force_authenticate(user=self.student_1)
+        self.client.force_authenticate(user=self.student_1.user)
         url = f"/api/subjects/{self.subject_2.id}/correlatives/"
         response = self.client.get(url, format='json')
 
@@ -85,7 +85,7 @@ class SubjectTests(APITestCase):
         """
         Should return only passing subjects for the logged in user
         """
-        self.client.force_authenticate(user=self.student_1)
+        self.client.force_authenticate(user=self.student_1.user)
         url = "/api/subjects/pending/"
         response = self.client.get(url, format='json')
 
@@ -96,7 +96,7 @@ class SubjectTests(APITestCase):
         """
         Should return empty if the student has no pending subjects
         """
-        self.client.force_authenticate(user=self.student_3)
+        self.client.force_authenticate(user=self.student_3.user)
         url = "/api/subjects/pending/"
         response = self.client.get(url, format='json')
 

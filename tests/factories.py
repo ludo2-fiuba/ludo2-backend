@@ -1,18 +1,26 @@
 from datetime import timezone
 
 import factory
+from django.db.models.signals import post_save
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = 'backend.User'
+
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
+    dni = factory.Faker('numerify', text='########')
+    email = factory.Faker('ascii_safe_email')
+    password = factory.Faker('password', length=10)
 
 
 class StudentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = 'backend.Student'
 
-    first_name = factory.Faker('first_name')
-    last_name = factory.Faker('last_name')
-    dni = factory.Faker('numerify', text='########')
-    email = factory.Faker('ascii_safe_email')
     padron = factory.Faker('numerify', text='######')
-    password = factory.Faker('password', length=10)
+    user = factory.SubFactory(UserFactory)
 
 
 class SubjectFactory(factory.django.DjangoModelFactory):

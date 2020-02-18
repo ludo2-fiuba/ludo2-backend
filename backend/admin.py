@@ -7,26 +7,55 @@ from .models import *
 
 # Register your models here.
 
+class UserInline(admin.StackedInline):
+    model = User
+    extra = 1
+
+
 @admin.register(Student)
-class StudentAdmin(DjangoUserAdmin):
+class StudentAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "Student"
 
-    fieldsets = (
-        (None, {'fields': ('password',)}),
-        (_('Personal info'), {'fields': ('dni', 'email', 'first_name', 'last_name', 'padron')}),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    """fieldsets = (
+        (None, {'fields': ('get_password',)}),
+        (_('Personal info'), {'fields': ('get_dni', 'get_email', 'get_first_name', 'get_last_name', 'padron')}),
+        (_('Important dates'), {'fields': ('get_last_login', 'get_date_joined')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('dni', 'email', 'password1', 'password2'),
+            'fields': ('get_dni', 'get_email', 'user__password1', 'user__password2'),
         }),
     )
-    list_display = ('dni', 'email', 'first_name', 'last_name', 'padron', 'is_staff')
-    search_fields = ('dni', 'email', 'first_name', 'last_name', 'padron')
-    ordering = ('dni', 'email', 'first_name', 'last_name', 'padron')
+    list_display = ('get_dni', 'get_email', 'get_first_name', 'get_last_name', 'padron')
+    search_fields = ('get_dni', 'get_email', 'get_first_name', 'get_last_name', 'padron')
+    # ordering = ('get_dni', 'get_email', 'get_first_name', 'last_name', 'padron')
 
+    def get_password(self, obj):
+        return obj.user.password
+
+    def get_dni(self, obj):
+        return obj.user.dni
+
+    def get_email(self, obj):
+        return obj.user.email
+
+    def get_first_name(self, obj):
+        return obj.user.first_name
+
+    def get_last_name(self, obj):
+        return obj.user.last_name
+
+    def get_last_login(self, obj):
+        return obj.user.last_login
+
+    def get_date_joined(self, obj):
+        return obj.user.date_joined
+
+    def get_last_name(self, obj):
+        return obj.user.last_name
+    """
 
 @admin.register(FinalExam)
 class FinalExamAdmin(admin.ModelAdmin):
