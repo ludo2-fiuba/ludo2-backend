@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
 from django.db import models
+from rest_framework.exceptions import ValidationError
 
 from ..validators import validate_dni
 
@@ -20,11 +21,15 @@ class CustomUserManager(UserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
 
-        if not extra_fields.get('is_student', False):
-            raise ValueError('is_student field needed')
-        else:
-            user.save(using=self._db)
+        user.save(using=self._db)
+        if extra_fields['is_staff']:
+            return user
+        if extra_fields.get('is_teacher', False):
+            pass
+        elif extra_fields.get('is_student', False):
             Student(user=user).save()
+        else:
+            raise ValidationError('Either is_student or is_teacher is needed')
         return user
 
     def create_superuser(self, email, password, username=None, **extra_fields):
