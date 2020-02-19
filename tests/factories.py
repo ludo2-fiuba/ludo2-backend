@@ -1,7 +1,6 @@
 from datetime import timezone
 
 import factory
-from django.db.models.signals import post_save
 
 
 class UserFactory(factory.django.DjangoModelFactory):

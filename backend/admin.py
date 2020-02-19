@@ -7,9 +7,10 @@ from .models import *
 
 # Register your models here.
 
-class UserInline(admin.StackedInline):
-    model = User
-    extra = 1
+
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    title = "User"
 
 
 @admin.register(Student)
@@ -28,23 +29,24 @@ class StudentAdmin(admin.ModelAdmin):
             'fields': ('get_dni', 'get_email', 'user__password1', 'user__password2'),
         }),
     )
-    list_display = ('get_dni', 'get_email', 'get_first_name', 'get_last_name', 'padron')
-    search_fields = ('get_dni', 'get_email', 'get_first_name', 'get_last_name', 'padron')
-    # ordering = ('get_dni', 'get_email', 'get_first_name', 'last_name', 'padron')
+    """
+    list_display = ('dni', 'email', 'first_name', 'last_name', 'padron')
+    search_fields = ('dni', 'email', 'first_name', 'last_name', 'padron')
+    # ordering = ('dni', 'email', 'first_name', 'last_name', 'padron')
 
     def get_password(self, obj):
         return obj.user.password
 
-    def get_dni(self, obj):
+    def dni(self, obj):
         return obj.user.dni
 
-    def get_email(self, obj):
+    def email(self, obj):
         return obj.user.email
 
-    def get_first_name(self, obj):
+    def first_name(self, obj):
         return obj.user.first_name
 
-    def get_last_name(self, obj):
+    def last_name(self, obj):
         return obj.user.last_name
 
     def get_last_login(self, obj):
@@ -55,7 +57,7 @@ class StudentAdmin(admin.ModelAdmin):
 
     def get_last_name(self, obj):
         return obj.user.last_name
-    """
+
 
 @admin.register(FinalExam)
 class FinalExamAdmin(admin.ModelAdmin):
