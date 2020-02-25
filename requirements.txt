@@ -5,6 +5,7 @@ django-filter
 django-heroku
 djangorestframework
 djangorestframework-simplejwt
+django_reverse_admin
 djoser
 factory_boy
 drf-nested-routers

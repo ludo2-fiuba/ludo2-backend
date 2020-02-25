@@ -1,18 +1,18 @@
 from rest_framework import serializers
 
 from backend.models import Final
-from .final_exam_serializer import FinalExamSerializer
+from .final_exam_serializer import ApprovedFinalExamSerializer
 
 
 class ApprovedFinalsByStudentListSerializer(serializers.ListSerializer):
     def to_representation(self, data):
         data = data.filter(finalexam__grade__gte=4,
-                           finalexam__student=self.context['request'].user.id).distinct()
+                           finalexam__student=self.context['request'].user.student).distinct()
         return super(ApprovedFinalsByStudentListSerializer, self).to_representation(data)
 
 
 class FinalSerializer(serializers.ModelSerializer):
-    final_exams = FinalExamSerializer(source='finalexam_set', many=True)
+    final_exams = ApprovedFinalExamSerializer(source='finalexam_set', many=True)
 
     class Meta:
         model = Final
