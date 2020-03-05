@@ -18,6 +18,7 @@ class CustomUserManager(UserManager):
         Create and save a user with the given email, and password.
         """
         from .student import Student
+        from .teacher import Teacher
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -26,7 +27,7 @@ class CustomUserManager(UserManager):
         if extra_fields['is_staff']:
             return user
         if extra_fields.get('is_teacher', False):
-            pass
+            Teacher(user=user).save()
         elif extra_fields.get('is_student', False):
             Student(user=user).save()
         else:
