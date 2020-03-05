@@ -22,4 +22,4 @@ class FinalExamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FinalExam
-        fields = ('id', 'student', 'grade')
+        fields = ('id', 'student', 'grade', 'final')

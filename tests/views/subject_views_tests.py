@@ -1,12 +1,12 @@
-from django.urls import include, path, reverse
+import random
+
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-import random
 from ..factories import StudentFactory, SubjectFactory, SubjectWithCorrelativesFactory, FinalExamFactory
 
 
-class SubjectTests(APITestCase):
+class SubjectViewsTests(APITestCase):
     def setUp(self) -> None:
         self.student_1 = StudentFactory()
         self.student_2 = StudentFactory()
@@ -19,13 +19,14 @@ class SubjectTests(APITestCase):
         FinalExamFactory.create_batch(size=2, grade=random.randint(1, 3), student=self.student_1)
         FinalExamFactory.create_batch(size=2, student=self.student_2)
 
+        self.history_uri = "/api/subjects/history/"
+
     def test_history_with_subjects(self):
         """
         Should return only passing subjects for the logged in user
         """
         self.client.force_authenticate(user=self.student_1.user)
-        url = "/api/subjects/history/"
-        response = self.client.get(url, format='json')
+        response = self.client.get(self.history_uri, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 3)
@@ -35,8 +36,7 @@ class SubjectTests(APITestCase):
         Should return am empty list if the student has no approved subjects
         """
         self.client.force_authenticate(user=self.student_3.user)
-        url = "/api/subjects/history/"
-        response = self.client.get(url, format='json')
+        response = self.client.get(self.history_uri, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
@@ -45,8 +45,7 @@ class SubjectTests(APITestCase):
         """
         Should fail if unauthorized
         """
-        url = "/api/subjects/history/"
-        response = self.client.get(url, format='json')
+        response = self.client.get(self.history_uri, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
