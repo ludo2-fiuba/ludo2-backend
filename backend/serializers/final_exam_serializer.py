@@ -6,7 +6,7 @@ from backend.models import FinalExam
 class ApprovedFinalExamsByStudentListSerializer(serializers.ListSerializer):
     def to_representation(self, data):
         data = data.filter(grade__gte=4,
-                           student=self.context['request'].user.request).distinct()
+                           student=self.context['request'].user.student).distinct()
         return super(ApprovedFinalExamsByStudentListSerializer, self).to_representation(data)
 
 

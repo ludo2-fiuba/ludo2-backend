@@ -3,14 +3,15 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import permissions
 
-from backend.models import FinalExam, Final
+from backend.models import FinalExam
+from backend.permissions import IsStudent
 from backend.serializers.final_exam_serializer import FinalExamSerializer
 
 
 class FinalExamViewSet(viewsets.ModelViewSet):
     queryset = FinalExam.objects.all()
     serializer_class = FinalExamSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsStudent]
 
     @action(detail=False, methods=['POST'])
     def rendir(self, request):

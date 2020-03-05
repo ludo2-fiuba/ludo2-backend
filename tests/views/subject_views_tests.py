@@ -32,7 +32,7 @@ class SubjectTests(APITestCase):
 
     def test_history_empty(self):
         """
-        Should return empty if the student has no approved subjects
+        Should return am empty list if the student has no approved subjects
         """
         self.client.force_authenticate(user=self.student_3.user)
         url = "/api/subjects/history/"
@@ -63,7 +63,7 @@ class SubjectTests(APITestCase):
 
     def test_correlatives_empty(self):
         """
-        Should return nothing if subject has no correlatives
+        Should return an empty list if subject has no correlatives
         """
         self.client.force_authenticate(user=self.student_1.user)
         url = f"/api/subjects/{self.subject_2.id}/correlatives/"
@@ -94,7 +94,7 @@ class SubjectTests(APITestCase):
 
     def test_pending_empty(self):
         """
-        Should return empty if the student has no pending subjects
+        Should return an empty list if the student has no pending subjects
         """
         self.client.force_authenticate(user=self.student_3.user)
         url = "/api/subjects/pending/"

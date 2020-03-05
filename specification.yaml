@@ -8,7 +8,6 @@ info:
 host: localhost:8000
 schemes:
   - http
-  - https
 basePath: /
 consumes:
   - application/json
@@ -20,6 +19,252 @@ securityDefinitions:
 security:
   - Basic: []
 paths:
+  /api/final_exams/:
+    get:
+      operationId: api_final_exams_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/FinalExam'
+      tags:
+        - api
+    post:
+      operationId: api_final_exams_create
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FinalExam'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/FinalExam'
+      tags:
+        - api
+    parameters: []
+  /api/final_exams/rendir/:
+    post:
+      operationId: api_final_exams_rendir
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FinalExam'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/FinalExam'
+      tags:
+        - api
+    parameters: []
+  /api/final_exams/{id}/:
+    get:
+      operationId: api_final_exams_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/FinalExam'
+      tags:
+        - api
+    put:
+      operationId: api_final_exams_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FinalExam'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/FinalExam'
+      tags:
+        - api
+    patch:
+      operationId: api_final_exams_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/FinalExam'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/FinalExam'
+      tags:
+        - api
+    delete:
+      operationId: api_final_exams_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this final exam.
+        required: true
+        type: integer
+  /api/subjects/:
+    get:
+      operationId: api_subjects_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subject'
+      tags:
+        - api
+    post:
+      operationId: api_subjects_create
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Subject'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Subject'
+      tags:
+        - api
+    parameters: []
+  /api/subjects/history/:
+    get:
+      operationId: api_subjects_history
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subject'
+      tags:
+        - api
+    parameters: []
+  /api/subjects/pending/:
+    get:
+      operationId: api_subjects_pending
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Subject'
+      tags:
+        - api
+    parameters: []
+  /api/subjects/{id}/:
+    get:
+      operationId: api_subjects_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Subject'
+      tags:
+        - api
+    put:
+      operationId: api_subjects_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Subject'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Subject'
+      tags:
+        - api
+    patch:
+      operationId: api_subjects_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Subject'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Subject'
+      tags:
+        - api
+    delete:
+      operationId: api_subjects_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this subject.
+        required: true
+        type: integer
+  /api/subjects/{id}/correlatives/:
+    get:
+      operationId: api_subjects_correlatives
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Subject'
+      tags:
+        - api
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this subject.
+        required: true
+        type: integer
   /auth/jwt/create/:
     post:
       operationId: auth_jwt_create_create
@@ -78,6 +323,19 @@ paths:
         - auth
     parameters: []
   /auth/users/:
+    get:
+      operationId: auth_users_list
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+      tags:
+        - auth
     post:
       operationId: auth_users_create
       description: ''
@@ -86,16 +344,33 @@ paths:
           in: body
           required: true
           schema:
-            $ref: '#/definitions/Student'
+            $ref: '#/definitions/UserCreate'
       responses:
         '201':
           description: ''
           schema:
-            $ref: '#/definitions/Student'
+            $ref: '#/definitions/UserCreate'
       tags:
         - auth
     parameters: []
-
+  /auth/users/activation/:
+    post:
+      operationId: auth_users_activation
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Activation'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Activation'
+      tags:
+        - auth
+    parameters: []
   /auth/users/me/:
     get:
       operationId: auth_users_me_read
@@ -107,41 +382,310 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Student'
+              $ref: '#/definitions/User'
       tags:
         - auth
+    put:
+      operationId: auth_users_me_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - auth
+    patch:
+      operationId: auth_users_me_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - auth
+    delete:
+      operationId: auth_users_me_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - auth
+    parameters: []
+  /auth/users/resend_activation/:
+    post:
+      operationId: auth_users_resend_activation
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      tags:
+        - auth
+    parameters: []
+  /auth/users/reset_dni/:
+    post:
+      operationId: auth_users_reset_username
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      tags:
+        - auth
+    parameters: []
+  /auth/users/reset_dni_confirm/:
+    post:
+      operationId: auth_users_reset_username_confirm
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UsernameResetConfirm'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/UsernameResetConfirm'
+      tags:
+        - auth
+    parameters: []
+  /auth/users/reset_password/:
+    post:
+      operationId: auth_users_reset_password
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SendEmailReset'
+      tags:
+        - auth
+    parameters: []
+  /auth/users/reset_password_confirm/:
+    post:
+      operationId: auth_users_reset_password_confirm
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/PasswordResetConfirm'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/PasswordResetConfirm'
+      tags:
+        - auth
+    parameters: []
+  /auth/users/set_dni/:
+    post:
+      operationId: auth_users_set_username
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SetUsername'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SetUsername'
+      tags:
+        - auth
+    parameters: []
+  /auth/users/set_password/:
+    post:
+      operationId: auth_users_set_password
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/SetPassword'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/SetPassword'
+      tags:
+        - auth
+    parameters: []
+  /auth/users/{id}/:
+    get:
+      operationId: auth_users_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - auth
+    put:
+      operationId: auth_users_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - auth
+    patch:
+      operationId: auth_users_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - auth
+    delete:
+      operationId: auth_users_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - auth
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this user.
+        required: true
+        type: integer
 definitions:
-  Student:
+  FinalExam:
     required:
-      - first_name
-      - last_name
-      - dni
-      - email
+      - student
     type: object
     properties:
-      first_name:
-        title: First name
-        type: string
-        maxLength: 50
-        minLength: 1
-      last_name:
-        title: Last name
-        type: string
-        maxLength: 50
-        minLength: 1
-      dni:
-        title: Dni
-        type: string
-        maxLength: 9
-        minLength: 1
-      email:
-        title: Email address
-        type: string
-        format: email
-        maxLength: 254
       id:
-        title: Id
+        title: ID
+        type: integer
+        readOnly: true
+      student:
+        title: Student
         type: string
+      grade:
+        title: Grade
+        type: integer
+        maximum: 10
+        minimum: 1
+        x-nullable: true
+  ApprovedFinalExam:
+    required:
+      - student
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      student:
+        title: Student
+        type: string
+      grade:
+        title: Grade
+        type: integer
+        maximum: 10
+        minimum: 1
+        x-nullable: true
+  Final:
+    required:
+      - date
+      - final_exams
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      date:
+        title: Date
+        type: string
+        format: date-time
+      final_exams:
+        type: array
+        items:
+          $ref: '#/definitions/ApprovedFinalExam'
+  Subject:
+    required:
+      - name
+      - finals
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      name:
+        title: Name
+        type: string
+        maxLength: 50
+        minLength: 1
+      finals:
+        type: array
+        items:
+          $ref: '#/definitions/Final'
   TokenObtainPair:
     required:
       - dni
@@ -172,5 +716,160 @@ definitions:
     properties:
       token:
         title: Token
+        type: string
+        minLength: 1
+  User:
+    required:
+      - first_name
+      - last_name
+    type: object
+    properties:
+      first_name:
+        title: First name
+        type: string
+        maxLength: 50
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 50
+        minLength: 1
+      email:
+        title: Email address
+        type: string
+        format: email
+        maxLength: 254
+      is_student:
+        title: Is student
+        type: boolean
+      is_teacher:
+        title: Is teacher
+        type: boolean
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      dni:
+        title: Dni
+        type: string
+        readOnly: true
+        minLength: 1
+  UserCreate:
+    required:
+      - first_name
+      - last_name
+      - dni
+      - password
+    type: object
+    properties:
+      first_name:
+        title: First name
+        type: string
+        maxLength: 50
+        minLength: 1
+      last_name:
+        title: Last name
+        type: string
+        maxLength: 50
+        minLength: 1
+      email:
+        title: Email address
+        type: string
+        format: email
+        maxLength: 254
+      is_student:
+        title: Is student
+        type: boolean
+      is_teacher:
+        title: Is teacher
+        type: boolean
+      dni:
+        title: Dni
+        type: string
+        maxLength: 9
+        minLength: 1
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      password:
+        title: Password
+        type: string
+        minLength: 1
+  Activation:
+    required:
+      - uid
+      - token
+    type: object
+    properties:
+      uid:
+        title: Uid
+        type: string
+        minLength: 1
+      token:
+        title: Token
+        type: string
+        minLength: 1
+  SendEmailReset:
+    required:
+      - email
+    type: object
+    properties:
+      email:
+        title: Email
+        type: string
+        format: email
+        minLength: 1
+  UsernameResetConfirm:
+    required:
+      - new_dni
+    type: object
+    properties:
+      new_dni:
+        title: Dni
+        type: string
+        maxLength: 9
+        minLength: 1
+  PasswordResetConfirm:
+    required:
+      - uid
+      - token
+      - new_password
+    type: object
+    properties:
+      uid:
+        title: Uid
+        type: string
+        minLength: 1
+      token:
+        title: Token
+        type: string
+        minLength: 1
+      new_password:
+        title: New password
+        type: string
+        minLength: 1
+  SetUsername:
+    required:
+      - new_dni
+    type: object
+    properties:
+      new_dni:
+        title: Dni
+        type: string
+        maxLength: 9
+        minLength: 1
+  SetPassword:
+    required:
+      - new_password
+      - current_password
+    type: object
+    properties:
+      new_password:
+        title: New password
+        type: string
+        minLength: 1
+      current_password:
+        title: Current password
         type: string
         minLength: 1

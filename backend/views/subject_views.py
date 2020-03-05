@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from backend.models import Subject
+from backend.permissions import IsStudent
 from backend.serializers.subject_serializer import SubjectSerializer
 
 
@@ -12,7 +13,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsStudent]
 
     @action(detail=False)
     def history(self, request):
@@ -33,7 +34,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=True)
     def correlatives(self, request, pk=None):
-        subject = self.get_object()
+        subject = Subject.objects.get(id=pk)
 
         return self._serialize(subject.correlatives.all())
 
