@@ -7,9 +7,10 @@ djangorestframework
 djangorestframework-simplejwt
 django_reverse_admin
 djoser
-factory_boy
 drf-nested-routers
 drf-yasg
+factory_boy
 gunicorn
 markdown
 python-stdnum
+rest_condition
