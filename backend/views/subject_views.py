@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import permissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from backend.models import Subject
@@ -13,7 +13,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsStudent]
+    permission_classes = [permissions.IsAuthenticated, IsStudent]
 
     @action(detail=False)
     def history(self, request):

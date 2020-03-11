@@ -1,3 +1,4 @@
 from .views.subject_views_tests import SubjectViewsTests
-from .views.final_exam_views_tests import FinalExamViewsTests
+from .views.student_final_exam_views_tests import StudentFinalExamViewsTests
+from .views.teacher_final_exam_views_tests import TeacherFinalExamViewsTests
 

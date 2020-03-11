@@ -6,7 +6,7 @@ class IsStudent(permissions.BasePermission):
     Custom permission to only allow students
     """
 
-    def has_object_permission(self, request, view, obj):
+    def has_permission(self, request, view):
         return request.user.is_student
 
 
@@ -15,7 +15,7 @@ class IsTeacher(permissions.BasePermission):
     Custom permission to only allow students
     """
 
-    def has_object_permission(self, request, view, obj):
+    def has_permission(self, request, view):
         return request.user.is_teacher
 
 

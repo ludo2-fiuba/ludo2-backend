@@ -1,15 +1,16 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from ..factories import StudentFactory, SubjectFactory, FinalFactory
+from ..factories import StudentFactory, TeacherFactory, SubjectFactory, FinalFactory
 
 
-class FinalExamViewsTests(APITestCase):
+class StudentFinalExamViewsTests(APITestCase):
     def setUp(self) -> None:
         self.student = StudentFactory()
+        self.teacher = TeacherFactory()
         self.subject = SubjectFactory()
 
-        self.final = FinalFactory(subject=self.subject)
+        self.final = FinalFactory(subject=self.subject, teacher=self.teacher)
 
         self.rendir_uri = "/api/final_exams/rendir/"
 
@@ -31,6 +32,14 @@ class FinalExamViewsTests(APITestCase):
         """
         response = self.client.post(self.rendir_uri, {"final": self.final.id}, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_rendir_teacher_logged_in(self):
+        """
+        Should fail if teacher tries to take an exam
+        """
+        self.client.force_authenticate(user=self.teacher.user)
+        response = self.client.post(self.rendir_uri, {"final": self.final.id}, format='json')
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_rendir_incorrect_validation(self):
         """

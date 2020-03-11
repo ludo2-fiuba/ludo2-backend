@@ -19,7 +19,15 @@ class StudentFactory(factory.django.DjangoModelFactory):
         model = 'backend.Student'
 
     padron = factory.Faker('numerify', text='######')
-    user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(UserFactory, is_student=True)
+
+
+class TeacherFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = 'backend.Teacher'
+
+    legajo = factory.Faker('numerify', text='######')
+    user = factory.SubFactory(UserFactory, is_teacher=True)
 
 
 class SubjectFactory(factory.django.DjangoModelFactory):
@@ -56,6 +64,7 @@ class FinalFactory(factory.django.DjangoModelFactory):
 
     date = factory.Faker('date_time', tzinfo=timezone.utc)
     subject = factory.SubFactory(SubjectFactory)
+    teacher = factory.SubFactory(TeacherFactory)
 
 
 class FinalExamFactory(factory.django.DjangoModelFactory):
