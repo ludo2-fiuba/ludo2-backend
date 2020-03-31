@@ -4,7 +4,7 @@ from rest_framework.test import APITestCase
 from ..factories import StudentFactory, TeacherFactory, SubjectFactory, FinalFactory, FinalExamFactory
 
 
-class TeacherFinalExamViewsTests(APITestCase):
+class FinalExamTeacherViewsTests(APITestCase):
     def setUp(self) -> None:
         self.student = StudentFactory()
         self.teacher = TeacherFactory()
@@ -22,10 +22,20 @@ class TeacherFinalExamViewsTests(APITestCase):
         self.client.force_authenticate(user=self.teacher.user)
         response = self.client.put(self.calificar_uri, {"grade": 7}, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['student'], self.student.pk)
         self.assertEqual(response.data['grade'], 7)
         self.assertEqual(response.data['final'], self.final.id)
+
+    def test_calificar_invalid_grade(self):
+        """
+        Should fail indicating that the grade is invalid
+        """
+        self.client.force_authenticate(user=self.teacher.user)
+        response = self.client.put(self.calificar_uri, {"grade": 70}, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data['grade'][0], "Ensure this value is less than or equal to 10.")
 
     def test_calificar_not_logged_in(self):
         """
