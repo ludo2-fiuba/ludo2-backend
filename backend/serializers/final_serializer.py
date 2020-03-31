@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from backend.models import Final
-from .final_exam_serializer import ApprovedFinalExamSerializer
+from .final_exam_serializer import ApprovedFinalExamSerializer, FinalExamTeacherDetailsSerializer
 
 
 class ApprovedFinalsByStudentListSerializer(serializers.ListSerializer):
@@ -17,4 +17,12 @@ class FinalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Final
         list_serializer_class = ApprovedFinalsByStudentListSerializer
+        fields = ('id', 'date', 'final_exams')
+
+
+class FinalTeacherSerializer(serializers.ModelSerializer):
+    final_exams = FinalExamTeacherDetailsSerializer(source='finalexam_set', many=True)
+
+    class Meta:
+        model = Final
         fields = ('id', 'date', 'final_exams')

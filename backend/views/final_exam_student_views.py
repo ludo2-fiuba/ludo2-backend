@@ -7,7 +7,7 @@ from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
 
 
-class StudentFinalExamViewSet(viewsets.ModelViewSet):
+class FinalStudentExamViewSet(viewsets.ModelViewSet):
     queryset = FinalExam.objects.all()
     serializer_class = FinalExamSerializer
     permission_classes = [permissions.IsAuthenticated, IsStudent]
@@ -15,7 +15,6 @@ class StudentFinalExamViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['POST'])
     def rendir(self, request):
         # materia y final = chequear el QR
-        # chequear la cara
         self.validate_student_biometric_info()
         fe = FinalExam(student=request.user.student, final_id=request.data['final'])
         fe.save()

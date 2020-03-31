@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from backend.models import FinalExam
+from backend.serializers import StudentSerializer
 
 
 class ApprovedFinalExamsByStudentListSerializer(serializers.ListSerializer):
@@ -8,6 +9,11 @@ class ApprovedFinalExamsByStudentListSerializer(serializers.ListSerializer):
         data = data.filter(grade__gte=4,
                            student=self.context['request'].user.student).distinct()
         return super(ApprovedFinalExamsByStudentListSerializer, self).to_representation(data)
+
+
+class FinalExamsListSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        return super(FinalExamsListSerializer, self).to_representation(data)
 
 
 class ApprovedFinalExamSerializer(serializers.ModelSerializer):
@@ -23,3 +29,12 @@ class FinalExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinalExam
         fields = ('id', 'student', 'grade', 'final')
+
+
+class FinalExamTeacherDetailsSerializer(serializers.ModelSerializer):
+    student = StudentSerializer()
+
+    class Meta:
+        model = FinalExam
+        list_serializer_class = FinalExamsListSerializer
+        fields = ('id', 'student', 'grade')

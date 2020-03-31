@@ -8,8 +8,9 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'subjects', views.SubjectViewSet, 'subject')
-router.register(r'final_exams', views.StudentFinalExamViewSet, 'final_exam')
-router.register(r'final_exams', views.TeacherFinalExamViewSet, 'final_exam')
+router.register(r'final_exams', views.FinalStudentExamViewSet, 'final_exam')
+router.register(r'final_exams', views.FinalTeacherExamViewSet, 'final_exam')
+router.register(r'finals', views.FinalTeacherViewSet, 'final')
 
 schema_view = get_schema_view(
     openapi.Info(

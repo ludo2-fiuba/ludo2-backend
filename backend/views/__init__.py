@@ -1,4 +1,5 @@
 from .student_views import StudentViews
-from .student_final_exam_views import StudentFinalExamViewSet
-from .teacher_final_exam_views import TeacherFinalExamViewSet
+from .final_exam_student_views import FinalStudentExamViewSet
+from .final_exam_teacher_views import FinalTeacherExamViewSet
 from .subject_views import SubjectViewSet
+from .final_teacher_views import FinalTeacherViewSet
