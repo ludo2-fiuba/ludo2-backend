@@ -19,6 +19,7 @@ class FinalTeacherViewsTests(APITestCase):
         Should fetch a final with all its final exams an students data
         """
         self.client.force_authenticate(user=self.teacher.user)
+
         response = self.client.get(self.details_url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -31,6 +32,7 @@ class FinalTeacherViewsTests(APITestCase):
         Should fail if unauthorized
         """
         response = self.client.post(self.details_uri, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_details_student_logged_in(self):
@@ -38,6 +40,8 @@ class FinalTeacherViewsTests(APITestCase):
         Should fail if teacher tries to take an exam
         """
         self.client.force_authenticate(user=self.student.user)
+
         response = self.client.post(self.details_uri, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 

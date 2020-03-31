@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.validators import UniqueTogetherValidator
 
 from backend.models import FinalExam
 from backend.serializers import StudentSerializer
@@ -25,10 +26,15 @@ class ApprovedFinalExamSerializer(serializers.ModelSerializer):
 
 
 class FinalExamSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = FinalExam
         fields = ('id', 'student', 'grade', 'final')
+        validators = [
+            UniqueTogetherValidator(
+                queryset=model.objects.all(),
+                fields=['list', 'position']
+            )
+        ]
 
 
 class FinalExamTeacherDetailsSerializer(serializers.ModelSerializer):

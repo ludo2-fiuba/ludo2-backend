@@ -20,6 +20,7 @@ class FinalExamTeacherViewsTests(APITestCase):
         Should register that the teacher graded the FinalExam and the exam now has a grade
         """
         self.client.force_authenticate(user=self.teacher.user)
+
         response = self.client.put(self.calificar_uri, {"grade": 7}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -32,6 +33,7 @@ class FinalExamTeacherViewsTests(APITestCase):
         Should fail indicating that the grade is invalid
         """
         self.client.force_authenticate(user=self.teacher.user)
+
         response = self.client.put(self.calificar_uri, {"grade": 70}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -42,6 +44,7 @@ class FinalExamTeacherViewsTests(APITestCase):
         Should fail if unauthorized
         """
         response = self.client.post(self.calificar_uri, {"final": self.final.id}, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_calificar_student_logged_in(self):
@@ -49,6 +52,8 @@ class FinalExamTeacherViewsTests(APITestCase):
         Should fail if teacher tries to take an exam
         """
         self.client.force_authenticate(user=self.student.user)
+
         response = self.client.post(self.calificar_uri, {"final": self.final.id}, format='json')
+
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 

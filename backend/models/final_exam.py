@@ -9,3 +9,8 @@ class FinalExam(models.Model):
     grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['final', 'student'], name='one_final_exam_per_student')
+        ]
