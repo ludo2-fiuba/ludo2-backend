@@ -7,6 +7,7 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from backend.models import Subject
 from backend.permissions import IsStudent
 from backend.serializers.subject_serializer import SubjectSerializer
+from django_filters import rest_framework as filters
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
@@ -14,6 +15,9 @@ class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated, IsStudent]
+    filter_backends = (filters.DjangoFilterBackend,)
+    orderiseeng_fields = '__all__'
+    filterset_fields = '__all__'
 
     @action(detail=False)
     def history(self, request):

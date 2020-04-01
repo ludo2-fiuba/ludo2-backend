@@ -1,0 +1,455 @@
+[
+  {
+    "model": "backend.user",
+    "pk": 1,
+    "fields": {
+      "is_student": true,
+      "is_teacher": false,
+      "first_name": "Federico",
+      "last_name": "Esteban",
+      "dni": 37247189,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 2,
+    "fields": {
+      "is_student": true,
+      "is_teacher": false,
+      "first_name": "Daniela",
+      "last_name": "Riesgo",
+      "dni": 38132123,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 3,
+    "fields": {
+      "is_student": true,
+      "is_teacher": false,
+      "first_name": "Juan Ignacio",
+      "last_name": "Kristal",
+      "dni": 40123123,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 4,
+    "fields": {
+      "is_student": true,
+      "is_teacher": false,
+      "first_name": "Alejandro",
+      "last_name": "Levinas",
+      "dni": 36123123,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 5,
+    "fields": {
+      "is_student": false,
+      "is_teacher": true,
+      "first_name": "Jorge",
+      "last_name": "Collinet",
+      "dni": 35624188,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 6,
+    "fields": {
+      "is_student": false,
+      "is_teacher": true,
+      "first_name": "Diego",
+      "last_name": "Essaya",
+      "dni": 30123123,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 7,
+    "fields": {
+      "is_student": false,
+      "is_teacher": true,
+      "first_name": "Adeodato",
+      "last_name": "Simó",
+      "dni": 99999999,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 8,
+    "fields": {
+      "is_student": false,
+      "is_teacher": true,
+      "first_name": "Pablo",
+      "last_name": "Cosso",
+      "dni": 13123123,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 99,
+    "fields": {
+      "is_staff": true,
+      "is_superuser": true,
+      "dni": 11111111,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.student",
+    "pk": 1,
+    "fields": {
+      "padron": 94557,
+      "user": 1
+    }
+  },
+  {
+    "model": "backend.student",
+    "pk": 2,
+    "fields": {
+      "padron": 95557,
+      "user": 2
+    }
+  },
+  {
+    "model": "backend.student",
+    "pk": 3,
+    "fields": {
+      "padron": 97123,
+      "user": 3
+    }
+  },
+  {
+    "model": "backend.student",
+    "pk": 4,
+    "fields": {
+      "padron": 95123,
+      "user": 4
+    }
+  },
+  {
+    "model": "backend.teacher",
+    "pk": 1,
+    "fields": {
+      "legajo": 12345,
+      "user": 5
+    }
+  },
+  {
+    "model": "backend.teacher",
+    "pk": 2,
+    "fields": {
+      "legajo": 12346,
+      "user": 6
+    }
+  },
+  {
+    "model": "backend.teacher",
+    "pk": 3,
+    "fields": {
+      "legajo": 12347,
+      "user": 7
+    }
+  },
+  {
+    "model": "backend.teacher",
+    "pk": 4,
+    "fields": {
+      "legajo": 12348,
+      "user": 8
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 1,
+    "fields": {
+      "name": "Física I",
+      "correlatives": []
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 2,
+    "fields": {
+      "name": "Análisis Matemática II",
+      "correlatives": []
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 3,
+    "fields": {
+      "name": "Fisica II",
+      "correlatives": [1, 2]
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 4,
+    "fields": {
+      "name": "Algoritmos y Programación I",
+      "correlatives": []
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 5,
+    "fields": {
+      "name": "Algoritmos y Programación II",
+      "correlatives": [4]
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 6,
+    "fields": {
+      "name": "Química I",
+      "correlatives": []
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 7,
+    "fields": {
+      "name": "Álgebra II",
+      "correlatives": []
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 8,
+    "fields": {
+      "name": "Análisis Matemático III",
+      "correlatives": [2, 7]
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 9,
+    "fields": {
+      "name": "Matemática Discreta",
+      "correlatives": []
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 10,
+    "fields": {
+      "name": "Algoritmos y Programación III",
+      "correlatives": [5]
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 10,
+    "fields": {
+      "name": "Algoritmos y Programación III",
+      "correlatives": [5]
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 10,
+    "fields": {
+      "name": "Algoritmos y Programación III",
+      "correlatives": [5]
+    }
+  },
+  {
+    "model": "backend.subject",
+    "pk": 10,
+    "fields": {
+      "name": "Algoritmos y Programación III",
+      "correlatives": [5]
+    }
+  },{
+    "model": "backend.final",
+    "pk": 1,
+    "fields": {
+      "subject": 1,
+      "teacher": 5,
+      "date": "2019-07-15T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 2,
+    "fields": {
+      "subject": 1,
+      "teacher": 5,
+      "date": "2020-07-16T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 3,
+    "fields": {
+      "subject": 1,
+      "teacher": 5,
+      "date": "2020-07-23T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 4,
+    "fields": {
+      "subject": 2,
+      "teacher": 6,
+      "date": "2019-07-13T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 5,
+    "fields": {
+      "subject": 3,
+      "teacher": 7,
+      "date": "2018-07-14T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 6,
+    "fields": {
+      "subject": 3,
+      "teacher": 7,
+      "date": "2019-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 7,
+    "fields": {
+      "subject": 3,
+      "teacher": 7,
+      "date": "2020-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 1,
+    "fields": {
+      "final": 1,
+      "student": 1,
+      "grade": 2
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 1,
+    "fields": {
+      "final": 1,
+      "student": 1,
+      "grade": 2
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 2,
+    "fields": {
+      "final": 1,
+      "student": 2,
+      "grade": 9
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 3,
+    "fields": {
+      "final": 1,
+      "student": 3,
+      "grade": 9
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 4,
+    "fields": {
+      "final": 5,
+      "student": 1,
+      "grade": 2
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 5,
+    "fields": {
+      "final": 6,
+      "student": 1,
+      "grade": 7
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 6,
+    "fields": {
+      "final": 5,
+      "student": 2,
+      "grade": 7
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 7,
+    "fields": {
+      "final": 5,
+      "student": 4,
+      "grade": 7
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 8,
+    "fields": {
+      "final": 2,
+      "student": 1,
+      "grade": null
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 9,
+    "fields": {
+      "final": 2,
+      "student": 2,
+      "grade": null
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 10,
+    "fields": {
+      "final": 2,
+      "student": 4,
+      "grade": null
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 11,
+    "fields": {
+      "final": 7,
+      "student": 1,
+      "grade": null
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 12,
+    "fields": {
+      "final": 7,
+      "student": 3,
+      "grade": null
+    }
+  }
+]

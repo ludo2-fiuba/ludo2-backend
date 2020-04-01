@@ -1,10 +1,11 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Subject(models.Model):
     name = models.CharField(max_length=50)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+    updated_at = models.DateTimeField(default=timezone.now)
     correlatives = models.ManyToManyField("self", blank=True, symmetrical=False)  # TODO check reciprocation
 
     PASSING_GRADE = 4

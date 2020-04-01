@@ -1,6 +1,8 @@
+
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import UserManager
 from django.db import models
+from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 
 
@@ -38,8 +40,8 @@ class CustomUserManager(UserManager):
         """Create and save a SuperUser with the given email and password."""
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_student', True)
-        extra_fields.setdefault('is_teacher', True)
+        extra_fields.setdefault('is_student', False)
+        extra_fields.setdefault('is_teacher', False)
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -56,8 +58,8 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50, blank=False)
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
     dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(default=timezone.now, editable=False)
+    updated_at = models.DateTimeField(default=timezone.now)
 
     objects = CustomUserManager()
 

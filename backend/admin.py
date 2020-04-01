@@ -39,6 +39,37 @@ class StudentAdmin(ReverseModelAdmin):
     def get_date_joined(self, obj):
         return obj.user.date_joined
 
+@admin.register(Teacher)
+class TeacherAdmin(ReverseModelAdmin):
+    title = "Teacher"
+    inline_type = 'tabular'
+    inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni', 'email']})]
+
+    # list_display = ('dni', 'email', 'first_name', 'last_name', 'padron')
+    # search_fields = ('dni', 'email', 'first_name', 'last_name', 'padron')
+    # ordering = ('dni', 'email', 'first_name', 'last_name', 'padron')
+
+    def get_password(self, obj):
+        return obj.user.password
+
+    def dni(self, obj):
+        return obj.user.dni
+
+    def email(self, obj):
+        return obj.user.email
+
+    def first_name(self, obj):
+        return obj.user.first_name
+
+    def last_name(self, obj):
+        return obj.user.last_name
+
+    def get_last_login(self, obj):
+        return obj.user.last_login
+
+    def get_date_joined(self, obj):
+        return obj.user.date_joined
+
 
 @admin.register(FinalExam)
 class FinalExamAdmin(admin.ModelAdmin):
