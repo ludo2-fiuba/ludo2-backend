@@ -12,20 +12,17 @@ class StudentAdmin(ReverseModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "Student"
     inline_type = 'tabular'
-    inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni', 'email']})]
+    inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
-    # list_display = ('dni', 'email', 'first_name', 'last_name', 'padron')
-    # search_fields = ('dni', 'email', 'first_name', 'last_name', 'padron')
-    # ordering = ('dni', 'email', 'first_name', 'last_name', 'padron')
+    list_display = ('dni', 'first_name', 'last_name', 'padron')
+    search_fields = ('dni', 'first_name', 'last_name', 'padron')
+    # ordering = ('dni', 'first_name', 'last_name', 'padron')
 
     def get_password(self, obj):
         return obj.user.password
 
     def dni(self, obj):
         return obj.user.dni
-
-    def email(self, obj):
-        return obj.user.email
 
     def first_name(self, obj):
         return obj.user.first_name
@@ -39,15 +36,16 @@ class StudentAdmin(ReverseModelAdmin):
     def get_date_joined(self, obj):
         return obj.user.date_joined
 
+
 @admin.register(Teacher)
 class TeacherAdmin(ReverseModelAdmin):
     title = "Teacher"
     inline_type = 'tabular'
-    inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni', 'email']})]
+    inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
-    # list_display = ('dni', 'email', 'first_name', 'last_name', 'padron')
-    # search_fields = ('dni', 'email', 'first_name', 'last_name', 'padron')
-    # ordering = ('dni', 'email', 'first_name', 'last_name', 'padron')
+    list_display = ('dni', 'first_name', 'last_name', 'legajo', 'subjects')
+    # search_fields = ('dni', 'first_name', 'last_name', 'legajo')
+    # ordering = ('dni'', 'first_name', 'last_name', 'legajo')
 
     def get_password(self, obj):
         return obj.user.password
@@ -55,14 +53,14 @@ class TeacherAdmin(ReverseModelAdmin):
     def dni(self, obj):
         return obj.user.dni
 
-    def email(self, obj):
-        return obj.user.email
-
     def first_name(self, obj):
         return obj.user.first_name
 
     def last_name(self, obj):
         return obj.user.last_name
+
+    def subjects(self, obj):
+        return [sub.__str__() for sub in Subject.objects.filter(final__teacher=obj).distinct()]
 
     def get_last_login(self, obj):
         return obj.user.last_login
@@ -76,12 +74,15 @@ class FinalExamAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "FinalExam"
 
-    list_display = ('student', 'subject', 'grade')
+    list_display = ('student', 'subject', 'date', 'grade')
     search_fields = ('student', 'subject', 'grade')
     ordering = ('student', 'grade',)
 
     def subject(self, obj):
         return obj.final.subject
+
+    def date(self, obj):
+        return obj.final.date
 
     subject.admin_order_field = 'final__subject__name'
 
@@ -114,3 +115,4 @@ class SubjectAdmin(admin.ModelAdmin):
 
     def list_correlatives(self, obj):
         return [sub.__str__() for sub in obj.correlatives.all()]
+
