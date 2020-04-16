@@ -256,22 +256,6 @@
       "name": "Algoritmos y Programación III",
       "correlatives": [5]
     }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 10,
-    "fields": {
-      "name": "Algoritmos y Programación III",
-      "correlatives": [5]
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 10,
-    "fields": {
-      "name": "Algoritmos y Programación III",
-      "correlatives": [5]
-    }
   },{
     "model": "backend.final",
     "pk": 1,
@@ -341,16 +325,7 @@
     "fields": {
       "final": 1,
       "student": 1,
-      "grade": 2
-    }
-  },
-  {
-    "model": "backend.finalexam",
-    "pk": 1,
-    "fields": {
-      "final": 1,
-      "student": 1,
-      "grade": 2
+      "grade": 4
     }
   },
   {
@@ -368,7 +343,7 @@
     "fields": {
       "final": 1,
       "student": 3,
-      "grade": 9
+      "grade": null
     }
   },
   {
@@ -404,16 +379,16 @@
     "fields": {
       "final": 5,
       "student": 4,
-      "grade": 7
+      "grade": null
     }
   },
   {
     "model": "backend.finalexam",
     "pk": 8,
     "fields": {
-      "final": 2,
-      "student": 1,
-      "grade": null
+      "final": 7,
+      "student": 3,
+      "grade": 8
     }
   },
   {
@@ -421,34 +396,16 @@
     "pk": 9,
     "fields": {
       "final": 2,
-      "student": 2,
-      "grade": null
+      "student": 4,
+      "grade": 7
     }
   },
   {
     "model": "backend.finalexam",
     "pk": 10,
     "fields": {
-      "final": 2,
-      "student": 4,
-      "grade": null
-    }
-  },
-  {
-    "model": "backend.finalexam",
-    "pk": 11,
-    "fields": {
-      "final": 7,
+      "final": 4,
       "student": 1,
-      "grade": null
-    }
-  },
-  {
-    "model": "backend.finalexam",
-    "pk": 12,
-    "fields": {
-      "final": 7,
-      "student": 3,
       "grade": null
     }
   }
