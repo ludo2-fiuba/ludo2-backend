@@ -181,7 +181,7 @@
     "model": "backend.subject",
     "pk": 2,
     "fields": {
-      "name": "Análisis Matemática II",
+      "name": "Análisis Matemático II",
       "correlatives": []
     }
   },
@@ -320,6 +320,15 @@
     }
   },
   {
+    "model": "backend.final",
+    "pk": 8,
+    "fields": {
+      "subject": 6,
+      "teacher": 8,
+      "date": "2020-07-10T19:00:00-03:00"
+    }
+  },
+  {
     "model": "backend.finalexam",
     "pk": 1,
     "fields": {
@@ -407,6 +416,15 @@
       "final": 4,
       "student": 1,
       "grade": null
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 11,
+    "fields": {
+      "final": 8,
+      "student": 1,
+      "grade": 6
     }
   }
 ]

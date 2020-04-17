@@ -12,6 +12,12 @@ class FinalExam(models.Model):
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
 
+    ALLOWED_FILTERS = {
+        "grade_gte": "grade__gte",
+        "student": "student"
+    }
+
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['final', 'student'], name='one_final_exam_per_student')

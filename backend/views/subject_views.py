@@ -21,6 +21,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def history(self, request):
+        self.extra = {"grade_gte": Subject.PASSING_GRADE, "student": request.user.id}
         approved_subjects = Subject.objects.filter(final__finalexam__grade__gte=Subject.PASSING_GRADE,
                                                    final__finalexam__student=request.user.id).distinct()
 
@@ -28,6 +29,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def pending(self, request):
+        self.extra = {"grade_gte": Subject.PASSING_GRADE, "student": request.user.id}
         approved = Subject.objects.filter(final__finalexam__grade__gte=Subject.PASSING_GRADE, final__finalexam__student=request.user.id)
 
         pending_subjects = Subject.objects.filter(
@@ -37,7 +39,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
         return self._serialize(pending_subjects)
 
     @action(detail=True)
-    def correlatives(self, request, pk=None):
+    def correlatives(self, _, pk=None):
         subject = Subject.objects.get(id=pk)
 
         return self._serialize(subject.correlatives.all())
@@ -50,3 +52,10 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
         serializer = self.get_serializer(relation, many=True)
         return Response(serializer.data)
+
+    def _filter_params(self):
+        return dict({key: value for key, value in self.request.query_params.items()})
+
+    def get_serializer_context(self):
+        filter_params = {"filters": dict(self._filter_params(), **self.extra)}
+        return dict(super().get_serializer_context(), **filter_params)

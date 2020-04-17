@@ -1,20 +1,17 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from backend.filters.final_exam_filter import FinalExamFilter
-from backend.models import FinalExam, Subject
+from backend.models import FinalExam
 from backend.serializers import StudentSerializer
 
 
 class ApprovedFinalExamsByStudentListSerializer(serializers.ListSerializer):
     def to_representation(self, data):
-        data = data.filter(grade__gte=Subject.PASSING_GRADE,
-                           student=self.context['request'].user.student).distinct()
-        data = FinalExamFilter(data, self._filter_params(self.context['request'])).filter()
+        data = data.filter(**self._filter_params(self.context["filters"]))
         return super(ApprovedFinalExamsByStudentListSerializer, self).to_representation(data)
 
-    def _filter_params(self, request):
-        return request.query_params
+    def _filter_params(self, filter_params):
+        return dict({FinalExam.ALLOWED_FILTERS[key]: value for key, value in filter_params.items() if key in FinalExam.ALLOWED_FILTERS})
 
 
 class FinalExamsListSerializer(serializers.ListSerializer):

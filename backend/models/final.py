@@ -13,3 +13,9 @@ class Final(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
 
     REQUIRED_FIELDS = ['date']
+
+    ALLOWED_FILTERS = {
+        "year": "date__year",
+        "grade_gte": "finalexam__grade__gte",
+        "student": "finalexam__student"
+    }
