@@ -2,15 +2,15 @@ from rest_framework import serializers
 
 from backend.models import Subject
 from . import FinalSerializer
+from .filterable_model_list_serializer import FilterableModelListSerializer
 
 
-class ApprovedSubjectsByStudentListSerializer(serializers.ListSerializer):
+class SubjectsListSerializer(FilterableModelListSerializer):
+    MODEL = Subject
+
     def to_representation(self, data):
-        data = data.filter(**self._filter_params(self.context["filters"]))
-        return super(ApprovedSubjectsByStudentListSerializer, self).to_representation(data)
-
-    def _filter_params(self, filter_params):
-        return dict({Subject.ALLOWED_FILTERS[key]: value for key, value in filter_params.items() if key in Subject.ALLOWED_FILTERS})
+        data = data.filter(**self._filter_params(self.context["filters"])).distinct()
+        return super(SubjectsListSerializer, self).to_representation(data)
 
 
 class SubjectSerializer(serializers.ModelSerializer):
@@ -18,5 +18,5 @@ class SubjectSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Subject
-        list_serializer_class = ApprovedSubjectsByStudentListSerializer
+        list_serializer_class = SubjectsListSerializer
         fields = ('id', 'name', 'finals')

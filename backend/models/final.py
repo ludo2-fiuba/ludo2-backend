@@ -19,3 +19,6 @@ class Final(models.Model):
         "grade_gte": "finalexam__grade__gte",
         "student": "finalexam__student"
     }
+
+    def __str__(self):
+        return f"{self.subject} - {self.teacher} - {self.date.date()}"

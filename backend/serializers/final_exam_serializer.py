@@ -3,19 +3,14 @@ from rest_framework.validators import UniqueTogetherValidator
 
 from backend.models import FinalExam
 from backend.serializers import StudentSerializer
+from backend.serializers.filterable_model_list_serializer import FilterableModelListSerializer
 
 
-class ApprovedFinalExamsByStudentListSerializer(serializers.ListSerializer):
+class FinalExamsListSerializer(FilterableModelListSerializer):
+    MODEL = FinalExam
+
     def to_representation(self, data):
-        data = data.filter(**self._filter_params(self.context["filters"]))
-        return super(ApprovedFinalExamsByStudentListSerializer, self).to_representation(data)
-
-    def _filter_params(self, filter_params):
-        return dict({FinalExam.ALLOWED_FILTERS[key]: value for key, value in filter_params.items() if key in FinalExam.ALLOWED_FILTERS})
-
-
-class FinalExamsListSerializer(serializers.ListSerializer):
-    def to_representation(self, data):
+        data = data.filter(**self._filter_params(self.context["filters"])).distinct()
         return super(FinalExamsListSerializer, self).to_representation(data)
 
 
@@ -23,8 +18,8 @@ class ApprovedFinalExamSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FinalExam
-        list_serializer_class = ApprovedFinalExamsByStudentListSerializer
-        fields = ('id', 'student', 'grade')
+        fields = ('id', 'grade')
+        list_serializer_class = FinalExamsListSerializer
 
 
 class FinalExamSerializer(serializers.ModelSerializer):

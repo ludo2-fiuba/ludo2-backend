@@ -22,18 +22,15 @@ class SubjectViewSet(viewsets.ModelViewSet):
     @action(detail=False)
     def history(self, request):
         self.extra = {"grade_gte": Subject.PASSING_GRADE, "student": request.user.id}
-        approved_subjects = Subject.objects.filter(final__finalexam__grade__gte=Subject.PASSING_GRADE,
-                                                   final__finalexam__student=request.user.id).distinct()
 
-        return self._serialize(approved_subjects)
+        return self._serialize(Subject.objects)
 
     @action(detail=False)
     def pending(self, request):
-        self.extra = {"grade_gte": Subject.PASSING_GRADE, "student": request.user.id}
+        self.extra = {"student": request.user.id}
         approved = Subject.objects.filter(final__finalexam__grade__gte=Subject.PASSING_GRADE, final__finalexam__student=request.user.id)
 
-        pending_subjects = Subject.objects.filter(
-            final__finalexam__student=request.user.id).exclude(
+        pending_subjects = Subject.objects.exclude(
             id__in=[sub.id for sub in approved]
         )
         return self._serialize(pending_subjects)
@@ -42,7 +39,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
     def correlatives(self, _, pk=None):
         subject = Subject.objects.get(id=pk)
 
-        return self._serialize(subject.correlatives.all())
+        return self._serialize(subject.correlatives)
 
     def _serialize(self, relation):
         page = self.paginate_queryset(relation)

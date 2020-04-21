@@ -17,6 +17,9 @@ class FinalExam(models.Model):
         "student": "student"
     }
 
+    def __str__(self):
+        return f"{self.final.subject} - {self.student} - {self.final.date} - {self.grade}"
+
 
     class Meta:
         constraints = [
