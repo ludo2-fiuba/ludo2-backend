@@ -73,10 +73,18 @@ class TeacherAdmin(ReverseModelAdmin):
 class FinalExamAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "FinalExam"
+    title = "Final"
+
+    fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('final', 'student', 'grade'),
+        }),
+    )
 
     list_display = ('student', 'subject', 'date', 'grade')
     search_fields = ('student', 'subject', 'grade')
-    ordering = ('student', 'grade',)
+    ordering = ('student', 'grade')
 
     def subject(self, obj):
         return obj.final.subject
@@ -92,6 +100,14 @@ class FinalAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "Final"
 
+    fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('subject', 'teacher', 'date'),
+        }),
+    )
+
+
     list_display = ('subject', 'teacher', 'date')
     search_fields = ('subject', 'teacher', 'date')
     ordering = ('subject', 'teacher', 'date')
@@ -102,10 +118,10 @@ class SubjectAdmin(admin.ModelAdmin):
     """Define admin models for custom User models with no email field."""
     title = "Subject"
 
-    add_fieldsets = (
+    fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('name',),
+            'fields': ('name', 'correlatives'),
         }),
     )
 

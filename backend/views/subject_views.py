@@ -36,7 +36,8 @@ class SubjectViewSet(viewsets.ModelViewSet):
         return self._serialize(pending_subjects)
 
     @action(detail=True)
-    def correlatives(self, _, pk=None):
+    def correlatives(self, request, pk=None):
+        self.extra = {"grade_gte": Subject.PASSING_GRADE, "student": request.user.id}
         subject = Subject.objects.get(id=pk)
 
         return self._serialize(subject.correlatives)
