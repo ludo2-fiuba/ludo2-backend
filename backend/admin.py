@@ -6,13 +6,22 @@ from .models import *
 
 
 # Register your models here.
+from .models.course import Course
+
+
+class CourseWithStudentInline(admin.TabularInline):
+    model = Course.students.through
+
 
 @admin.register(Student)
 class StudentAdmin(ReverseModelAdmin):
-    """Define admin models for custom User models with no email field."""
     title = "Student"
     inline_type = 'tabular'
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
+
+    inlines = [
+        CourseWithStudentInline,
+    ]
 
     list_display = ('dni', 'first_name', 'last_name', 'padron')
     search_fields = ('dni', 'first_name', 'last_name', 'padron')
@@ -71,7 +80,6 @@ class TeacherAdmin(ReverseModelAdmin):
 
 @admin.register(FinalExam)
 class FinalExamAdmin(admin.ModelAdmin):
-    """Define admin models for custom User models with no email field."""
     title = "FinalExam"
     title = "Final"
 
@@ -95,9 +103,31 @@ class FinalExamAdmin(admin.ModelAdmin):
     subject.admin_order_field = 'final__subject__name'
 
 
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    title = "Course"
+
+    fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('year', 'semester', 'subject', 'teacher'),
+        }),
+    )
+
+    inlines = [
+        CourseWithStudentInline,
+    ]
+    exclude = ('students',)
+
+    filter_horizontal = ('students',)
+
+    list_display = ('year', 'semester', 'subject', 'teacher')
+    search_fields = ('year', 'semester', 'subject', 'teacher')
+    ordering = ('year', 'semester', 'subject', 'teacher')
+
+
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
-    """Define admin models for custom User models with no email field."""
     title = "Final"
 
     fieldsets = (
@@ -115,7 +145,6 @@ class FinalAdmin(admin.ModelAdmin):
 
 @admin.register(Subject)
 class SubjectAdmin(admin.ModelAdmin):
-    """Define admin models for custom User models with no email field."""
     title = "Subject"
 
     fieldsets = (

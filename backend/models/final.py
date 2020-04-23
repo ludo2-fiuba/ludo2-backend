@@ -6,8 +6,8 @@ from django.db import models
 
 
 class Final(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='finals')
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='finals')
     date = models.DateTimeField(db_index=True)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)

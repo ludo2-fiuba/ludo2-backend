@@ -19,7 +19,7 @@
       "is_teacher": false,
       "first_name": "Daniela",
       "last_name": "Riesgo",
-      "dni": 38132123,
+      "dni": 38157957,
       "password": "pelusa22"
     }
   },
@@ -92,6 +92,18 @@
       "first_name": "Pablo",
       "last_name": "Cosso",
       "dni": 13123123,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 9,
+    "fields": {
+      "is_student": false,
+      "is_teacher": true,
+      "first_name": "Mariano",
+      "last_name": "Mendex",
+      "dni": 15151515,
       "password": "pelusa22"
     }
   },
@@ -170,6 +182,14 @@
     }
   },
   {
+    "model": "backend.teacher",
+    "pk": 5,
+    "fields": {
+      "legajo": 87654,
+      "user": 9
+    }
+  },
+  {
     "model": "backend.subject",
     "pk": 1,
     "fields": {
@@ -189,7 +209,7 @@
     "model": "backend.subject",
     "pk": 3,
     "fields": {
-      "name": "Fisica II",
+      "name": "Física II",
       "correlatives": [1, 2]
     }
   },
@@ -250,13 +270,287 @@
     }
   },
   {
-    "model": "backend.subject",
+    "model": "backend.course",
+    "pk": 1,
+    "fields": {
+      "subject": 1,
+      "teacher": 5,
+      "year": 2019,
+      "semester": 1,
+      "students": [1, 2]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 2,
+    "fields": {
+      "subject": 1,
+      "teacher": 5,
+      "year": 2019,
+      "semester": 2,
+      "students": [3]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 3,
+    "fields": {
+      "subject": 1,
+      "teacher": 5,
+      "year": 2020,
+      "semester": 1,
+      "students": [4]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 4,
+    "fields": {
+      "subject": 2,
+      "teacher": 6,
+      "year": 2019,
+      "semester": 1,
+      "students": [1, 2]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 5,
+    "fields": {
+      "subject": 2,
+      "teacher": 6,
+      "year": 2019,
+      "semester": 2,
+      "students": [3, 4]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 6,
+    "fields": {
+      "subject": 2,
+      "teacher": 6,
+      "year": 2020,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 7,
+    "fields": {
+      "subject": 3,
+      "teacher": 7,
+      "year": 2019,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 8,
+    "fields": {
+      "subject": 3,
+      "teacher": 7,
+      "year": 2019,
+      "semester": 2,
+      "students": [1, 2]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 9,
+    "fields": {
+      "subject": 3,
+      "teacher": 7,
+      "year": 2020,
+      "semester": 1,
+      "students": [3]
+    }
+  },
+  {
+    "model": "backend.course",
     "pk": 10,
     "fields": {
-      "name": "Algoritmos y Programación III",
-      "correlatives": [5]
+      "subject": 4,
+      "teacher": 8,
+      "year": 2019,
+      "semester": 1,
+      "students": [1, 2]
     }
-  },{
+  },
+  {
+    "model": "backend.course",
+    "pk": 11,
+    "fields": {
+      "subject": 4,
+      "teacher": 8,
+      "year": 2019,
+      "semester": 2,
+      "students": [3, 4]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 12,
+    "fields": {
+      "subject": 4,
+      "teacher": 8,
+      "year": 2020,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 13,
+    "fields": {
+      "subject": 5,
+      "teacher": 9,
+      "year": 2019,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 14,
+    "fields": {
+      "subject": 5,
+      "teacher": 9,
+      "year": 2019,
+      "semester": 2
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 15,
+    "fields": {
+      "subject": 5,
+      "teacher": 9,
+      "year": 2020,
+      "semester": 1,
+      "students": [1, 2]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 16,
+    "fields": {
+      "subject": 6,
+      "teacher": 5,
+      "year": 2019,
+      "semester": 1,
+      "students": [3, 4]
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 17,
+    "fields": {
+      "subject": 6,
+      "teacher": 5,
+      "year": 2019,
+      "semester": 2
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 18,
+    "fields": {
+      "subject": 6,
+      "teacher": 5,
+      "year": 2020,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 19,
+    "fields": {
+      "subject": 7,
+      "teacher": 6,
+      "year": 2019,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 20,
+    "fields": {
+      "subject": 7,
+      "teacher": 6,
+      "year": 2019,
+      "semester": 2
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 21,
+    "fields": {
+      "subject": 7,
+      "teacher": 6,
+      "year": 2020,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 22,
+    "fields": {
+      "subject": 8,
+      "teacher": 7,
+      "year": 2019,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 23,
+    "fields": {
+      "subject": 8,
+      "teacher": 7,
+      "year": 2019,
+      "semester": 2
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 24,
+    "fields": {
+      "subject": 8,
+      "teacher": 7,
+      "year": 2020,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 25,
+    "fields": {
+      "subject": 9,
+      "teacher": 8,
+      "year": 2019,
+      "semester": 1
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 26,
+    "fields": {
+      "subject": 9,
+      "teacher": 8,
+      "year": 2019,
+      "semester": 2
+    }
+  },
+  {
+    "model": "backend.course",
+    "pk": 27,
+    "fields": {
+      "subject": 9,
+      "teacher": 8,
+      "year": 2020,
+      "semester": 1
+    }
+  },
+  {
     "model": "backend.final",
     "pk": 1,
     "fields": {
@@ -271,16 +565,16 @@
     "fields": {
       "subject": 1,
       "teacher": 5,
-      "date": "2020-07-16T19:00:00-03:00"
+      "date": "2019-07-22T19:00:00-03:00"
     }
   },
   {
     "model": "backend.final",
     "pk": 3,
     "fields": {
-      "subject": 1,
-      "teacher": 5,
-      "date": "2020-07-23T19:00:00-03:00"
+      "subject": 2,
+      "teacher": 6,
+      "date": "2019-07-15T19:00:00-03:00"
     }
   },
   {
@@ -289,7 +583,7 @@
     "fields": {
       "subject": 2,
       "teacher": 6,
-      "date": "2019-07-13T19:00:00-03:00"
+      "date": "2019-07-22T19:00:00-03:00"
     }
   },
   {
@@ -298,7 +592,7 @@
     "fields": {
       "subject": 3,
       "teacher": 7,
-      "date": "2018-07-14T19:00:00-03:00"
+      "date": "2019-07-15T19:00:00-03:00"
     }
   },
   {
@@ -307,25 +601,115 @@
     "fields": {
       "subject": 3,
       "teacher": 7,
-      "date": "2019-07-10T19:00:00-03:00"
+      "date": "2019-07-22T19:00:00-03:00"
     }
   },
   {
     "model": "backend.final",
     "pk": 7,
     "fields": {
-      "subject": 3,
-      "teacher": 7,
-      "date": "2020-07-10T19:00:00-03:00"
+      "subject": 4,
+      "teacher": 8,
+      "date": "2019-12-15T19:00:00-03:00"
     }
   },
   {
     "model": "backend.final",
     "pk": 8,
     "fields": {
-      "subject": 6,
+      "subject": 4,
       "teacher": 8,
-      "date": "2020-07-10T19:00:00-03:00"
+      "date": "2020-02-03T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 9,
+    "fields": {
+      "subject": 5,
+      "teacher": 9,
+      "date": "2019-12-15T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 10,
+    "fields": {
+      "subject": 5,
+      "teacher": 9,
+      "date": "2020-02-03T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 11,
+    "fields": {
+      "subject": 6,
+      "teacher": 5,
+      "date": "2019-12-15T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 12,
+    "fields": {
+      "subject": 6,
+      "teacher": 5,
+      "date": "2020-02-03T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 13,
+    "fields": {
+      "subject": 7,
+      "teacher": 6,
+      "date": "2020-07-05T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 14,
+    "fields": {
+      "subject": 7,
+      "teacher": 6,
+      "date": "2020-07-12T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 15,
+    "fields": {
+      "subject": 8,
+      "teacher": 7,
+      "date": "2020-07-05T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 16,
+    "fields": {
+      "subject": 8,
+      "teacher": 7,
+      "date": "2020-07-12T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 17,
+    "fields": {
+      "subject": 3,
+      "teacher": 7,
+      "date": "2020-01-11T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 18,
+    "fields": {
+      "subject": 5,
+      "teacher": 9,
+      "date": "2020-07-11T19:00:00-03:00"
     }
   },
   {
@@ -341,7 +725,7 @@
     "model": "backend.finalexam",
     "pk": 2,
     "fields": {
-      "final": 1,
+      "final": 2,
       "student": 2,
       "grade": 9
     }
@@ -350,53 +734,53 @@
     "model": "backend.finalexam",
     "pk": 3,
     "fields": {
-      "final": 1,
-      "student": 3,
-      "grade": null
-    }
-  },
-  {
-    "model": "backend.finalexam",
-    "pk": 4,
-    "fields": {
-      "final": 5,
+      "final": 3,
       "student": 1,
       "grade": 2
     }
   },
   {
     "model": "backend.finalexam",
-    "pk": 5,
+    "pk": 4,
     "fields": {
-      "final": 6,
+      "final": 4,
       "student": 1,
       "grade": 7
     }
   },
   {
     "model": "backend.finalexam",
+    "pk": 5,
+    "fields": {
+      "final": 3,
+      "student": 2,
+      "grade": 5
+    }
+  },
+  {
+    "model": "backend.finalexam",
     "pk": 6,
     "fields": {
-      "final": 5,
-      "student": 2,
-      "grade": 7
+      "final": 8,
+      "student": 1,
+      "grade": 9
     }
   },
   {
     "model": "backend.finalexam",
     "pk": 7,
     "fields": {
-      "final": 5,
-      "student": 4,
-      "grade": null
+      "final": 8,
+      "student": 2,
+      "grade": 10
     }
   },
   {
     "model": "backend.finalexam",
     "pk": 8,
     "fields": {
-      "final": 7,
-      "student": 3,
+      "final": 17,
+      "student": 1,
       "grade": 8
     }
   },
@@ -404,8 +788,8 @@
     "model": "backend.finalexam",
     "pk": 9,
     "fields": {
-      "final": 2,
-      "student": 4,
+      "final": 17,
+      "student": 2,
       "grade": 7
     }
   },
@@ -413,7 +797,7 @@
     "model": "backend.finalexam",
     "pk": 10,
     "fields": {
-      "final": 4,
+      "final": 18,
       "student": 1,
       "grade": null
     }
@@ -422,9 +806,9 @@
     "model": "backend.finalexam",
     "pk": 11,
     "fields": {
-      "final": 8,
-      "student": 1,
-      "grade": 6
+      "final": 18,
+      "student": 2,
+      "grade": null
     }
   }
 ]
