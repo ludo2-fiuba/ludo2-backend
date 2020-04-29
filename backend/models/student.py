@@ -6,6 +6,7 @@ from .user import User
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     padron = models.CharField(max_length=6, validators=[MinLengthValidator(5)], blank=True)
+    inscripto = models.BooleanField(default=False, blank=False)
 
     REQUIRED_FIELDS = ['padron']
 

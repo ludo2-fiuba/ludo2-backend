@@ -1,7 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.template.response import TemplateResponse
+from django.urls import path, reverse
+from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django_reverse_admin import ReverseModelAdmin
+
+from forms import InscribirForm
 from .models import *
 
 
@@ -25,7 +32,15 @@ class StudentAdmin(ReverseModelAdmin):
 
     list_display = ('dni', 'first_name', 'last_name', 'padron')
     search_fields = ('dni', 'first_name', 'last_name', 'padron')
+    readonly_fields = ('dni', 'first_name', 'last_name')
     # ordering = ('dni', 'first_name', 'last_name', 'padron')
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            path('inscribir/', self.admin_site.admin_view(self.inscribir), name='inscribir')
+        ]
+        return my_urls + urls
 
     def get_password(self, obj):
         return obj.user.password
@@ -44,6 +59,41 @@ class StudentAdmin(ReverseModelAdmin):
 
     def get_date_joined(self, obj):
         return obj.user.date_joined
+
+    actions = ['inscribir']
+
+    def inscribir(self, request, student_id):
+        student = self.get_object(request, student_id)
+        form = InscribirForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save(student)
+            except Exception as e:
+                # If save() raised, the form will a have a non
+                # field error containing an informative message.
+                pass
+            else:
+                self.message_user(request, 'Success')
+                url = reverse(
+                    'admin:account_account_change',
+                   args=[student.pk],
+                    current_app=self.admin_site.name,
+                )
+                return HttpResponseRedirect(url)
+
+        context = self.admin_site.each_context(request)
+        context['opts'] = self.model._meta
+        context['form'] = form
+        context['student'] = student
+        context['title'] = "Inscribir"
+
+        return TemplateResponse(
+            request,
+            'admin/inscribir_alumno.html',
+            context,
+        )
+
+    inscribir.short_description = "Inscribir Alumno"
 
 
 @admin.register(Teacher)
@@ -136,7 +186,6 @@ class FinalAdmin(admin.ModelAdmin):
             'fields': ('subject', 'teacher', 'date'),
         }),
     )
-
 
     list_display = ('subject', 'teacher', 'date')
     search_fields = ('subject', 'teacher', 'date')
