@@ -1,3 +1,4 @@
+from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.http import HttpResponseRedirect
@@ -20,27 +21,14 @@ class CourseWithStudentInline(admin.TabularInline):
     model = Course.students.through
 
 
-@admin.register(Student)
-class StudentAdmin(ReverseModelAdmin):
-    title = "Student"
+class StudentCommonAdmin(ReverseModelAdmin):
     inline_type = 'tabular'
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
-
-    inlines = [
-        CourseWithStudentInline,
-    ]
 
     list_display = ('dni', 'first_name', 'last_name', 'padron')
     search_fields = ('dni', 'first_name', 'last_name', 'padron')
     readonly_fields = ('dni', 'first_name', 'last_name')
     # ordering = ('dni', 'first_name', 'last_name', 'padron')
-
-    def get_urls(self):
-        urls = super().get_urls()
-        my_urls = [
-            path('inscribir/', self.admin_site.admin_view(self.inscribir), name='inscribir')
-        ]
-        return my_urls + urls
 
     def get_password(self, obj):
         return obj.user.password
@@ -60,6 +48,59 @@ class StudentAdmin(ReverseModelAdmin):
     def get_date_joined(self, obj):
         return obj.user.date_joined
 
+
+@admin.register(Student)
+class StudentRegularAdmin(StudentCommonAdmin):
+    title = "Regular Student"
+
+    def get_queryset(self, request):
+        """
+        Filter the objects displayed in the change_list to only
+        display those for the currently signed in user.
+        """
+        qs = super().get_queryset(request)
+        return qs.filter(inscripto=False)
+
+
+class PreRegisteredStudent(Student):
+    class Meta:
+        proxy = True
+
+
+@admin.register(PreRegisteredStudent)
+class StudentPreRegistered(StudentCommonAdmin):
+    title = "Student to Register"
+
+    inlines = [
+        CourseWithStudentInline,
+    ]
+
+    list_display = ('dni', 'first_name', 'last_name', 'padron', 'inscribir_button')
+    readonly_fields = ('dni', 'first_name', 'last_name', 'inscribir_button')
+
+    def get_queryset(self, request):
+        """
+        Filter the objects displayed in the change_list to only
+        display those for the currently signed in user.
+        """
+        qs = super().get_queryset(request)
+        return qs.filter(inscripto=False)
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            url(r'^(?P<student_id>.+)/inscribir/$',
+                self.admin_site.admin_view(self.inscribir),
+                name='inscribir')
+        ]
+        return my_urls + urls
+
+    def inscribir_button(self, obj):
+        return format_html(
+            '<a class="button" href="{}">Inscribir</a>',
+            reverse('admin:inscribir', args=[obj.pk]),
+        )
+
     actions = ['inscribir']
 
     def inscribir(self, request, student_id):
@@ -75,8 +116,7 @@ class StudentAdmin(ReverseModelAdmin):
             else:
                 self.message_user(request, 'Success')
                 url = reverse(
-                    'admin:account_account_change',
-                   args=[student.pk],
+                    'admin:backend_student_changelist',
                     current_app=self.admin_site.name,
                 )
                 return HttpResponseRedirect(url)
