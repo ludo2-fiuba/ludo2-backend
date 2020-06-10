@@ -13,13 +13,21 @@ class FinalExam(models.Model):
     updated_at = models.DateTimeField(default=timezone.now)
 
     ALLOWED_FILTERS = {
+        "year": "final__date__year",
         "grade_gte": "grade__gte",
         "student": "student"
     }
 
+    PASSING_GRADE = 4
+
+    def date(self):
+        return self.final.date
+
+    def subject(self):
+        return self.final.course.subject
+
     def __str__(self):
         return f"{self.final.subject} - {self.student} - {self.final.date} - {self.grade}"
-
 
     class Meta:
         constraints = [

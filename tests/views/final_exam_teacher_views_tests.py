@@ -1,16 +1,16 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from ..factories import StudentFactory, TeacherFactory, SubjectFactory, FinalFactory, FinalExamFactory
+from ..factories import StudentFactory, TeacherFactory, CourseFactory, FinalFactory, FinalExamFactory
 
 
 class FinalExamTeacherViewsTests(APITestCase):
     def setUp(self) -> None:
         self.student = StudentFactory()
         self.teacher = TeacherFactory()
-        self.subject = SubjectFactory()
+        self.course = CourseFactory(teacher=self.teacher)
 
-        self.final = FinalFactory(subject=self.subject, teacher=self.teacher)
+        self.final = FinalFactory(course=self.course)
         self.final_exam = FinalExamFactory(final=self.final, student=self.student, grade=None)
 
         self.calificar_uri = f"/api/final_exams/{self.final_exam.id}/calificar/"
@@ -49,7 +49,7 @@ class FinalExamTeacherViewsTests(APITestCase):
 
     def test_calificar_student_logged_in(self):
         """
-        Should fail if teacher tries to take an exam
+        Should fail if student tries to grade exam
         """
         self.client.force_authenticate(user=self.student.user)
 

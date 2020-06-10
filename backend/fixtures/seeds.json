@@ -109,6 +109,30 @@
   },
   {
     "model": "backend.user",
+    "pk": 10,
+    "fields": {
+      "is_student": true,
+      "is_teacher": false,
+      "first_name": "Alumno",
+      "last_name": "Fake",
+      "dni": 17171717,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
+    "pk": 11,
+    "fields": {
+      "is_student": true,
+      "is_teacher": false,
+      "first_name": "Alumna",
+      "last_name": "Fake",
+      "dni": 18181818,
+      "password": "pelusa22"
+    }
+  },
+  {
+    "model": "backend.user",
     "pk": 99,
     "fields": {
       "is_staff": true,
@@ -122,6 +146,7 @@
     "pk": 1,
     "fields": {
       "padron": 94557,
+      "inscripto": true,
       "user": 1
     }
   },
@@ -130,6 +155,7 @@
     "pk": 2,
     "fields": {
       "padron": 95557,
+      "inscripto": true,
       "user": 2
     }
   },
@@ -138,6 +164,7 @@
     "pk": 3,
     "fields": {
       "padron": 97123,
+      "inscripto": true,
       "user": 3
     }
   },
@@ -146,7 +173,24 @@
     "pk": 4,
     "fields": {
       "padron": 95123,
+      "inscripto": true,
       "user": 4
+    }
+  },
+  {
+    "model": "backend.student",
+    "pk": 5,
+    "fields": {
+      "inscripto": false,
+      "user": 10
+    }
+  },
+  {
+    "model": "backend.student",
+    "pk": 6,
+    "fields": {
+      "inscripto": false,
+      "user": 11
     }
   },
   {
@@ -190,372 +234,253 @@
     }
   },
   {
-    "model": "backend.subject",
-    "pk": 1,
-    "fields": {
-      "name": "Física I",
-      "correlatives": []
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 2,
-    "fields": {
-      "name": "Análisis Matemático II",
-      "correlatives": []
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 3,
-    "fields": {
-      "name": "Física II",
-      "correlatives": [1, 2]
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 4,
-    "fields": {
-      "name": "Algoritmos y Programación I",
-      "correlatives": []
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 5,
-    "fields": {
-      "name": "Algoritmos y Programación II",
-      "correlatives": [4]
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 6,
-    "fields": {
-      "name": "Química I",
-      "correlatives": []
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 7,
-    "fields": {
-      "name": "Álgebra II",
-      "correlatives": []
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 8,
-    "fields": {
-      "name": "Análisis Matemático III",
-      "correlatives": [2, 7]
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 9,
-    "fields": {
-      "name": "Matemática Discreta",
-      "correlatives": []
-    }
-  },
-  {
-    "model": "backend.subject",
-    "pk": 10,
-    "fields": {
-      "name": "Algoritmos y Programación III",
-      "correlatives": [5]
-    }
-  },
-  {
     "model": "backend.course",
     "pk": 1,
     "fields": {
-      "subject": 1,
+      "subject": "Física I",
       "teacher": 5,
-      "year": 2019,
-      "semester": 1,
-      "students": [1, 2]
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 2,
     "fields": {
-      "subject": 1,
+      "subject": "Física I",
       "teacher": 5,
-      "year": 2019,
-      "semester": 2,
-      "students": [3]
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 3,
     "fields": {
-      "subject": 1,
+      "subject": "Física I",
       "teacher": 5,
-      "year": 2020,
-      "semester": 1,
-      "students": [4]
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.course",
     "pk": 4,
     "fields": {
-      "subject": 2,
+      "subject": "Análisis Matemático II",
       "teacher": 6,
-      "year": 2019,
-      "semester": 1,
-      "students": [1, 2]
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 5,
     "fields": {
-      "subject": 2,
+      "subject": "Análisis Matemático II",
       "teacher": 6,
-      "year": 2019,
-      "semester": 2,
-      "students": [3, 4]
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 6,
     "fields": {
-      "subject": 2,
+      "subject": "Análisis Matemático II",
       "teacher": 6,
-      "year": 2020,
-      "semester": 1
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.course",
     "pk": 7,
     "fields": {
-      "subject": 3,
+      "subject": "Física II",
       "teacher": 7,
-      "year": 2019,
-      "semester": 1
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 8,
     "fields": {
-      "subject": 3,
+      "subject": "Física II",
       "teacher": 7,
-      "year": 2019,
-      "semester": 2,
-      "students": [1, 2]
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 9,
     "fields": {
-      "subject": 3,
+      "subject": "Física II",
       "teacher": 7,
-      "year": 2020,
-      "semester": 1,
-      "students": [3]
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.course",
     "pk": 10,
     "fields": {
-      "subject": 4,
+      "subject": "Algoritmos y Programación I",
       "teacher": 8,
-      "year": 2019,
-      "semester": 1,
-      "students": [1, 2]
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 11,
     "fields": {
-      "subject": 4,
+      "subject": "Algoritmos y Programación I",
       "teacher": 8,
-      "year": 2019,
-      "semester": 2,
-      "students": [3, 4]
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 12,
     "fields": {
-      "subject": 4,
+      "subject": "Algoritmos y Programación I",
       "teacher": 8,
-      "year": 2020,
-      "semester": 1
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.course",
     "pk": 13,
     "fields": {
-      "subject": 5,
+      "subject": "Algoritmos y Programación II",
       "teacher": 9,
-      "year": 2019,
-      "semester": 1
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 14,
     "fields": {
-      "subject": 5,
+      "subject": "Algoritmos y Programación II",
       "teacher": 9,
-      "year": 2019,
-      "semester": 2
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 15,
     "fields": {
-      "subject": 5,
+      "subject": "Algoritmos y Programación II",
       "teacher": 9,
-      "year": 2020,
-      "semester": 1,
-      "students": [1, 2]
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.course",
     "pk": 16,
     "fields": {
-      "subject": 6,
+      "subject": "Química I",
       "teacher": 5,
-      "year": 2019,
-      "semester": 1,
-      "students": [3, 4]
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 17,
     "fields": {
-      "subject": 6,
+      "subject": "Química I",
       "teacher": 5,
-      "year": 2019,
-      "semester": 2
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 18,
     "fields": {
-      "subject": 6,
+      "subject": "Química I",
       "teacher": 5,
-      "year": 2020,
-      "semester": 1
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.course",
     "pk": 19,
     "fields": {
-      "subject": 7,
+      "subject": "Álgebra II",
       "teacher": 6,
-      "year": 2019,
-      "semester": 1
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 20,
     "fields": {
-      "subject": 7,
+      "subject": "Álgebra II",
       "teacher": 6,
-      "year": 2019,
-      "semester": 2
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 21,
     "fields": {
-      "subject": 7,
+      "subject": "Álgebra II",
       "teacher": 6,
-      "year": 2020,
-      "semester": 1
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.course",
     "pk": 22,
     "fields": {
-      "subject": 8,
+      "subject": "Análisis Matemático III",
       "teacher": 7,
-      "year": 2019,
-      "semester": 1
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 23,
     "fields": {
-      "subject": 8,
+      "subject": "Análisis Matemático III",
       "teacher": 7,
-      "year": 2019,
-      "semester": 2
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 24,
     "fields": {
-      "subject": 8,
+      "subject": "Análisis Matemático III",
       "teacher": 7,
-      "year": 2020,
-      "semester": 1
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.course",
     "pk": 25,
     "fields": {
-      "subject": 9,
+      "subject": "Matemática Discreta",
       "teacher": 8,
-      "year": 2019,
-      "semester": 1
+      "semester": "1c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 26,
     "fields": {
-      "subject": 9,
+      "subject": "Matemática Discreta",
       "teacher": 8,
-      "year": 2019,
-      "semester": 2
+      "semester": "2c2019"
     }
   },
   {
     "model": "backend.course",
     "pk": 27,
     "fields": {
-      "subject": 9,
+      "subject": "Matemática Discreta",
       "teacher": 8,
-      "year": 2020,
-      "semester": 1
+      "semester": "1c2020"
     }
   },
   {
     "model": "backend.final",
     "pk": 1,
     "fields": {
-      "subject": 1,
-      "teacher": 5,
+      "course": 1,
       "date": "2019-07-15T19:00:00-03:00"
     }
   },
@@ -563,8 +488,7 @@
     "model": "backend.final",
     "pk": 2,
     "fields": {
-      "subject": 1,
-      "teacher": 5,
+      "course": 1,
       "date": "2019-07-22T19:00:00-03:00"
     }
   },
@@ -572,8 +496,7 @@
     "model": "backend.final",
     "pk": 3,
     "fields": {
-      "subject": 2,
-      "teacher": 6,
+      "course": 4,
       "date": "2019-07-15T19:00:00-03:00"
     }
   },
@@ -581,8 +504,7 @@
     "model": "backend.final",
     "pk": 4,
     "fields": {
-      "subject": 2,
-      "teacher": 6,
+      "course": 4,
       "date": "2019-07-22T19:00:00-03:00"
     }
   },
@@ -590,8 +512,7 @@
     "model": "backend.final",
     "pk": 5,
     "fields": {
-      "subject": 3,
-      "teacher": 7,
+      "course": 8,
       "date": "2019-07-15T19:00:00-03:00"
     }
   },
@@ -599,8 +520,7 @@
     "model": "backend.final",
     "pk": 6,
     "fields": {
-      "subject": 3,
-      "teacher": 7,
+      "course": 8,
       "date": "2019-07-22T19:00:00-03:00"
     }
   },
@@ -608,8 +528,7 @@
     "model": "backend.final",
     "pk": 7,
     "fields": {
-      "subject": 4,
-      "teacher": 8,
+      "course": 11,
       "date": "2019-12-15T19:00:00-03:00"
     }
   },
@@ -617,8 +536,7 @@
     "model": "backend.final",
     "pk": 8,
     "fields": {
-      "subject": 4,
-      "teacher": 8,
+      "course": 11,
       "date": "2020-02-03T19:00:00-03:00"
     }
   },
@@ -626,17 +544,15 @@
     "model": "backend.final",
     "pk": 9,
     "fields": {
-      "subject": 5,
-      "teacher": 9,
-      "date": "2019-12-15T19:00:00-03:00"
+      "course": 11,
+      "date": "2019-12-19T19:00:00-03:00"
     }
   },
   {
     "model": "backend.final",
     "pk": 10,
     "fields": {
-      "subject": 5,
-      "teacher": 9,
+      "course": 14,
       "date": "2020-02-03T19:00:00-03:00"
     }
   },
@@ -644,8 +560,7 @@
     "model": "backend.final",
     "pk": 11,
     "fields": {
-      "subject": 6,
-      "teacher": 5,
+      "course": 17,
       "date": "2019-12-15T19:00:00-03:00"
     }
   },
@@ -653,8 +568,7 @@
     "model": "backend.final",
     "pk": 12,
     "fields": {
-      "subject": 6,
-      "teacher": 5,
+      "course": 17,
       "date": "2020-02-03T19:00:00-03:00"
     }
   },
@@ -662,8 +576,7 @@
     "model": "backend.final",
     "pk": 13,
     "fields": {
-      "subject": 7,
-      "teacher": 6,
+      "course": 21,
       "date": "2020-07-05T19:00:00-03:00"
     }
   },
@@ -671,8 +584,7 @@
     "model": "backend.final",
     "pk": 14,
     "fields": {
-      "subject": 7,
-      "teacher": 6,
+      "course": 21,
       "date": "2020-07-12T19:00:00-03:00"
     }
   },
@@ -680,8 +592,7 @@
     "model": "backend.final",
     "pk": 15,
     "fields": {
-      "subject": 8,
-      "teacher": 7,
+      "course": 24,
       "date": "2020-07-05T19:00:00-03:00"
     }
   },
@@ -689,8 +600,7 @@
     "model": "backend.final",
     "pk": 16,
     "fields": {
-      "subject": 8,
-      "teacher": 7,
+      "course": 24,
       "date": "2020-07-12T19:00:00-03:00"
     }
   },
@@ -698,8 +608,7 @@
     "model": "backend.final",
     "pk": 17,
     "fields": {
-      "subject": 3,
-      "teacher": 7,
+      "course": 8,
       "date": "2020-01-11T19:00:00-03:00"
     }
   },
@@ -707,9 +616,16 @@
     "model": "backend.final",
     "pk": 18,
     "fields": {
-      "subject": 5,
-      "teacher": 9,
+      "course": 15,
       "date": "2020-07-11T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 19,
+    "fields": {
+      "course": 15,
+      "date": "2020-07-18T19:00:00-03:00"
     }
   },
   {
@@ -807,6 +723,15 @@
     "pk": 11,
     "fields": {
       "final": 18,
+      "student": 2,
+      "grade": 2
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 12,
+    "fields": {
+      "final": 19,
       "student": 2,
       "grade": null
     }

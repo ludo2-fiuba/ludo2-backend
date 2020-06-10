@@ -1,24 +1,14 @@
 from django.conf.urls import url
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.http import HttpResponseRedirect, HttpResponse
 from django.template.response import TemplateResponse
-from django.urls import path, reverse
+from django.urls import reverse
 from django.utils.html import format_html
-from django.utils.translation import gettext as _
 from django_reverse_admin import ReverseModelAdmin
 
 from forms import InscribirForm
 from .models import *
-
-
-# Register your models here.
 from .models.course import Course
-
-
-class CourseWithStudentInline(admin.TabularInline):
-    model = Course.students.through
 
 
 class StudentCommonAdmin(ReverseModelAdmin):
@@ -59,7 +49,7 @@ class StudentRegularAdmin(StudentCommonAdmin):
         display those for the currently signed in user.
         """
         qs = super().get_queryset(request)
-        return qs.filter(inscripto=False)
+        return qs.filter(inscripto=True)
 
 
 class PreRegisteredStudent(Student):
@@ -71,11 +61,7 @@ class PreRegisteredStudent(Student):
 class StudentPreRegistered(StudentCommonAdmin):
     title = "Student to Register"
 
-    inlines = [
-        CourseWithStudentInline,
-    ]
-
-    list_display = ('dni', 'first_name', 'last_name', 'padron', 'inscribir_button')
+    list_display = ('dni', 'first_name', 'last_name', 'inscribir_button')
     readonly_fields = ('dni', 'first_name', 'last_name', 'inscribir_button')
 
     def get_queryset(self, request):
@@ -142,7 +128,7 @@ class TeacherAdmin(ReverseModelAdmin):
     inline_type = 'tabular'
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
-    list_display = ('dni', 'first_name', 'last_name', 'legajo', 'subjects')
+    list_display = ('dni', 'first_name', 'last_name', 'legajo', 'courses')
     # search_fields = ('dni', 'first_name', 'last_name', 'legajo')
     # ordering = ('dni'', 'first_name', 'last_name', 'legajo')
 
@@ -158,8 +144,8 @@ class TeacherAdmin(ReverseModelAdmin):
     def last_name(self, obj):
         return obj.user.last_name
 
-    def subjects(self, obj):
-        return [sub.__str__() for sub in Subject.objects.filter(final__teacher=obj).distinct()]
+    def courses(self, obj):
+        return [sub.__str__() for sub in Course.objects.filter(teacher=obj).distinct()]
 
     def get_last_login(self, obj):
         return obj.user.last_login
@@ -185,68 +171,72 @@ class FinalExamAdmin(admin.ModelAdmin):
     ordering = ('student', 'grade')
 
     def subject(self, obj):
-        return obj.final.subject
+        return obj.final.course.subject
 
     def date(self, obj):
         return obj.final.date
-
-    subject.admin_order_field = 'final__subject__name'
 
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
     title = "Course"
+    fields = ('teacher','subject', 'semester')
+    readonly_fields = ('subject', 'semester')
 
-    fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('year', 'semester', 'subject', 'teacher'),
-        }),
-    )
+    list_display = ('semester', 'subject', 'teacher')
+    search_fields = ('semester', 'subject', 'teacher')
+    ordering = ('semester', 'subject', 'teacher')
 
-    inlines = [
-        CourseWithStudentInline,
-    ]
-    exclude = ('students',)
-
-    filter_horizontal = ('students',)
-
-    list_display = ('year', 'semester', 'subject', 'teacher')
-    search_fields = ('year', 'semester', 'subject', 'teacher')
-    ordering = ('year', 'semester', 'subject', 'teacher')
+    def subject(self, obj):
+        return obj.course.subject
 
 
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
     title = "Final"
+    # fields = ('subject', 'teacher', 'date')
+    exclude = ('updated_at',)
+    readonly_fields = ('date', 'course')
 
-    fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('subject', 'teacher', 'date'),
-        }),
-    )
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            url(r'^(?P<final_id>.+)/download/$',
+                self.admin_site.admin_view(self.download),
+                name='download')
+        ]
+        return my_urls + urls
 
-    list_display = ('subject', 'teacher', 'date')
+    list_display = ('subject', 'teacher', 'date', 'download_qr')
     search_fields = ('subject', 'teacher', 'date')
-    ordering = ('subject', 'teacher', 'date')
+    # ordering = ('subject', 'teacher', 'date')
 
+    def subject(self, obj):
+        return obj.course.subject
 
-@admin.register(Subject)
-class SubjectAdmin(admin.ModelAdmin):
-    title = "Subject"
+    def teacher(self, obj):
+        return obj.course.teacher
 
-    fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('name', 'correlatives'),
-        }),
-    )
+    def download_qr(self, obj):
+        return format_html(
+            '<a class="button" href="{}">Descargar QR</a>',
+            reverse('admin:download', args=[obj.pk]),
+        )
 
-    list_display = ('name', 'list_correlatives')
-    search_fields = ('name',)
-    ordering = ('name',)
+    actions = ['download']
 
-    def list_correlatives(self, obj):
-        return [sub.__str__() for sub in obj.correlatives.all()]
+    def download(self, request, final_id):
+        import qrcode
+        import io
 
+        final = self.get_object(request, final_id)
+
+        qr = qrcode.make(final.qrid)
+
+        output = io.BytesIO()
+        qr.save(output, format='PNG')
+        file = output.getvalue()
+
+        file_response = HttpResponse(file, content_type='image/png')
+        file_response['Content-Disposition'] = f"attachment; filename={final.teacher().user.last_name}-{final.date}.png"
+        return file_response

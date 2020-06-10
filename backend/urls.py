@@ -7,7 +7,6 @@ from rest_framework import routers
 from . import views
 
 router = routers.DefaultRouter()
-router.register(r'subjects', views.SubjectViewSet, 'subject')
 router.register(r'final_exams', views.FinalStudentExamViewSet, 'final_exam')
 router.register(r'final_exams', views.FinalTeacherExamViewSet, 'final_exam')
 router.register(r'finals', views.FinalTeacherViewSet, 'final')

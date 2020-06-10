@@ -30,32 +30,12 @@ class TeacherFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory, is_teacher=True)
 
 
-class SubjectFactory(factory.django.DjangoModelFactory):
+class CourseFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = 'backend.Subject'
+        model = 'backend.Course'
 
-    name = factory.Faker('word')
-
-
-class SubjectWithCorrelativesFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = 'backend.Subject'
-
-    name = factory.Faker('word')
-
-    @factory.post_generation
-    def correlatives(self, create, extracted, **kwargs):
-        if not create:
-            # Simple build, do nothing.
-            return
-
-        if extracted:
-            # A list of groups were passed in, use them
-            for correlative in extracted:
-                self.correlatives.add(correlative)
-        else:
-            for i in range(2):  # TODO check how to pass the size
-                self.correlatives.add(SubjectFactory())
+    subject = factory.Faker('word')
+    teacher = factory.SubFactory(TeacherFactory)
 
 
 class FinalFactory(factory.django.DjangoModelFactory):
@@ -63,8 +43,7 @@ class FinalFactory(factory.django.DjangoModelFactory):
         model = 'backend.Final'
 
     date = factory.Faker('date_time', tzinfo=timezone.utc)
-    subject = factory.SubFactory(SubjectFactory)
-    teacher = factory.SubFactory(TeacherFactory)
+    course = factory.SubFactory(CourseFactory)
 
 
 class FinalExamFactory(factory.django.DjangoModelFactory):

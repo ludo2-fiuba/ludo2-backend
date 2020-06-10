@@ -1,15 +1,15 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from ..factories import StudentFactory, TeacherFactory, SubjectFactory, FinalFactory, FinalExamFactory
+from ..factories import TeacherFactory, FinalFactory, FinalExamFactory, CourseFactory
 
 
 class FinalTeacherViewsTests(APITestCase):
     def setUp(self) -> None:
         self.teacher = TeacherFactory()
-        self.subject = SubjectFactory()
+        self.course = CourseFactory(teacher=self.teacher)
 
-        self.final = FinalFactory(subject=self.subject, teacher=self.teacher)
+        self.final = FinalFactory(course=self.course)
         self.final_exams = FinalExamFactory.create_batch(size=3, final=self.final, grade=None)
 
         self.details_url = f"/api/finals/{self.final.id}/details/"

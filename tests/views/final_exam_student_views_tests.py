@@ -1,22 +1,22 @@
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-from ..factories import StudentFactory, TeacherFactory, SubjectFactory, FinalFactory
+from ..factories import StudentFactory, TeacherFactory, CourseFactory, FinalFactory
 
 
 class StudentFinalExamViewsTests(APITestCase):
     def setUp(self) -> None:
         self.student = StudentFactory()
         self.teacher = TeacherFactory()
-        self.subject = SubjectFactory()
+        self.course = CourseFactory(teacher=self.teacher)
 
-        self.final = FinalFactory(subject=self.subject, teacher=self.teacher)
+        self.final = FinalFactory(course=self.course)
 
         self.rendir_uri = "/api/final_exams/rendir/"
 
     def test_rendir(self):
         """
-        Should register that the student took the exam and has a FinalExam for him, the Subject and the Final.
+        Should register that the student took the exam and has a FinalExam for him, the Course and the Final.
         """
         self.client.force_authenticate(user=self.student.user)
 
