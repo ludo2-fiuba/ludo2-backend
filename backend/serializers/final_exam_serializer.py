@@ -10,7 +10,7 @@ class FinalExamsListSerializer(FilterableModelListSerializer):
     MODEL = FinalExam
 
     def to_representation(self, data):
-        data = data.filter(**self._filter_params(self.context["filters"])).distinct()
+        data = data.filter(**self._filter_params(self.context.get("filters", {}))).distinct()
         return super(FinalExamsListSerializer, self).to_representation(data)
 
 

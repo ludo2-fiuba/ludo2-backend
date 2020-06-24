@@ -50,13 +50,13 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
         return True # TODO call real SIU
 
     def _serialize(self, relation):
+        import itertools
         page = self.paginate_queryset(relation)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(relation, many=True)
-        import itertools
         return Response({k: list(group) for k, group in itertools.groupby(serializer.data, lambda x: x['subject'])})
 
     def _filter_params(self):

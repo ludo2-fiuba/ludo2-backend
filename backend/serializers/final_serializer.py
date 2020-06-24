@@ -14,7 +14,7 @@ class FinalsListSerializer(FilterableModelListSerializer):
 
 
 class FinalSerializer(serializers.ModelSerializer):
-    final_exams = ApprovedFinalExamSerializer(source='finalexam_set', many=True)
+    final_exams = ApprovedFinalExamSerializer(many=True)
 
     class Meta:
         model = Final
@@ -23,8 +23,15 @@ class FinalSerializer(serializers.ModelSerializer):
 
 
 class FinalTeacherSerializer(serializers.ModelSerializer):
-    final_exams = FinalExamTeacherDetailsSerializer(source='finalexam_set', many=True)
+    final_exams = FinalExamTeacherDetailsSerializer(many=True)
 
     class Meta:
         model = Final
         fields = ('id', 'date', 'final_exams')
+
+
+class FinalSimpleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Final
+        fields = ('id', 'date')
