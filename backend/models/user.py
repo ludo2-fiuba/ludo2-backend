@@ -10,7 +10,7 @@ from ..validators import validate_dni
 
 
 class CustomUserManager(UserManager):
-    def create_user(self, username=None, email=None, password=None, **extra_fields):
+    def create_user(self, email, username=None, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
         return self._create_user(email, password, **extra_fields)
@@ -31,6 +31,8 @@ class CustomUserManager(UserManager):
         if extra_fields.get('is_teacher', False):
             Teacher(user=user).save()
         elif extra_fields.get('is_student', False):
+            user.image = self._upload_image(extra_fields['image'])
+            user.save(using=self._db)
             Student(user=user).save()
         else:
             raise ValidationError('Either is_student or is_teacher is needed')
@@ -50,6 +52,9 @@ class CustomUserManager(UserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+    def _upload_image(self, image_b64):
+        return 'http://www.asd.com'
+
 
 class User(AbstractUser):
     is_student = models.BooleanField(default=False)
@@ -58,10 +63,11 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50, blank=False)
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
     dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False)
+    image = models.CharField(max_length=2048, blank=False, default='')
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'dni'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'email', 'is_student', 'is_teacher']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'email', 'is_student', 'is_teacher', 'image']
