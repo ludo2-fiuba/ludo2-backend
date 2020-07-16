@@ -1,9 +1,12 @@
 from django.db.models import F
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
-from backend.models import FinalExam
+from backend.interactors.correlative_subjects_lister_interactor import CorrelativeSubjectsListerInteractor
+from backend.interactors.final_requirements_validator_interactor import FinalRequirementsValidatorInteractor
+from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
 
@@ -15,13 +18,15 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['POST'])
     def rendir(self, request):
-        final_id = self._info_from_qr(request)
+        final = get_object_or_404(Final.object, qrid=self._info_from_qr(request))
 
-        self.validate_ability_to_rendir(request.user.student, final_id)
+        result = self._validate_requirements(request.user.student, final.subject())
+        if result.errors:
+            return Response(result.errors, status=status.HTTP_403_FORBIDDEN)
 
-        self.validate_student_biometric_info()
+        self._validate_student_biometric_info()
 
-        fe = FinalExam(student=request.user.student, final_id=final_id)
+        fe = FinalExam(student=request.user.student, final=final)
         fe.save()
         return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
 
@@ -36,18 +41,28 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
         approved_subjects = [x.subject for x in self.queryset.annotate(subject=F('final__course__subject')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
         return self._serialize(self.queryset.exclude(final__course__subject__in=approved_subjects))
 
+    @action(detail=True, methods=["GET"])
+    def correlatives(self, request, pk):
+        fe = get_object_or_404(FinalExam.object, id=pk, student=request.user.student)
+
+        result = self._correlative_subjects(fe.subject())
+        if result.errors:
+            return Response(result.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return self._serialize(self.queryset(final__course__subject__in=result.data, student=fe.student))
+
     def _info_from_qr(self, request):
         return request.data['final']
 
-    def validate_student_biometric_info(self):
+    def _validate_student_biometric_info(self):
         """Validates if the student info scanned belongs to the student making the request"""
         pass  # TODO implement face scan validation
 
-    def validate_ability_to_rendir(self, student, final):
-        return self._validate_with_siu(student, final)
+    def _validate_requirements(self, student, fe):
+        return FinalRequirementsValidatorInteractor(student, fe.subject()).validate()
 
-    def _validate_with_siu(self, student, final):
-        return True # TODO call real SIU
+    def _correlative_subjects(self, subject):
+        return CorrelativeSubjectsListerInteractor(subject).list()
 
     def _serialize(self, relation):
         import itertools
