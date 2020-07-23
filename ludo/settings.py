@@ -32,6 +32,7 @@ AUTH_USER_MODEL = 'backend.User'
 # Application definition
 
 INSTALLED_APPS = [
+    'boto3',
     'backend.apps.BackendConfig',
     'django.contrib.admin',
     'django.contrib.auth',

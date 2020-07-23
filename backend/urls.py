@@ -5,12 +5,16 @@ from rest_framework import permissions
 from rest_framework import routers
 
 from . import views
+from .views.user_views import UserCustomViewSet
 
 router = routers.DefaultRouter()
 router.register(r'final_exams', views.FinalStudentExamViewSet, 'final_exam')
 router.register(r'final_exams', views.FinalTeacherExamViewSet, 'final_exam')
 router.register(r'finals', views.FinalTeacherViewSet, 'final')
 router.register(r'courses', views.CourseTeacherViewSet, 'course')
+
+auth_router = routers.DefaultRouter()
+auth_router.register(r'auth/users', UserCustomViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -28,8 +32,10 @@ urlpatterns = [
     path('api/', include(router.urls)),
 
     # path to djoser end points
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.jwt')),
+    # path('auth/', include('djoser.urls')),
+    # path('auth/', include('djoser.urls.jwt')),
+
+    path('', include(auth_router.urls)),
 
     # swagger endpoints
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
