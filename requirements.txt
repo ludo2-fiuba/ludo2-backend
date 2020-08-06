@@ -15,5 +15,6 @@ factory_boy
 gunicorn
 markdown
 python-stdnum
+psycopg2-binary
 rest_condition
 qrcode
