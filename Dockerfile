@@ -23,6 +23,9 @@ COPY ./entrypoint.sh .
 # copy project
 COPY . .
 
+# collect static files
+RUN python manage.py collectstatic --noinput
+
 # run entrypoint.sh
 ENTRYPOINT ["/usr/src/ludo/entrypoint.sh"]
 

@@ -18,3 +18,4 @@ python-stdnum
 psycopg2-binary
 rest_condition
 qrcode
+whitenoise
