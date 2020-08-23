@@ -25,7 +25,8 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+#ALLOWED_HOSTS = "localhost 127.0.0.1 [::1]".split(" ")
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'fathomless-ravine-54243.herokuapp.com']
 
 AUTH_USER_MODEL = 'backend.User'
 
@@ -121,7 +122,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'EXCEPTION_HANDLER': 'backend.utils.api_exception_handler'
+    'EXCEPTION_HANDLER': 'backend.utils.api_exception_handler',
+     'FORM_METHOD_OVERRIDE': None,
+     'FORM_CONTENT_OVERRIDE': None,
+    'FORM_CONTENTTYPE_OVERRIDE': None
 }
 
 # Internationalization
