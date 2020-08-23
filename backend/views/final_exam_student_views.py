@@ -18,7 +18,7 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['POST'])
     def rendir(self, request):
-        final = get_object_or_404(Final.object, qrid=self._info_from_qr(request))
+        final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
         result = self._validate_requirements(request.user.student, final.subject())
         if result.errors:
@@ -58,8 +58,8 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
         """Validates if the student info scanned belongs to the student making the request"""
         pass  # TODO implement face scan validation
 
-    def _validate_requirements(self, student, fe):
-        return FinalRequirementsValidatorInteractor(student, fe.subject()).validate()
+    def _validate_requirements(self, student, subject):
+        return FinalRequirementsValidatorInteractor(student, subject).validate()
 
     def _correlative_subjects(self, subject):
         return CorrelativeSubjectsListerInteractor(subject).list()

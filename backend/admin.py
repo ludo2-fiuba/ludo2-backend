@@ -196,7 +196,7 @@ class FinalAdmin(admin.ModelAdmin):
     title = "Final"
     # fields = ('subject', 'teacher', 'date')
     exclude = ('updated_at',)
-    readonly_fields = ('date', 'course')
+    readonly_fields = ('date', 'course', 'qrid')
 
     def get_urls(self):
         urls = super().get_urls()
