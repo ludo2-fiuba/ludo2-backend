@@ -6,7 +6,7 @@ import boto3
 
 def _decode_image(b64_image):
     b64_image = b64_image.lstrip("data:image/jpeg;base64,")
-    return base64.b64decode(b64_image)
+    return base64.b64decode(b64_image + "========")
 
 
 class AwsS3Service:
