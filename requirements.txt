@@ -9,6 +9,7 @@ djangorestframework-simplejwt
 django_reverse_admin
 django-environ
 djoser
+dj-database-url
 drf-nested-routers
 drf-yasg
 factory_boy

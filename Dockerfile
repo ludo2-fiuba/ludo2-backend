@@ -1,5 +1,6 @@
 # pull official base image
-FROM python:3.8-alpine
+# FROM python:3.8-alpine
+FROM fedest/face_recognition:latest
 
 # set work directory
 WORKDIR /usr/src/ludo
@@ -9,16 +10,20 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+# https://stackoverflow.com/a/52655008/3663124
+RUN apt-get update \
+    && mkdir -p /usr/share/man/man1 \
+    && mkdir -p /usr/share/man/man7 \
+    && apt-get install -y --fix-missing build-essential postgresql musl libpq-dev
+
+
 
 # install dependencies
 RUN pip install --upgrade pip
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install --upgrade Pillow
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-
-# copy entrypoint.sh
-COPY ./entrypoint.sh .
 
 # copy project
 COPY . .
@@ -26,7 +31,4 @@ COPY . .
 # collect static files
 RUN python manage.py collectstatic --noinput
 
-# run entrypoint.sh
-ENTRYPOINT ["/usr/src/ludo/entrypoint.sh"]
-
-CMD python3 manage.py runserver 0.0.0.0:$PORT
+CMD gunicorn ludo.wsgi:application --bind 0.0.0.0:$PORT

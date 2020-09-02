@@ -28,10 +28,12 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+CSRF_COOKIE_SECURE=False
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-ALLOWED_HOSTS = "localhost 127.0.0.1 [::1]".split(" ")
-#ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'fathomless-ravine-54243.herokuapp.com']
+# ALLOWED_HOSTS = "localhost 127.0.0.1 [::1]".split(" ")
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'fathomless-ravine-54243.herokuapp.com']
 
 AUTH_USER_MODEL = 'backend.User'
 
@@ -101,6 +103,14 @@ DATABASES = {
         "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=500)
+
+# DATABASE_URL = os.environ.get('DATABASE_URL')
+# db_from_env = django_heroku.dj_database_url.config(default=DATABASE_URL)
+# DATABASES['default'] = db_from_env
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
