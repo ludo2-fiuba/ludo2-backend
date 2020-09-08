@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
 
-from ..services.aws_s3_service import AwsS3Service
 from ..validators import validate_dni
 
 

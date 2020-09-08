@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY="v4@)^40(m^%j-z)260(e7pw#9i2jyxmnx5bw7jh4%zr)&85lw_"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.environ.get("DEBUG", default=1))
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -32,7 +32,6 @@ CSRF_COOKIE_SECURE=False
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# ALLOWED_HOSTS = "localhost 127.0.0.1 [::1]".split(" ")
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'fathomless-ravine-54243.herokuapp.com']
 
 AUTH_USER_MODEL = 'backend.User'

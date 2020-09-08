@@ -20,11 +20,9 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
     def rendir(self, request):
         final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
-        result = self._validate_requirements(request.user.student, final.subject())
+        result = self._validate_student_biometric_info(request.user, final.subject(), request.data['photo'])
         if result.errors:
             return Response(result.errors, status=status.HTTP_403_FORBIDDEN)
-
-        self._validate_student_biometric_info()
 
         fe = FinalExam(student=request.user.student, final=final)
         fe.save()
@@ -54,12 +52,9 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
     def _info_from_qr(self, request):
         return request.data['final']
 
-    def _validate_student_biometric_info(self):
+    def _validate_student_biometric_info(self, user, subject, photo):
         """Validates if the student info scanned belongs to the student making the request"""
-        pass  # TODO implement face scan validation
-
-    def _validate_requirements(self, student, subject):
-        return FinalRequirementsValidatorInteractor(student, subject).validate()
+        return FinalRequirementsValidatorInteractor(user, subject, photo).validate()
 
     def _correlative_subjects(self, subject):
         return CorrelativeSubjectsListerInteractor(subject).list()

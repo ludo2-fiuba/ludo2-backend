@@ -1,12 +1,8 @@
-import base64
 import os
 
 import boto3
 
-
-def _decode_image(b64_image):
-    b64_image = b64_image.lstrip("data:image/jpeg;base64,")
-    return base64.b64decode(b64_image + "========")
+from backend.utils import decode_image
 
 
 class AwsS3Service:
@@ -19,7 +15,10 @@ class AwsS3Service:
         self.bucket = os.environ["AWS_BUCKET_NAME"]
 
     def upload_b64_image(self, b64_string, file_name):
-        self.upload_object(_decode_image(b64_string), file_name)
+        self.upload_object(decode_image(b64_string), file_name)
 
-    def upload_object(self, object, file_name):
-        self.client.put_object(Body=object, Bucket=self.bucket, Key=file_name)
+    def upload_object(self, generic_object, file_name):
+        self.client.put_object(Body=generic_object, Bucket=self.bucket, Key=file_name)
+
+    def download_object(self, file_name):
+        return self.client.get_object(Bucket=self.bucket, Key=file_name)['Body']
