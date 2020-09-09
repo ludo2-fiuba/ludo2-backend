@@ -104,7 +104,7 @@ DATABASES = {
 }
 
 import dj_database_url
-DATABASES['default'] = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=500)
 
 # DATABASE_URL = os.environ.get('DATABASE_URL')
 # db_from_env = django_heroku.dj_database_url.config(default=DATABASE_URL)
