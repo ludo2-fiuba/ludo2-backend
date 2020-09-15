@@ -8,7 +8,3 @@ from backend.serializers.student_serializer import StudentSerializer
 class StudentViews(APIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-
-    @action(detail=True, methods=['POST'])
-    def me(self, request, pk):
-        pass

@@ -7,9 +7,8 @@ from backend.services import AwsS3Service
 from backend.utils import decode_image, user_image_path
 
 
-class FinalRequirementsValidatorInteractor:
-    def __init__(self, user, subject, b64_string):
-        self.subject = subject
+class IdentityValidatorInteractor:
+    def __init__(self, user, b64_string):
         self.user = user
         self.requester_b64_string = b64_string
 

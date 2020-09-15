@@ -27,8 +27,9 @@ def api_exception_handler(exception, context):
 
 
 def decode_image(b64_image):
-    b64_image = b64_image.lstrip("data:image/jpeg;base64,")
+    b64_image = b64_image.replace("data:image/jpeg;base64,", "")
     return base64.b64decode(b64_image + "========")
+
 
 def user_image_path(dni):
     return f"{dni}.{IMAGE_EXTENTION}"

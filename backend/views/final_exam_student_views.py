@@ -5,7 +5,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from backend.interactors.correlative_subjects_lister_interactor import CorrelativeSubjectsListerInteractor
-from backend.interactors.final_requirements_validator_interactor import FinalRequirementsValidatorInteractor
+from backend.interactors.final_requirements_validator_interactor import IdentityValidatorInteractor
 from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
@@ -20,7 +20,7 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
     def rendir(self, request):
         final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
-        result = self._validate_student_biometric_info(request.user, final.subject(), request.data['photo'])
+        result = IdentityValidatorInteractor(request.user, request.data['photo']).validate()
         if result.errors:
             return Response(result.errors, status=status.HTTP_403_FORBIDDEN)
 
@@ -51,10 +51,6 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
 
     def _info_from_qr(self, request):
         return request.data['final']
-
-    def _validate_student_biometric_info(self, user, subject, photo):
-        """Validates if the student info scanned belongs to the student making the request"""
-        return FinalRequirementsValidatorInteractor(user, subject, photo).validate()
 
     def _correlative_subjects(self, subject):
         return CorrelativeSubjectsListerInteractor(subject).list()
