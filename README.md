@@ -9,7 +9,7 @@
 ```
 1. Get Python 3.7+
 2. Install pip
-3. pip3 install -m requirements.txt
+3. pip3 install -r requirements.txt
 ```
 
 ## Setup DB
