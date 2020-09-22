@@ -56,6 +56,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50, blank=False)
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
     dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False)
+    face_encodings = models.JSONField(blank=False, default=dict)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
 

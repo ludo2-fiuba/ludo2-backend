@@ -31,5 +31,13 @@ def decode_image(b64_image):
     return base64.b64decode(b64_image + "========")
 
 
+def encode_image(io_object):
+    return base64.b64encode(io_object.tobytes())
+
+
 def user_image_path(dni):
     return f"{dni}.{IMAGE_EXTENTION}"
+
+
+def response_error_msg(message, code="invalid"):
+    return {"message": message, "code": code}

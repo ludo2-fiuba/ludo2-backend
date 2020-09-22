@@ -1,15 +1,14 @@
 from djoser.serializers import UserCreateSerializer
+from rest_framework import serializers
 
-from backend.services import AwsS3Service
-
-from backend.utils import user_image_path
+from backend.interactors.image_validator_interactor import ImageValidatorInteractor
 
 
 class UserCustomCreateSerializer(UserCreateSerializer):
     def create(self, validated_data):
-        self._upload_image(self.context['image'], user_image_path(validated_data['dni']))
+        b64_string = self.context['request']['image']
+        validation_result = ImageValidatorInteractor(b64_string).validate_image()
+        if validation_result.errors:
+            raise serializers.ValidationError(validation_result.errors)
+        validated_data['face_encodings'] = validation_result.data
         return super().create(validated_data)
-
-
-    def _upload_image(self, image_b64, image_name):
-        AwsS3Service().upload_b64_image(image_b64, image_name)

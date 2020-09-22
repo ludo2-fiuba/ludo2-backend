@@ -5,10 +5,11 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from backend.interactors.correlative_subjects_lister_interactor import CorrelativeSubjectsListerInteractor
-from backend.interactors.final_requirements_validator_interactor import IdentityValidatorInteractor
+from backend.interactors.image_validator_interactor import ImageValidatorInteractor
 from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
+from backend.utils import response_error_msg
 
 
 class FinalStudentExamViewSet(viewsets.ModelViewSet):
@@ -20,9 +21,11 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
     def rendir(self, request):
         final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
-        result = IdentityValidatorInteractor(request.user, request.data['photo']).validate()
+        result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user)
         if result.errors:
-            return Response(result.errors, status=status.HTTP_403_FORBIDDEN)
+            return Response(response_error_msg(result.errors), status=status.HTTP_400_BAD_REQUEST)
+        if not result.data:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         fe = FinalExam(student=request.user.student, final=final)
         fe.save()
