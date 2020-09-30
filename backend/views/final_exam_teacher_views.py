@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
-from backend.models import FinalExam
+from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
 
@@ -14,7 +14,7 @@ class FinalTeacherExamViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsTeacher]
 
     @action(detail=True, methods=['PUT'])
-    def calificar(self, request, pk=None):
+    def grade(self, request, pk=None):
         serializer = self.serializer_class(self._fe(pk, request.user.teacher), data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -22,4 +22,4 @@ class FinalTeacherExamViewSet(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def _fe(self, pk, teacher):
-        return get_object_or_404(FinalExam.objects, id=pk, final__teacher=teacher)
+        return get_object_or_404(FinalExam.objects, id=pk, final__teacher=teacher, status=Final.Status.OPEN)
