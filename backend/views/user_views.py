@@ -18,7 +18,7 @@ class UserCustomViewSet(UserViewSet):
 
     @action(detail=False, methods=['POST'])
     def is_me(self, request):
-        result = ImageValidatorInteractor().validate_identity(request.user, request.data['photo'])
+        result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user)
         if result.errors:
             return Response(response_error_msg(result.errors), status=status.HTTP_400_BAD_REQUEST)
         return Response({"match": result.data}, status=status.HTTP_200_OK)
