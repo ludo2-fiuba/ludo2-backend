@@ -3,6 +3,7 @@ from django.contrib.auth.models import UserManager
 from django.db import models
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
+from django.contrib.postgres.fields import ArrayField
 
 from ..validators import validate_dni
 
@@ -56,7 +57,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50, blank=False)
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
     dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False)
-    face_encodings = models.JSONField(blank=False, default=dict)
+    face_encodings = ArrayField(base_field=models.FloatField(null=False), blank=False, default=list)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
 

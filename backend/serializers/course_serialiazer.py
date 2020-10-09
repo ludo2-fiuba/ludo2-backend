@@ -9,7 +9,7 @@ class CourseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ('subject', 'semester', 'teacher', 'finals')
+        fields = ('id', 'subject', 'semester', 'teacher', 'finals')
 
     def teacher(self):
         return self.obj.teacher()
