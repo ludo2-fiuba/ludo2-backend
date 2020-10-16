@@ -17,3 +17,9 @@ class FinalInteractor:
         if result.errors:
             return result
         final.update(status=Final.Status.ACT_SENT)
+
+    def get_dates(self, final):
+        return Result()
+
+    def set_dates(self, final, dates):
+        return Result()

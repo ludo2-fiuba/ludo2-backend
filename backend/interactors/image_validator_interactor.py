@@ -12,13 +12,13 @@ class ImageValidatorInteractor:
     def __init__(self, b64_string):
         self.b64_string = b64_string
 
-    def validate_identity(self, user):
+    def validate_identity(self, student):
         format_result = self.validate_image()
 
         if format_result.errors:
             return format_result
 
-        result = face_recognition.compare_faces([self.face_encodings[0]], np.array(user.face_encodings))
+        result = face_recognition.compare_faces([self.face_encodings[0]], np.array(student.face_encodings))
 
         return Result(data=result[0])
 

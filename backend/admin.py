@@ -1,17 +1,50 @@
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.html import format_html
 from django_reverse_admin import ReverseModelAdmin
 
-from forms import InscribirForm
+from .forms import InscribirForm, StaffCreateForm
 from .models import *
 from .models.course import Course
 
 
-class StudentCommonAdmin(ReverseModelAdmin):
+@admin.register(User)
+class StaffUserAdmin(UserAdmin):
+    title = "Usuario Administrador"
+
+    list_display = ('id', 'dni', 'email', 'first_name', 'last_name', 'get_groups')
+    exclude = ('is_student', 'is_teacher', 'username', 'user_permissions', 'updated_at', 'date_joined', 'last_login')
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'dni', 'first_name', 'last_name', 'password1', 'password2', 'groups')}
+        ),
+    )
+    fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('email', 'dni', 'first_name', 'last_name', 'groups')}
+        ),
+    )
+
+    add_form = StaffCreateForm
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(is_staff=True)
+
+    def get_password(self, obj):
+        return obj.password
+
+    def get_groups(self, obj):
+        return [g.name for g in obj.groups.all()]
+
+
+class StudentCommonAdmin(admin.ModelAdmin):
     inline_type = 'tabular'
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 

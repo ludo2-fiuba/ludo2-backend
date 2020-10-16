@@ -21,7 +21,7 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
     def rendir(self, request):
         final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
-        result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user)
+        result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user.student)
         if result.errors:
             return Response(response_error_msg(result.errors), status=status.HTTP_400_BAD_REQUEST)
         if not result.data:

@@ -3,7 +3,6 @@ from django.contrib.auth.models import UserManager
 from django.db import models
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
-from django.contrib.postgres.fields import ArrayField
 
 from ..validators import validate_dni
 
@@ -20,6 +19,7 @@ class CustomUserManager(UserManager):
         """
         from .student import Student
         from .teacher import Teacher
+        face_encodings = extra_fields.pop("face_encodings")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -30,7 +30,7 @@ class CustomUserManager(UserManager):
         if extra_fields.get('is_teacher', False):
             Teacher(user=user).save()
         elif extra_fields.get('is_student', False):
-            Student(user=user).save()
+            Student(user=user, face_encodings=face_encodings).save()
         else:
             raise ValidationError('Either is_student or is_teacher is needed')
         return user
@@ -57,7 +57,6 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50, blank=False)
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
     dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False)
-    face_encodings = ArrayField(base_field=models.FloatField(null=False), blank=False, default=list)
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
 
@@ -65,3 +64,4 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'dni'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email', 'is_student', 'is_teacher']
+
