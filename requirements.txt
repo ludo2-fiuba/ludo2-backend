@@ -4,14 +4,13 @@ django-cors-headers
 django-extensions
 django-filter==2.3.0
 django-heroku
-djangorestframework
+djangorestframework==3.12.1
 djangorestframework-simplejwt
 django_reverse_admin
 django-environ
 djoser
 dj-database-url
 drf-nested-routers
-drf-yasg
 factory_boy
 gunicorn
 markdown
