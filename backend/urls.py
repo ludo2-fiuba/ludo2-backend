@@ -8,7 +8,7 @@ router = routers.DefaultRouter()
 router.register(r'final_exams', views.FinalStudentExamViewSet, 'final_exam')
 router.register(r'final_exams', views.FinalTeacherExamViewSet, 'final_exam')
 router.register(r'finals', views.FinalTeacherViewSet, 'final')
-router.register(r'courses', views.CourseTeacherViewSet, 'course')
+router.register(r'subjects', views.SubjectViews, 'subject')
 
 auth_router = routers.DefaultRouter()
 auth_router.register(r'auth/users', UserCustomViewSet)

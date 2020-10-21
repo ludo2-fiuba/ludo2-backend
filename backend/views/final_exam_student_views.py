@@ -1,10 +1,8 @@
-from django.db.models import F
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
-from backend.interactors.correlative_subjects_lister_interactor import CorrelativeSubjectsListerInteractor
 from backend.interactors.image_validator_interactor import ImageValidatorInteractor
 from backend.models import FinalExam, Final
 from backend.permissions import *
@@ -39,24 +37,12 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["GET"])
     def pending(self, request):
         self.extra = {"student": request.user.id}
-        approved_subjects = [x.subject for x in self.queryset.annotate(subject=F('final__course__subject')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
-        return self._serialize(self.queryset.exclude(final__course__subject__in=approved_subjects))
-
-    @action(detail=True, methods=["GET"])
-    def correlatives(self, request, pk):
-        fe = get_object_or_404(FinalExam.object, id=pk, student=request.user.student)
-
-        result = self._correlative_subjects(fe.subject())
-        if result.errors:
-            return Response(result.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        return self._serialize(self.queryset(final__course__subject__in=result.data, student=fe.student))
+        # approved_subjects = [x.subject for x in self.queryset.annotate(subject=F('final__course__subject')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
+        approved_finals = [x.final for x in self.queryset.filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
+        return self._serialize(self.queryset.exclude(final__in=approved_finals))
 
     def _info_from_qr(self, request):
         return request.data['final']
-
-    def _correlative_subjects(self, subject):
-        return CorrelativeSubjectsListerInteractor(subject).list()
 
     def _serialize(self, relation):
         import itertools

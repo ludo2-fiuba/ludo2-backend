@@ -1,8 +1,7 @@
-from rest_framework.decorators import action
 from rest_framework.views import APIView
 
-from ..models import Student
 from backend.serializers.student_serializer import StudentSerializer
+from ..models import Student
 
 
 class StudentViews(APIView):

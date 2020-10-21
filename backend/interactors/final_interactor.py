@@ -1,5 +1,5 @@
 from backend.interactors.result import Result
-from backend.interactors.siu_interactor import SIUInteractor
+from backend.interactors.siu_interactor import SiuInteractor
 from backend.models import FinalExam, Final
 
 
@@ -13,13 +13,7 @@ class FinalInteractor:
         return Result()
 
     def create_act(self, final):
-        result = SIUInteractor().create_act(final)
-        if result.errors:
-            return result
-        final.update(status=Final.Status.ACT_SENT)
-
-    def get_dates(self, final):
-        return Result()
-
-    def set_dates(self, final, dates):
-        return Result()
+        result = SiuInteractor().create_final_act(final)
+        if not result.errors:
+            final.update(status=Final.Status.ACT_SENT)
+        return result

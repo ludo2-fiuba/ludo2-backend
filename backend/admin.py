@@ -9,7 +9,6 @@ from django_reverse_admin import ReverseModelAdmin
 
 from .forms import InscribirForm, StaffCreateForm
 from .models import *
-from .models.course import Course
 
 
 @admin.register(User)
@@ -49,9 +48,9 @@ class StudentCommonAdmin(admin.ModelAdmin):
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
     list_display = ('dni', 'first_name', 'last_name', 'padron')
+    exclude = ("face_encodings", 'inscripto')
     search_fields = ('dni', 'first_name', 'last_name', 'padron')
-    readonly_fields = ('dni', 'first_name', 'last_name')
-    # ordering = ('dni', 'first_name', 'last_name', 'padron')
+    readonly_fields = ('dni', 'first_name', 'last_name', 'padron', 'user')
 
     def get_password(self, obj):
         return obj.user.password
@@ -161,7 +160,7 @@ class TeacherAdmin(ReverseModelAdmin):
     inline_type = 'tabular'
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
-    list_display = ('dni', 'first_name', 'last_name', 'legajo', 'courses')
+    list_display = ('dni', 'first_name', 'last_name', 'legajo')
     # search_fields = ('dni', 'first_name', 'last_name', 'legajo')
     # ordering = ('dni'', 'first_name', 'last_name', 'legajo')
 
@@ -177,9 +176,6 @@ class TeacherAdmin(ReverseModelAdmin):
     def last_name(self, obj):
         return obj.user.last_name
 
-    def courses(self, obj):
-        return [sub.__str__() for sub in Course.objects.filter(teacher=obj).distinct()]
-
     def get_last_login(self, obj):
         return obj.user.last_login
 
@@ -190,7 +186,6 @@ class TeacherAdmin(ReverseModelAdmin):
 @admin.register(FinalExam)
 class FinalExamAdmin(admin.ModelAdmin):
     title = "FinalExam"
-    title = "Final"
 
     fieldsets = (
         (None, {
@@ -199,29 +194,12 @@ class FinalExamAdmin(admin.ModelAdmin):
         }),
     )
 
-    list_display = ('student', 'subject', 'date', 'grade')
-    search_fields = ('student', 'subject', 'grade')
+    list_display = ('student', 'date', 'grade')
+    search_fields = ('student', 'grade')
     ordering = ('student', 'grade')
-
-    def subject(self, obj):
-        return obj.final.course.subject
 
     def date(self, obj):
         return obj.final.date
-
-
-@admin.register(Course)
-class CourseAdmin(admin.ModelAdmin):
-    title = "Course"
-    fields = ('teacher','subject', 'semester')
-    readonly_fields = ('subject', 'semester')
-
-    list_display = ('semester', 'subject', 'teacher')
-    search_fields = ('semester', 'subject', 'teacher')
-    ordering = ('semester', 'subject', 'teacher')
-
-    def subject(self, obj):
-        return obj.course.subject
 
 
 @admin.register(Final)
@@ -229,7 +207,7 @@ class FinalAdmin(admin.ModelAdmin):
     title = "Final"
     # fields = ('subject', 'teacher', 'date')
     exclude = ('updated_at',)
-    readonly_fields = ('date', 'course', 'qrid')
+    readonly_fields = ('date', 'qrid')
 
     def get_urls(self):
         urls = super().get_urls()
@@ -240,15 +218,8 @@ class FinalAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
 
-    list_display = ('subject', 'teacher', 'date', 'download_qr')
-    search_fields = ('subject', 'teacher', 'date')
-    # ordering = ('subject', 'teacher', 'date')
-
-    def subject(self, obj):
-        return obj.course.subject
-
-    def teacher(self, obj):
-        return obj.course.teacher
+    list_display = ('date', 'download_qr')
+    search_fields = ('date',)
 
     def download_qr(self, obj):
         return format_html(

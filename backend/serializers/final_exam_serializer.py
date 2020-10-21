@@ -25,7 +25,7 @@ class ApprovedFinalExamSerializer(serializers.ModelSerializer):
 class FinalExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinalExam
-        fields = ('id', 'student', 'grade', 'date', 'subject')
+        fields = ('id', 'student', 'grade', 'date')
         list_serializer_class = FinalExamsListSerializer
         validators = [
             UniqueTogetherValidator(

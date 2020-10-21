@@ -9,6 +9,7 @@ class FinalExam(models.Model):
     final = models.ForeignKey(Final, on_delete=models.CASCADE, related_name='final_exams')
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='final_exams')
     grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, db_index=True)
+
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
 
@@ -23,11 +24,8 @@ class FinalExam(models.Model):
     def date(self):
         return self.final.date
 
-    def subject(self):
-        return self.final.course.subject
-
     def __str__(self):
-        return f"{self.final.subject} - {self.student} - {self.final.date} - {self.grade}"
+        return f"{self.student} - {self.final.date} - {self.grade}"
 
     class Meta:
         constraints = [
