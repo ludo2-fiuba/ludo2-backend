@@ -3,12 +3,11 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from backend.permissions import *
 from backend.serializers.user_serializer import UserCustomCreateSerializer
-from .. import permissions
 from ..interactors.image_validator_interactor import ImageValidatorInteractor
 from ..models import User
 from ..permissions import IsStudent
-from ..utils import response_error_msg
 
 
 class UserCustomViewSet(UserViewSet):
@@ -22,6 +21,4 @@ class UserCustomViewSet(UserViewSet):
     @action(detail=False, methods=['POST'])
     def is_me(self, request):
         result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user.student)
-        if result.errors:
-            return Response(response_error_msg(result.errors), status=status.HTTP_400_BAD_REQUEST)
         return Response({"match": result.data}, status=status.HTTP_200_OK)

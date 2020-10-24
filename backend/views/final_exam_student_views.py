@@ -4,6 +4,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from backend.interactors.image_validator_interactor import ImageValidatorInteractor
+from backend.interactors.siu_interactor import SiuInteractor
 from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
@@ -20,8 +21,7 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
         final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
         result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user.student)
-        if result.errors:
-            return Response(response_error_msg(result.errors), status=status.HTTP_400_BAD_REQUEST)
+
         if not result.data:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
@@ -41,6 +41,14 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
         approved_finals = [x.final for x in self.queryset.filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
         return self._serialize(self.queryset.exclude(final__in=approved_finals))
 
+    @ action(detail=True, methods=["GET"])
+    def correlatives(self, request, pk):
+        fe = get_object_or_404(FinalExam.object, id=pk, student=request.user.student)
+        result = SiuInteractor().correlative_finals(fe.final.siu_id)
+        if result.errors:
+            return Response(result.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return self._serialize(self.queryset(final__course__subject__in=result.data, student=fe.student))
+
     def _info_from_qr(self, request):
         return request.data['final']
 
@@ -52,7 +60,8 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(relation, many=True)
-        return Response({k: list(group) for k, group in itertools.groupby(serializer.data, lambda x: x['subject'])})
+        return Response(serializer.data)
+        #return Response({k: list(group) for k, group in itertools.groupby(serializer.data, lambda x: x['subject'])})
 
     def _filter_params(self):
         return dict({key: value for key, value in self.request.query_params.items()})

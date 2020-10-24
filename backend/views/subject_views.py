@@ -16,5 +16,5 @@ class SubjectViews(viewsets.ModelViewSet):
 
     @action(detail=True, methods=["GET"])
     def correlatives(self, request, pk):
-        result = SiuInteractor().correlatives(pk)
+        result = SiuInteractor().correlative_subjects(pk)
         respond(result, status.HTTP_500_INTERNAL_SERVER_ERROR)
