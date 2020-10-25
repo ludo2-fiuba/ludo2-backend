@@ -17,13 +17,15 @@ class FinalTeacherViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsTeacher]
 
     def list(self, request):
-        result = SiuInteractor().finals(request.user.teacher, request['subject_siu_id'])
+        result = SiuInteractor().finals(request.user.teacher, request.query_params['subject_siu_id'])
         return respond(result)
 
+    def create(self, request):
+        pass
+
     def detail(self, request, pk=None):
-        final = get_object_or_404(Final.objects, id=pk)
-        result = SiuInteractor().final(final.siu_id, request.user.teacher)
-        return respond(result)
+        final = get_object_or_404(Final.objects, teacher=request.user.teacher, id=pk)
+        return respond(self.get_serializer(final))
 
     @action(detail=True, methods=['POST'])
     def close(self, _, pk):
