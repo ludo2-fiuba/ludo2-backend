@@ -6,9 +6,10 @@ from .views.user_views import UserCustomViewSet
 
 router = routers.DefaultRouter()
 router.register(r'final_exams', views.FinalStudentExamViewSet, 'final_exam')
-router.register(r'final_exams', views.FinalTeacherExamViewSet, 'final_exam')
+router.register(r'final_exams', views.FinalTeacherExamViews, 'final_exam')
 router.register(r'finals', views.FinalTeacherViewSet, 'final')
-router.register(r'subjects', views.SubjectViews, 'subject')
+router.register(r'subjects', views.SubjectViewSet, 'subject')
+router.register(r'comissions', views.ComissionViewSet, 'comission')
 
 auth_router = routers.DefaultRouter()
 auth_router.register(r'auth/users', UserCustomViewSet)

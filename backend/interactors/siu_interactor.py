@@ -10,7 +10,7 @@ class SiuInteractor:
         self.client.create_act(self._build_act(final))
         return Result()
 
-    def subjects(self):
+    def list_subjects(self):
         response = self.client.list_subjects()
         return Result(data=response)
 
@@ -24,13 +24,18 @@ class SiuInteractor:
         # TODO: endpoint for finals of a student?
         pass
 
-    def finals(self, teacher_siu_id):
-        response = self.client.list_finals(teacher_siu_id)
+    def finals(self, teacher_siu_id, subject_siu_id):
+        response = self.client.list_finals(teacher_siu_id, subject_siu_id)
         return Result(data=response)
 
     def final(self, final_siu_id, teacher_siu_id):
         response = self.client.get_final(final_siu_id, teacher_siu_id)
         return Result(data=response)
+
+    def list_comissions(self, teacher_siu_id):
+        response = self.client.list_comissions(teacher_siu_id)
+        return Result(data=response)
+
 
     def _build_act(self, final):
         return {}

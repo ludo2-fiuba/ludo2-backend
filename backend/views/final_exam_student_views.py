@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from backend.interactors.image_validator_interactor import ImageValidatorInteractor
@@ -8,13 +9,12 @@ from backend.interactors.siu_interactor import SiuInteractor
 from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
-from backend.utils import response_error_msg
 
 
 class FinalStudentExamViewSet(viewsets.ModelViewSet):
     queryset = FinalExam.objects.all()
     serializer_class = FinalExamSerializer
-    permission_classes = [permissions.IsAuthenticated, IsStudent]
+    permission_classes = [IsAuthenticated, IsStudent]
 
     @action(detail=False, methods=['POST'])
     def rendir(self, request):
@@ -53,7 +53,6 @@ class FinalStudentExamViewSet(viewsets.ModelViewSet):
         return request.data['final']
 
     def _serialize(self, relation):
-        import itertools
         page = self.paginate_queryset(relation)
         if page is not None:
             serializer = self.get_serializer(page, many=True)

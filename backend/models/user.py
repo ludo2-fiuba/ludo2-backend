@@ -28,7 +28,7 @@ class CustomUserManager(UserManager):
         if extra_fields['is_staff']:
             return user
         if extra_fields.get('is_teacher', False):
-            Teacher(user=user).save()
+            Teacher(user=user, face_encodings=face_encodings).save()
         elif extra_fields.get('is_student', False):
             Student(user=user, face_encodings=face_encodings).save()
         else:

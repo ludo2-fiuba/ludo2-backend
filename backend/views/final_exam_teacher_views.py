@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from backend.models import FinalExam, Final
@@ -8,10 +9,10 @@ from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
 
 
-class FinalTeacherExamViewSet(viewsets.ModelViewSet):
+class FinalTeacherExamViews(viewsets.ModelViewSet):
     queryset = FinalExam.objects.all()
     serializer_class = FinalExamSerializer
-    permission_classes = [permissions.IsAuthenticated, IsTeacher]
+    permission_classes = [IsAuthenticated, IsTeacher]
 
     @action(detail=True, methods=['PUT'])
     def grade(self, request, pk=None):
