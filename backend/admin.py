@@ -199,7 +199,7 @@ class FinalExamAdmin(admin.ModelAdmin):
     ordering = ('student', 'grade')
 
     def date(self, obj):
-        return obj.final.date
+        return obj.get_final.date
 
 
 @admin.register(Final)

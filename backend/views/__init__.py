@@ -4,4 +4,5 @@ from .final_exam_teacher_views import FinalTeacherExamViews
 from .final_teacher_views import FinalTeacherViewSet
 from .subject_views import SubjectViewSet
 from .comission_views import ComissionViewSet
+from .base_view import BaseViewSet
 

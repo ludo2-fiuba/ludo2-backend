@@ -14,6 +14,10 @@ class SiuInteractor:
         response = self.client.list_subjects()
         return Result(data=response)
 
+    def get_subject(self, subject_siu_id):
+        response = self.client.get_subject(subject_siu_id)
+        return Result(data=response)
+
     def correlative_subjects(self, subject_siu_id):
         response = self.client.list_correlatives(subject_siu_id)
         return Result(data=response)
@@ -24,11 +28,15 @@ class SiuInteractor:
         # TODO: endpoint for finals of a student?
         pass
 
-    def finals(self, teacher_siu_id, subject_siu_id):
+    def list_finals(self, teacher_siu_id, subject_siu_id):
         response = self.client.list_finals(teacher_siu_id, subject_siu_id)
         return Result(data=response)
 
-    def final(self, final_siu_id, teacher_siu_id):
+    def create_final(self, teacher_siu_id, subject_siu_id, timestamp):
+        response = self.client.create_final(teacher_siu_id, subject_siu_id, timestamp)
+        return Result(data=response)
+
+    def get_final(self, final_siu_id, teacher_siu_id):
         response = self.client.get_final(final_siu_id, teacher_siu_id)
         return Result(data=response)
 

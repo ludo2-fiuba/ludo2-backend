@@ -7,9 +7,10 @@ from rest_framework.response import Response
 from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
+from backend.views.base_view import BaseViewSet
 
 
-class FinalTeacherExamViews(viewsets.ModelViewSet):
+class FinalTeacherExamViews(BaseViewSet):
     queryset = FinalExam.objects.all()
     serializer_class = FinalExamSerializer
     permission_classes = [IsAuthenticated, IsTeacher]

@@ -18,6 +18,11 @@ class Final(models.Model):
     subject = models.CharField(max_length=100, db_index=True, null=False, editable=False)
     qrid = models.UUIDField(default=uuid.uuid4, editable=False)
     siu_id = models.IntegerField(db_index=True, default=0, null=False, editable=False)
+    status = models.CharField(
+      max_length=2,
+      choices=[(tag, tag.value) for tag in Status],  # Choices is a list of Tuple
+      default=Status.OPEN
+    )
 
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
@@ -31,4 +36,4 @@ class Final(models.Model):
     }
 
     def __str__(self):
-        return f"{self.id} - {self.siu_id} - {self.date.date()}"
+        return f"{self.id} - {self.siu_id} - {self.subject} - {self.date.date()}"

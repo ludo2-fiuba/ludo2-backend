@@ -8,12 +8,13 @@ class FinalInteractor:
         final_exams = FinalExam.objects.filter(final=final, grade__isnull=True)
         if len(final_exams) > 0:
             return Result(errors=[fe.id for fe in final_exams])
-        final.update(status=Final.Status.PENDING_ACT)
+        final.status = Final.Status.PENDING_ACT
+        final.save()
         # Trigger notifications and such
-        return Result()
+        return Result(data=final)
 
-    def create_act(self, final):
-        result = SiuInteractor().create_final_act(final)
-        if not result.errors:
-            final.update(status=Final.Status.ACT_SENT)
-        return result
+    def send_act(self, final):
+        SiuInteractor().create_final_act(final)
+        final.status = Final.Status.ACT_SENT
+        final.save()
+        return Result(data=final)
