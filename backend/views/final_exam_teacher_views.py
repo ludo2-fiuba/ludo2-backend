@@ -1,4 +1,4 @@
-from rest_framework import viewsets, status
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -17,11 +17,11 @@ class FinalTeacherExamViews(BaseViewSet):
 
     @action(detail=True, methods=['PUT'])
     def grade(self, request, pk=None):
-        serializer = self.serializer_class(self._fe(pk, request.user.teacher), data=request.data, partial=True)
+        serializer = self.get_serializer(self._fe(pk, request.user.teacher), data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def _fe(self, pk, teacher):
-        return get_object_or_404(FinalExam.objects, id=pk, final__teacher=teacher, status=Final.Status.OPEN)
+        return get_object_or_404(FinalExam.objects, id=pk, final__teacher=teacher, final__status=Final.Status.OPEN)

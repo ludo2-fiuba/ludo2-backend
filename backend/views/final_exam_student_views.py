@@ -18,7 +18,7 @@ class FinalStudentExamViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsStudent]
 
     @action(detail=False, methods=['POST'])
-    def rendir(self, request):
+    def take_exam(self, request):
         final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
         result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user.student)
@@ -28,7 +28,7 @@ class FinalStudentExamViewSet(BaseViewSet):
 
         fe = FinalExam(student=request.user.student, final=final)
         fe.save()
-        return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
+        return Response(self.get_serializer(fe).data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=["GET"])
     def history(self, request):
