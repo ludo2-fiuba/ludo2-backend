@@ -21,14 +21,14 @@ class FinalStudentExamViewSet(BaseViewSet):
     def take_exam(self, request):
         final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
-        result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user.student)
+        is_match = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user.student)
 
-        if not result.data:
+        if not is_match:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         fe = FinalExam(student=request.user.student, final=final)
         fe.save()
-        return Response(self.get_serializer(fe).data, status=status.HTTP_201_CREATED)
+        return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=["GET"])
     def history(self, request):

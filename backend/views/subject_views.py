@@ -3,18 +3,17 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
 from backend.interactors.siu_interactor import SiuInteractor
-from backend.permissions import IsStudent, IsTeacher
 from backend.views.utils import respond
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, IsStudent, IsTeacher]
+    permission_classes = [IsAuthenticated]
 
     def list(self, request):
         result = SiuInteractor().list_subjects()
-        respond(result, status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return respond(result)
 
     @action(detail=True, methods=["GET"])
     def correlatives(self, request, pk):
         result = SiuInteractor().correlative_subjects(pk)
-        respond(result, status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return respond(result)

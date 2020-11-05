@@ -1,12 +1,10 @@
 import io
 
-import PIL
 import face_recognition
 import numpy as np
 from PIL import UnidentifiedImageError
 
 from backend.api_exceptions import InvalidImageError
-from backend.interactors.result import Result
 from backend.utils import decode_image
 
 
@@ -17,15 +15,13 @@ class ImageValidatorInteractor:
     def validate_identity(self, student):
         self.validate_image()
 
-        result = face_recognition.compare_faces([self.face_encodings[0]], np.array(student.face_encodings))
-
-        return Result(data=result[0])
+        return face_recognition.compare_faces([self.face_encodings[0]], np.array(student.face_encodings))[0]
 
     def validate_image(self):
         self._validate_encoding()
         self._resize_image()
         self._detect_face()
-        return Result(data=self.face_encodings[0].tolist())
+        return self.face_encodings[0].tolist()
 
     def _validate_encoding(self):
         try:
