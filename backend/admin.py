@@ -194,18 +194,21 @@ class FinalExamAdmin(admin.ModelAdmin):
         }),
     )
 
-    list_display = ('student', 'date', 'grade')
+    list_display = ('subject','student', 'date', 'grade')
     search_fields = ('student', 'grade')
     ordering = ('student', 'grade')
 
     def date(self, obj):
-        return obj.get_final.date
+        return obj.final.date
+
+    def subject(self, obj):
+        return obj.final.subject
 
 
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
     title = "Final"
-    # fields = ('subject', 'teacher', 'date')
+    fields = ('subject', 'teacher', 'date')
     exclude = ('updated_at',)
     readonly_fields = ('date', 'qrid')
 
@@ -218,8 +221,8 @@ class FinalAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
 
-    list_display = ('date', 'download_qr')
-    search_fields = ('date',)
+    list_display = ('subject', 'teacher', 'date', 'download_qr')
+    search_fields = ('subject', 'date',)
 
     def download_qr(self, obj):
         return format_html(
