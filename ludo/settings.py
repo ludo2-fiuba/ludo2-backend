@@ -32,7 +32,7 @@ CSRF_COOKIE_SECURE=False
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'fathomless-ravine-54243.herokuapp.com', 'ludo-backend.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'https://dry-mountain-43255.herokuapp.com', 'ludo-backend.herokuapp.com']
 
 AUTH_USER_MODEL = 'backend.User'
 
