@@ -36,4 +36,4 @@ class Final(models.Model):
     }
 
     def __str__(self):
-        return f"{self.id} - {self.siu_id} - {self.subject} - {self.date.date()}"
+        return f"{self.siu_id} - {self.subject} - {self.teacher} - {self.date.date()}"

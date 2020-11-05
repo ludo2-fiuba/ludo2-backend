@@ -21,7 +21,7 @@ class FinalTeacherViewSet(BaseViewSet):
     def list(self, request):
         result = SiuInteractor().get_subject(request.query_params['subject_siu_id'])
         finals = self.queryset.filter(teacher=request.user.teacher, subject=result.data['name'])
-        return self._serialize(finals)
+        return self._paginate(finals)
 
     def create(self, request):
         result = SiuInteractor().create_final(request.user.teacher, request.data['subject_siu_id'], request.data["timestamp"])

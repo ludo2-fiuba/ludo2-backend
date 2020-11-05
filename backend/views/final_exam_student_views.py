@@ -1,3 +1,4 @@
+from django.db.models import F
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -33,14 +34,13 @@ class FinalStudentExamViewSet(BaseViewSet):
     @action(detail=False, methods=["GET"])
     def history(self, request):
         self.extra = {"grade_gte": FinalExam.PASSING_GRADE, "student": request.user.id}
-        return self._serialize(self.queryset)
+        return Response(self._group_by(self._paginate(self.queryset), 'subject'))
 
     @action(detail=False, methods=["GET"])
     def pending(self, request):
         self.extra = {"student": request.user.id}
-        # approved_subjects = [x.subject for x in self.queryset.annotate(subject=F('final__course__subject')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
-        approved_finals = [x.get_final for x in self.queryset.filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
-        return self._serialize(self.queryset.exclude(final__in=approved_finals))
+        subjects_passed = [x.subject for x in self.queryset.annotate(subject=F('final__subject')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
+        return Response(self._group_by(self._paginate(self.queryset.exclude(final__subject__in=subjects_passed)), 'subject'))
 
     @ action(detail=True, methods=["GET"])
     def correlatives(self, request, pk):
@@ -48,13 +48,17 @@ class FinalStudentExamViewSet(BaseViewSet):
         result = SiuInteractor().correlative_finals(fe.get_final.siu_id)
         if result.errors:
             return Response(result.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return self._serialize(self.queryset(final__course__subject__in=result.data, student=fe.student))
+        return Response(self._group_by(self._paginate(self.queryset(final__course__subject__in=result.data, student=fe.student)), 'subject'))
 
     def _info_from_qr(self, request):
         return request.data['final']
 
     def _filter_params(self):
         return dict({key: value for key, value in self.request.query_params.items()})
+
+    def _group_by(self, data, field):
+        import itertools
+        return {k: list(group) for k, group in itertools.groupby(data, lambda x: x[field])}
 
     def get_serializer_context(self):
         filter_params = {"filters": dict(self._filter_params(), **self.extra)}
