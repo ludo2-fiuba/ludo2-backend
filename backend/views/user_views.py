@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from backend.serializers.user_serializer import UserCustomCreateSerializer
-from ..interactors.image_validator_interactor import ImageValidatorInteractor
+from backend.services.image_validator_service import ImageValidatorService
 from ..models import User
 from ..permissions import IsStudent
 
@@ -20,5 +20,5 @@ class UserCustomViewSet(UserViewSet):
 
     @action(detail=False, methods=['POST'])
     def is_me(self, request):
-        result = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user.student)
+        result = ImageValidatorService(request.data['photo']).validate_identity(request.user.student)
         return Response({"match": result}, status=status.HTTP_200_OK)

@@ -5,8 +5,8 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.interactors.image_validator_interactor import ImageValidatorInteractor
-from backend.interactors.siu_interactor import SiuInteractor
+from backend.services.image_validator_service import ImageValidatorService
+from backend.services.siu_service import SiuService
 from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
@@ -22,7 +22,7 @@ class FinalStudentExamViewSet(BaseViewSet):
     def take_exam(self, request):
         final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
 
-        is_match = ImageValidatorInteractor(request.data['photo']).validate_identity(request.user.student)
+        is_match = ImageValidatorService(request.data['photo']).validate_identity(request.user.student)
 
         if not is_match:
             return Response(status=status.HTTP_403_FORBIDDEN)
@@ -45,7 +45,7 @@ class FinalStudentExamViewSet(BaseViewSet):
     @ action(detail=True, methods=["GET"])
     def correlatives(self, request, pk):
         fe = get_object_or_404(FinalExam.object, id=pk, student=request.user.student)
-        result = SiuInteractor().correlative_finals(fe.get_final.siu_id)
+        result = SiuService().correlative_finals(fe.get_final.siu_id)
         if result.errors:
             return Response(result.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(self._group_by(self._paginate(self.queryset(final__course__subject__in=result.data, student=fe.student)), 'subject'))

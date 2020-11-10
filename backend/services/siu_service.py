@@ -1,8 +1,8 @@
 from backend.client.siu_client import SiuClient
-from backend.interactors.result import Result
+from backend.services.result import Result
 
 
-class SiuInteractor:
+class SiuService:
     def __init__(self):
         self.client = SiuClient()
 

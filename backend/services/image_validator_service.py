@@ -8,7 +8,7 @@ from backend.api_exceptions import InvalidImageError
 from backend.utils import decode_image
 
 
-class ImageValidatorInteractor:
+class ImageValidatorService:
     def __init__(self, b64_string):
         self.b64_string = b64_string
 

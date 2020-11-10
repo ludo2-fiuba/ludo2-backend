@@ -1,9 +1,9 @@
-from backend.interactors.result import Result
-from backend.interactors.siu_interactor import SiuInteractor
+from backend.services.result import Result
+from backend.services.siu_service import SiuService
 from backend.models import FinalExam, Final
 
 
-class FinalInteractor:
+class FinalService:
     def close(self, final):
         final_exams = FinalExam.objects.filter(final=final, grade__isnull=True)
         if len(final_exams) > 0:
@@ -14,7 +14,7 @@ class FinalInteractor:
         return Result(data=final)
 
     def send_act(self, final):
-        SiuInteractor().create_final_act(final)
+        SiuService().create_final_act(final)
         final.status = Final.Status.ACT_SENT
         final.save()
         return Result(data=final)
