@@ -1,6 +1,6 @@
 import requests
 
-from backend.client.ClientHandler import ClientHandler
+from backend.client.client_handler import ClientHandler
 
 
 class SiuClient:

@@ -1,18 +1,19 @@
 # Python implementation of Libreta Universitaria Digital Oficial
 
-## Requirements
+## Run Locally
+
+### Requirements
 - Python3
-- Django
 - PostgreSQL
 
-## Setup dependencies
+### Setup dependencies
 ```
 1. Get Python 3.7+
 2. Install pip
 3. pip3 install -r requirements.txt
 ```
 
-## Setup DB
+### Setup DB
 Create role and database 'ludo' with password 'ludo' locally.
 ```
 sudo -u postgres psql;
@@ -21,28 +22,39 @@ create user ludo with encrypted password 'ludo';
 grant all privileges on database ludo to ludo;
 ```
 
-## Start Server
-Just run
+### Setup initial data
+Run the following every time the database is created from scratch:
+- python3 manage.py migrate
+- python3 manage.py initdata
+
+## Migrate
+For each change in your models that implicates a change in the data stored in the database, you will
+have to run the following
+- `python3 manage.py makemigrations` to create migrations for those changes
+- `python3 manage.py migrate` to apply those changes to the database.
+
+## Run Server
+Run
 ```
 python3 manage.py runserver
 ```
 The server will start by default on the port 8000
 
-## Migrate
-For each change in your models that implicates a change in the data stored in the databse, you will
-have to run the following
-- `python3 manage.py makemigrations` to create migrations for those changes
-- `python3 manage.py migrate` to apply those changes to the database.
+## Run with Docker
+
+### Requirements
+- Docker
+
+### Run server
+Run
+```
+docker-compose up --build
+```
+The server will start by default on the port 8007
 
 ## API Specification
-The endpoints of the API are documented using Swagger 2.0 (pending OpenApi 3.0 availability) and are 
-described in the following paths:
-```
-A JSON view of the API specification at /swagger.json
-A YAML view of the API specification at /swagger.yaml
-A swagger-ui view of the API specification at /swagger/
-A ReDoc view of the API specification at /redoc/
-```
+The endpoints of the API are exemplified in Postman in the following collection: https://www.getpostman.com/collections/d34849a7f0ccdae5831f
+
 
 ## Deployed application
 The application is running at `https://ludo-backend.herokuapp.com`
