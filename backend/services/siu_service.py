@@ -11,8 +11,7 @@ class SiuService:
         return Result()
 
     def list_subjects(self):
-        response = self.client.list_subjects()
-        return Result(data=response)
+        return self.client.list_subjects()
 
     def get_subject(self, subject_siu_id):
         response = self.client.get_subject(subject_siu_id)
@@ -43,7 +42,6 @@ class SiuService:
     def list_comissions(self, teacher_siu_id):
         response = self.client.list_comissions(teacher_siu_id)
         return Result(data=response)
-
 
     def _build_act(self, final):
         return {}

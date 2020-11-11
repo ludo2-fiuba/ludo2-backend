@@ -1,9 +1,19 @@
+import requests
+
+from backend.client.ClientHandler import ClientHandler
+
+
 class SiuClient:
+    SIU_URL = "http://localhost:3000"
+
+    def __init__(self, handler=ClientHandler()):
+        self.handler = handler
+
     def create_act(self, act):
         pass
 
     def list_subjects(self):
-        return []
+        return self.handler.get(self.SIU_URL + '/materias')
 
     def get_subject(self, subject_siu_id):
         return {'id': 1, 'name': 'Algoritmos y Programación I'}

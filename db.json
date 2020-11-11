@@ -1,0 +1,13 @@
+{
+	"materias": [
+		{ "id": "1", "codigo": "62.01", "nombre": "Física I", "correlativas": []},
+		{ "id": "2", "codigo": "62.02", "nombre": "Física II", "correlativas": ["62.01", "61.01"]},
+		{ "id": "3", "codigo": "61.01", "nombre": "Análisis Matemático II", "correlativas": []},
+		{ "id": "4", "codigo": "61.03", "nombre": "Álgebra II", "correlativas": []},
+		{ "id": "5", "codigo": "75.40", "nombre": "Algoritmos y Programación I", "correlativas": []},
+		{ "id": "6", "codigo": "75.41", "nombre": "Algoritmos y Programación II", "correlativas": ["75.40"]},
+		{ "id": "7", "codigo": "75.07", "nombre": "Algoritmos y Programación III", "correlativas": ["75.41"]},
+		{ "id": "8", "codigo": "63.01", "nombre": "Química I", "correlativas": []},
+		{ "id": "9", "codigo": "61.07", "nombre": "Matemática Discreta", "correlativas": []}
+	]
+}

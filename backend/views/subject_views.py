@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
 from backend.services.siu_service import SiuService
-from backend.views.utils import respond
+from backend.views.utils import respond, respond_2
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
@@ -11,7 +11,7 @@ class SubjectViewSet(viewsets.ModelViewSet):
 
     def list(self, request):
         result = SiuService().list_subjects()
-        return respond(result)
+        return respond_2(result)
 
     @action(detail=True, methods=["GET"])
     def correlatives(self, request, pk):

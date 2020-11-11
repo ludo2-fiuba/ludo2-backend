@@ -11,12 +11,13 @@ django-environ
 djoser
 dj-database-url
 drf-nested-routers
+face_recognition
 factory_boy
 gunicorn
 markdown
 python-stdnum
 psycopg2-binary
+requests
 rest_condition
 qrcode
 whitenoise
-face_recognition

@@ -5,6 +5,9 @@ from rest_framework.response import Response
 def respond(result, response_status=status.HTTP_200_OK):
     return Response(result.data, status=response_status)
 
+def respond_2(result, response_status=status.HTTP_200_OK):
+    return Response(result, status=response_status)
+
 
 def serialize(self, relation):
     page = self.paginate_queryset(relation)
