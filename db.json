@@ -62,6 +62,20 @@
       "correlativas": []
     }
   ],
+  "alumnos": [
+  	{
+  		"id": 1,
+  		"padron": 94557,
+  		"dni": 37247189,
+  		"email": "fede.est@gmail.com"
+  	},
+  	{
+  		"id": 2,
+  		"padron": 95557,
+  		"dni": 38157957,
+  		"email": "danielap.riesgo@gmail.com"
+  	},
+  ],
   "docentes": [
     {
       "id": 1,
@@ -82,18 +96,6 @@
       "docenteId": 1,
       "materiaId": 9,
       "timestamp": 1597952052
-    },
-    {
-      "{\"materiaId\": 9, \"timestamp\": 1605652352}": "",
-      "createdAt": 1605654140463,
-      "docenteId": "1",
-      "id": 2
-    },
-    {
-      "{\"materiaId\": 9, \"timestamp\": 1605652352}": "",
-      "createdAt": 1605654212116,
-      "docenteId": "1",
-      "id": 3
     },
     {
       "materiaId": 9,
