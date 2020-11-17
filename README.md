@@ -18,8 +18,6 @@ Create role and database 'ludo' with password 'ludo' locally.
 ```
 sudo -u postgres psql;
 create database ludo;
-create user ludo with encrypted password 'ludo';
-grant all privileges on database ludo to ludo;
 ```
 
 ### Setup initial data

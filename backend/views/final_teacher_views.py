@@ -3,6 +3,7 @@ from datetime import datetime
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from backend.services.final_service import FinalService
 from backend.services.siu_service import SiuService
@@ -19,9 +20,9 @@ class FinalTeacherViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsTeacher]
 
     def list(self, request):
-        result = SiuService().get_subject(request.query_params['subject_siu_id'])
-        finals = self.queryset.filter(teacher=request.user.teacher, subject=result.data['name'])
-        return self._paginate(finals)
+        subject = SiuService().get_subject(request.query_params['subject_siu_id'])
+        finals = self.queryset.filter(teacher=request.user.teacher, subject=subject["nombre"])
+        return Response(self._paginate(finals))
 
     def create(self, request):
         result = SiuService().create_final(request.user.teacher, request.data['subject_siu_id'], request.data["timestamp"])

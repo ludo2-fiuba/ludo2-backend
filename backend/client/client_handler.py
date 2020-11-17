@@ -7,18 +7,18 @@ from backend.api_exceptions import ErrorCommunicatingWithExternalSourceError
 class ClientHandler:
     LOG = logging.getLogger("ClientHandler")
 
-    def get(self, url, headers=None):
+    def get(self, url, params=None, headers=None):
         self.LOG.debug(f"Making GET request to {url} with headers {headers}")
-        r = self._make_request(url, headers, requests.get)
+        r = self._make_request(url, headers, params, requests.get)
         self.LOG.debug(f"Received response with status code {r.status_code} and body {r.text}")
         return r.json()
 
-    def post(self, url, payload=None, headers=None):
+    def post(self, url, data=None, headers=None):
         pass
 
-    def _make_request(self, url, headers, method):
+    def _make_request(self, url, headers, params, method):
         try:
-            r = method(url, headers)
+            r = method(url, headers=headers, params=params)
             if not r.ok:
                 self.LOG.error(f"Unexpected response from external source with status {r.status_code} and body {r.text}")
                 raise ErrorCommunicatingWithExternalSourceError(status_code=r.status_code, detail="Invalid response from eternal source")

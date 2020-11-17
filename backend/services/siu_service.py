@@ -14,8 +14,7 @@ class SiuService:
         return self.client.list_subjects()
 
     def get_subject(self, subject_siu_id):
-        response = self.client.get_subject(subject_siu_id)
-        return Result(data=response)
+        return self.client.get_subject(subject_siu_id)
 
     def correlative_subjects(self, subject_siu_id):
         response = self.client.list_correlatives(subject_siu_id)

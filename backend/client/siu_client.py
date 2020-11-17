@@ -16,7 +16,7 @@ class SiuClient:
         return self.handler.get(self.SIU_URL + '/materias')
 
     def get_subject(self, subject_siu_id):
-        return {'id': 1, 'name': 'Algoritmos y Programación I'}
+        return self.handler.get(self.SIU_URL + '/materias/' + subject_siu_id)
 
     def list_correlatives(self, subject_siu_id):
         return []

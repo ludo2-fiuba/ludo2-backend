@@ -432,7 +432,7 @@
     "fields": {
       "siu_id": 18,
       "teacher": 5,
-      "subject": "Matemátia Discreta",
+      "subject": "Matemática Discreta",
       "date": "2020-07-11T19:00:00-03:00"
     }
   },
@@ -442,7 +442,7 @@
     "fields": {
       "siu_id": 19,
       "teacher": 5,
-      "subject": "Matemátia Discreta",
+      "subject": "Matemática Discreta",
       "date": "2020-07-18T19:00:00-03:00"
     }
   },
