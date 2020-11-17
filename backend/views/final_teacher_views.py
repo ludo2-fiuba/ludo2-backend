@@ -9,7 +9,7 @@ from backend.services.final_service import FinalService
 from backend.services.siu_service import SiuService
 from backend.models import Final
 from backend.permissions import *
-from backend.serializers.final_serializer import FinalTeacherSerializer
+from backend.serializers.final_serializer import FinalTeacherSerializer, FinalTeacherListSerializer
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import respond
 
@@ -22,12 +22,12 @@ class FinalTeacherViewSet(BaseViewSet):
     def list(self, request):
         subject = SiuService().get_subject(request.query_params['subject_siu_id'])
         finals = self.queryset.filter(teacher=request.user.teacher, subject=subject["nombre"])
-        return Response(self._paginate(finals))
+        return Response(self._paginate(finals, FinalTeacherListSerializer))
 
     def create(self, request):
-        result = SiuService().create_final(request.user.teacher, request.data['subject_siu_id'], request.data["timestamp"])
+        siu_final = SiuService().create_final(request.user.teacher.siu_id, request.data['subject_siu_id'], request.data["timestamp"])
         final = Final(
-            siu_id=result.data["id"],
+            siu_id=siu_final["id"],
             subject=request.data['subject_name'],
             date=datetime.utcfromtimestamp(request.data['timestamp']),
             teacher=request.user.teacher)
