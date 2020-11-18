@@ -1,6 +1,8 @@
 import requests
 import logging
 
+from rest_framework import status
+
 from backend.api_exceptions import ErrorCommunicatingWithExternalSourceError
 
 
@@ -28,4 +30,4 @@ class ClientHandler:
             return r
         except requests.exceptions.RequestException as e:
             self.LOG.error(f"An unexpected error occurred, tried performing request but resulted in {e}")
-            raise ErrorCommunicatingWithExternalSourceError(detail="Unexpected error when communicating with external source")
+            raise ErrorCommunicatingWithExternalSourceError(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Unexpected error when communicating with external source")

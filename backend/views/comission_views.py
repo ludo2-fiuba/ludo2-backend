@@ -11,5 +11,5 @@ class ComissionViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsTeacher]
 
     def list(self, request, *args, **kwargs):
-        result = SiuService().list_comissions(request.user.teacher.pk) # TODO: change for siu_id
+        result = SiuService().list_comissions(request.user.teacher.siu_id)
         return respond(result, status.HTTP_200_OK)

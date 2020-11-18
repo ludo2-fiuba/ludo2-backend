@@ -9,6 +9,8 @@ WORKDIR /usr/src/ludo
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+ENV SIU_URL $SIU_URL
+
 # install psycopg2 dependencies
 # https://stackoverflow.com/a/52655008/3663124
 RUN apt-get update \

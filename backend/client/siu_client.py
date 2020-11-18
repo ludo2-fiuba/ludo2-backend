@@ -1,10 +1,10 @@
-import requests
+import os
 
 from backend.client.client_handler import ClientHandler
 
 
 class SiuClient:
-    SIU_URL = "http://localhost:3000"
+    SIU_URL = os.environ["SIU_URL"]
 
     def __init__(self, handler=ClientHandler()):
         self.handler = handler
