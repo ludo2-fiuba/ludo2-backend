@@ -33,7 +33,7 @@ class SiuService:
         response = self.client.get_final(final_siu_id, teacher_siu_id)
         return Result(data=response)
 
-    def list_comissions(self, teacher_siu_id): #TODO
+    def list_comissions(self, teacher_siu_id):
         response = self.client.list_comissions(teacher_siu_id)
         return Result(data=response)
 

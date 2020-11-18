@@ -32,4 +32,4 @@ class SiuClient:
         return {}
 
     def list_comissions(self, teacher_siu_id):
-        return []
+        return self.handler.get(f"{self.SIU_URL}/docentes/{teacher_siu_id}/comisiones")
