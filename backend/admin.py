@@ -203,15 +203,15 @@ class FinalExamAdmin(admin.ModelAdmin):
         return obj.final.date
 
     def subject(self, obj):
-        return obj.final.subject
+        return obj.final.subject_name
 
 
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
     title = "Final"
-    fields = ('subject', 'teacher', 'date', 'qrid')
+    fields = ('subject_name', 'subject_siu_id', 'teacher', 'date', 'qrid')
     exclude = ('updated_at',)
-    readonly_fields = ('subject', 'date', 'qrid')
+    readonly_fields = ('subject_name', 'subject_siu_id', 'date', 'qrid')
 
     def get_urls(self):
         urls = super().get_urls()
@@ -222,8 +222,8 @@ class FinalAdmin(admin.ModelAdmin):
         ]
         return my_urls + urls
 
-    list_display = ('subject', 'teacher', 'date', 'download_qr')
-    search_fields = ('subject', 'date',)
+    list_display = ('subject_name', 'subject_siu_id', 'teacher', 'date', 'download_qr')
+    search_fields = ('subject_name', 'date',)
 
     def download_qr(self, obj):
         return format_html(

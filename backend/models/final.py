@@ -15,7 +15,8 @@ class Final(models.Model):
 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='finals')
     date = models.DateTimeField(db_index=True, null=False, editable=False)
-    subject = models.CharField(max_length=100, db_index=True, null=False, editable=False)
+    subject_name = models.CharField(max_length=100, db_index=True, null=False, editable=False)
+    subject_siu_id = models.IntegerField(db_index=True, default=0, null=False, editable=False)
     qrid = models.UUIDField(default=uuid.uuid4, editable=False)
     siu_id = models.IntegerField(db_index=True, default=0, null=False, editable=False)
     status = models.CharField(
@@ -36,4 +37,4 @@ class Final(models.Model):
     }
 
     def __str__(self):
-        return f"{self.siu_id} - {self.subject} - {self.teacher} - {self.date.date()}"
+        return f"{self.siu_id} - {self.subject_name} - {self.teacher} - {self.date.date()}"

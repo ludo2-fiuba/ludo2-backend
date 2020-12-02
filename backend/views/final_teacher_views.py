@@ -20,15 +20,15 @@ class FinalTeacherViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsTeacher]
 
     def list(self, request):
-        subject = SiuService().get_subject(request.query_params['subject_siu_id'])
-        finals = self.queryset.filter(teacher=request.user.teacher, subject=subject["nombre"])
+        finals = self.queryset.filter(teacher=request.user.teacher, subject_siu_id=request.query_params['subject_siu_id'])
         return Response(self._paginate(finals, FinalTeacherListSerializer))
 
     def create(self, request):
         siu_final = SiuService().create_final(request.user.teacher.siu_id, request.data['subject_siu_id'], request.data["timestamp"])
         final = Final(
             siu_id=siu_final["id"],
-            subject=request.data['subject_name'],
+            subject_name=request.data['subject_name'],
+            subject_siu_id=request.data['subject_siu_id'],
             date=datetime.utcfromtimestamp(request.data['timestamp']),
             teacher=request.user.teacher)
         final.save()

@@ -16,7 +16,7 @@ class FinalExam(models.Model):
     ALLOWED_FILTERS = {
         "year": "final__date__year",
         "grade_gte": "grade__gte",
-        "subject": "final__subject__contains",
+        "subject": "final__subject_name__contains",
         "student": "student"
     }
 
@@ -26,7 +26,7 @@ class FinalExam(models.Model):
         return self.final.date
 
     def subject(self):
-        return self.final.subject
+        return self.final.subject_name
 
     def teacher(self):
         return self.final.teacher

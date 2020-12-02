@@ -39,16 +39,15 @@ class FinalStudentExamViewSet(BaseViewSet):
     @action(detail=False, methods=["GET"])
     def pending(self, request):
         self.extra = {"student": request.user.id}
-        subjects_passed = [x.subject for x in self.queryset.annotate(subject=F('final__subject')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
-        return Response(self._group_by(self._paginate(self.queryset.exclude(final__subject__in=subjects_passed)), 'subject'))
+        subjects_passed = [x.subject for x in self.queryset.annotate(subject=F('final__subject_name')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
+        return Response(self._group_by(self._paginate(self.queryset.exclude(final__subject_name__in=subjects_passed)), 'subject'))
 
     @ action(detail=True, methods=["GET"])
     def correlatives(self, request, pk):
-        fe = get_object_or_404(FinalExam.object, id=pk, student=request.user.student)
-        result = SiuService().correlative_finals(fe.get_final.siu_id)
-        if result.errors:
-            return Response(result.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response(self._group_by(self._paginate(self.queryset(final__course__subject__in=result.data, student=fe.student)), 'subject'))
+        self.extra = {}
+        fe = get_object_or_404(FinalExam.objects, id=pk, student=request.user.student)
+        result = SiuService().correlative_subjects(fe.final.subject_siu_id)
+        return Response(self._paginate(self.queryset.filter(final__subject_name__in=[subject['nombre'] for subject in result], student=request.user.id)))
 
     def _info_from_qr(self, request):
         return request.data['final']

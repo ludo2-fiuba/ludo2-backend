@@ -16,9 +16,8 @@ class SiuService:
     def get_subject(self, subject_siu_id):
         return self.client.get_subject(subject_siu_id)
 
-    def correlative_subjects(self, subject_siu_id): #TODO needed?
-        response = self.client.list_correlatives(subject_siu_id)
-        return Result(data=response)
+    def correlative_subjects(self, subject_siu_id):
+        return self.client.list_correlatives(subject_siu_id)
 
     def correlative_finals(self, final_siu_id): #TODO
         subject = self.client.get_subject_from_fina(final_siu_id)
@@ -34,8 +33,7 @@ class SiuService:
         return Result(data=response)
 
     def list_comissions(self, teacher_siu_id):
-        response = self.client.list_comissions(teacher_siu_id)
-        return Result(data=response)
+        return self.client.list_comissions(teacher_siu_id)
 
     def _build_act(self, final):
         return {}
