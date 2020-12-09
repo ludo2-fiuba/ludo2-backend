@@ -160,9 +160,10 @@ class TeacherAdmin(ReverseModelAdmin):
     inline_type = 'tabular'
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
-    list_display = ('dni', 'first_name', 'last_name', 'legajo')
-    # search_fields = ('dni', 'first_name', 'last_name', 'legajo')
-    # ordering = ('dni'', 'first_name', 'last_name', 'legajo')
+    list_display = ('dni', 'first_name', 'siu_id','last_name', 'legajo')
+    exclude = ("face_encodings", )
+    search_fields = ('dni', 'first_name', 'siu_id', 'last_name', 'legajo')
+    readonly_fields = ('dni', 'first_name', 'siu_id', 'last_name', 'legajo', 'user')
 
     def get_password(self, obj):
         return obj.user.password
