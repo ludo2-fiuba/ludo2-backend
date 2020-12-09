@@ -444,7 +444,7 @@
       "siu_id": 17,
       "teacher": 5,
       "subject_name": "Química I",
-       "subject_siu_id": 8,
+      "subject_siu_id": 8,
       "date": "2020-01-11T19:00:00-03:00"
     }
   },
@@ -455,7 +455,7 @@
       "siu_id": 18,
       "teacher": 5,
       "subject_name": "Matemática Discreta",
-       "subject_siu_id": 9,
+      "subject_siu_id": 9,
       "date": "2020-07-11T19:00:00-03:00"
     }
   },
@@ -466,7 +466,7 @@
       "siu_id": 19,
       "teacher": 5,
       "subject_name": "Matemática Discreta",
-       "subject_siu_id": 9,
+      "subject_siu_id": 9,
       "date": "2020-07-18T19:00:00-03:00"
     }
   },
