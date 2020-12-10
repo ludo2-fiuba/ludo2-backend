@@ -7,13 +7,12 @@ from rest_framework.response import Response
 from backend.serializers.user_serializer import UserCustomCreateSerializer
 from backend.services.image_validator_service import ImageValidatorService
 from ..models import User
-from ..permissions import IsStudent, IsTeacher
 
 
 class UserCustomViewSet(UserViewSet):
     queryset = User.objects.all()
     serializer_class = UserCustomCreateSerializer
-    permission_classes = [IsAuthenticated, IsStudent, IsTeacher]
+    permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
         return UserCustomCreateSerializer
