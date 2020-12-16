@@ -12,4 +12,4 @@ class ComissionViewSet(BaseViewSet):
 
     def list(self, request, *args, **kwargs):
         result = SiuService().list_comissions(request.user.teacher.siu_id)
-        return respond_2(result, status.HTTP_200_OK)
+        return respond_2(result)

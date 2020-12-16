@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -11,7 +12,7 @@ from backend.models import Final
 from backend.permissions import *
 from backend.serializers.final_serializer import FinalTeacherSerializer, FinalTeacherListSerializer
 from backend.views.base_view import BaseViewSet
-from backend.views.utils import respond
+from backend.views.utils import respond, respond_2
 
 
 class FinalTeacherViewSet(BaseViewSet):
@@ -32,7 +33,7 @@ class FinalTeacherViewSet(BaseViewSet):
             date=datetime.utcfromtimestamp(request.data['timestamp']),
             teacher=request.user.teacher)
         final.save()
-        return respond(self.get_serializer(final))
+        return respond(self.get_serializer(final), response_status=status.HTTP_201_CREATED)
 
     def detail(self, request, pk=None):
         return respond(self.get_serializer(self._get_final(request.user.teacher, pk)))
