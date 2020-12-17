@@ -24,4 +24,4 @@ class FinalTeacherExamViews(BaseViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def _fe(self, pk, teacher):
-        return get_object_or_404(FinalExam.objects, id=pk, final__teacher=teacher, final__status=Final.Status.OPEN)
+        return get_object_or_404(FinalExam.objects, id=pk, final__teacher=teacher, final__status=Final.Status.PENDING_ACT)
