@@ -8,7 +8,7 @@ class SiuService:
 
     def create_final_act(self, final): # TODO
         self.client.create_act(self._build_act(final))
-        return Result()
+        return {'result': 'ok'}
 
     def list_subjects(self):
         return self.client.list_subjects()

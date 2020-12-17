@@ -41,8 +41,9 @@ class FinalTeacherViewSet(BaseViewSet):
 
     @action(detail=True, methods=['POST'])
     def close(self, request, pk):
-        result = FinalService().close(self._get_final(request.user.teacher, pk))
-        return respond(self.get_serializer(result.data))
+        final = self._get_final(request.user.teacher, pk)
+        FinalService().close(final)
+        return respond(self.get_serializer(final))
 
     @action(detail=True, methods=['PUT'])
     def grade(self, request, pk):
@@ -52,8 +53,9 @@ class FinalTeacherViewSet(BaseViewSet):
 
     @action(detail=True, methods=['POST'])
     def send_act(self, request, pk):
-        result = FinalService().send_act(self._get_final(request.user.teacher, pk))
-        return respond(self.get_serializer(result.data))
+        final = self._get_final(request.user.teacher, pk)
+        FinalService().send_act(final)
+        return respond(self.get_serializer(final))
 
     def _get_final(self, teacher, pk):
         return get_object_or_404(Final.objects, teacher=teacher, id=pk)

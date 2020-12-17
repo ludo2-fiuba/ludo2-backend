@@ -1,8 +1,7 @@
 from django.db import transaction, IntegrityError
 
 from backend.api_exceptions import InvalidDataError
-from backend.models import FinalExam, Final
-from backend.services.result import Result
+from backend.models import Final
 from backend.services.siu_service import SiuService
 
 
@@ -22,16 +21,13 @@ class FinalService:
                 raise InvalidDataError(detail="Some grade is invalid")
 
     def close(self, final):
-        final_exams = FinalExam.objects.filter(final=final, grade__isnull=True)
-        if len(final_exams) > 0:
-            return Result(errors=[fe.id for fe in final_exams])
         final.status = Final.Status.PENDING_ACT
         final.save()
         # Trigger notifications and such
-        return Result(data=final)
 
     def send_act(self, final):
-        SiuService().create_final_act(final)
+        response = SiuService().create_final_act(final)
+        if response['result'] != 'ok':
+            pass
         final.status = Final.Status.ACT_SENT
         final.save()
-        return Result(data=final)
