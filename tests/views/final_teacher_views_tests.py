@@ -6,6 +6,7 @@ from rest_framework.test import APITestCase
 from unittest import mock
 
 from backend.models import Final
+from backend.services.final_service import FinalService
 from backend.services.siu_service import SiuService
 from ..factories import TeacherFactory, FinalFactory, FinalExamFactory
 
@@ -115,6 +116,32 @@ class FinalTeacherViewsTests(APITestCase):
         """
         url = f"/api/finals/1/close/"
         response = self.client.post(url, format='json')
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_grade(self):
+        self.client.force_authenticate(user=self.teacher.user)
+
+        final = FinalFactory(teacher=self.teacher, status=Final.Status.PENDING_ACT)
+        final_exams = FinalExamFactory.create_batch(size=2, final=final, grade=None)
+
+        grades = {fe.id: Faker().random_int(1, 10) for fe in final_exams}
+
+        url = f"/api/finals/{final.id}/grade/"
+
+        response = self.client.put(url, format='json', data={'grades': grades})
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], final.id)
+        for fe in response.data['final_exams']:
+            self.assertEqual(fe['grade'], grades[fe['id']])
+
+    def test_close_not_logged_in(self):
+        """
+        Should fail if unauthorized
+        """
+        url = f"/api/finals/1/grade/"
+        response = self.client.put(url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
