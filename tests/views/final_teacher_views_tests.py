@@ -110,6 +110,14 @@ class FinalTeacherViewsTests(APITestCase):
     def test_close(self):
         self.client.force_authenticate(user=self.teacher.user)
 
+        final = FinalFactory(teacher=self.teacher, status=Final.Status.OPEN)
+
+        url = f"/api/finals/{final.id}/close/"
+
+        response = self.client.post(url, format='json')
+
+        self.assertEqual(response.data['status'], Final.Status.PENDING_ACT)
+
     def test_close_not_logged_in(self):
         """
         Should fail if unauthorized
@@ -136,7 +144,7 @@ class FinalTeacherViewsTests(APITestCase):
         for fe in response.data['final_exams']:
             self.assertEqual(fe['grade'], grades[fe['id']])
 
-    def test_close_not_logged_in(self):
+    def test_grade_not_logged_in(self):
         """
         Should fail if unauthorized
         """
@@ -147,6 +155,17 @@ class FinalTeacherViewsTests(APITestCase):
 
     def test_send_act(self):
         self.client.force_authenticate(user=self.teacher.user)
+
+        with mock.patch.object(SiuService, "__init__", lambda x: None):
+            with mock.patch.object(SiuService, "create_final_act", lambda x, y: {'result': 'ok'}):
+
+                final = FinalFactory(teacher=self.teacher, status=Final.Status.PENDING_ACT)
+
+                url = f"/api/finals/{final.id}/send_act/"
+
+                response = self.client.post(url, format='json')
+
+                self.assertEqual(response.data['status'], Final.Status.ACT_SENT)
 
     def test_send_act_not_logged_in(self):
         """
