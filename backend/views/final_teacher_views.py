@@ -6,13 +6,14 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.services.final_service import FinalService
-from backend.services.siu_service import SiuService
 from backend.models import Final
 from backend.permissions import *
 from backend.serializers.final_serializer import FinalTeacherSerializer, FinalTeacherListSerializer
+
+from backend.services.final_service import FinalService
+from backend.services.siu_service import SiuService
 from backend.views.base_view import BaseViewSet
-from backend.views.utils import respond, respond_2
+from backend.views.utils import respond
 
 
 class FinalTeacherViewSet(BaseViewSet):
@@ -42,6 +43,12 @@ class FinalTeacherViewSet(BaseViewSet):
     def close(self, request, pk):
         result = FinalService().close(self._get_final(request.user.teacher, pk))
         return respond(self.get_serializer(result.data))
+
+    @action(detail=True, methods=['PUT'])
+    def grade(self, request, pk):
+        final = self._get_final(request.user.teacher, pk)
+        FinalService().grade(final, request.data['grades'])
+        return respond(self.get_serializer(final))
 
     @action(detail=True, methods=['POST'])
     def send_act(self, request, pk):

@@ -1,5 +1,4 @@
 from rest_framework.exceptions import APIException
-from rest_framework.views import exception_handler
 
 
 class InvalidImageError(APIException):
@@ -15,6 +14,10 @@ class ErrorCommunicatingWithExternalSourceError(APIException):
         super().__init__(**kwargs)
         self.status_code = status_code
 
+
+class InvalidDataError(APIException):
+    status_code = 422
+    default_code = 'invalid_data'
 
 # def custom_exception_handler(exc, context):
 #     # Call REST framework's default exception handler first,
