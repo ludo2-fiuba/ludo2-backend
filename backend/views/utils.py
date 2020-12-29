@@ -3,10 +3,10 @@ from rest_framework.response import Response
 
 
 def respond(result, response_status=status.HTTP_200_OK):
-    return Response(result.data, status=response_status)
+    return respond_plain(result.data, response_status=response_status)
 
 
-def respond_2(result, response_status=status.HTTP_200_OK):
+def respond_plain(result, response_status=status.HTTP_200_OK):
     return Response(result, status=response_status)
 
 
@@ -18,4 +18,3 @@ def serialize(self, relation):
 
     serializer = self.get_serializer(relation, many=True)
     return Response(serializer.data)
-    #return Response({k: list(group) for k, group in itertools.groupby(serializer.data, lambda x: x['subject'])})
