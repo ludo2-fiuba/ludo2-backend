@@ -1,4 +1,3 @@
-from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
 from backend.permissions import IsTeacher

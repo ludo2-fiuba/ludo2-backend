@@ -1,12 +1,11 @@
 from datetime import datetime
+from unittest import mock
 
 from faker import Faker
 from rest_framework import status, serializers
 from rest_framework.test import APITestCase
-from unittest import mock
 
 from backend.models import Final
-from backend.services.final_service import FinalService
 from backend.services.siu_service import SiuService
 from ..factories import TeacherFactory, FinalFactory, FinalExamFactory
 
@@ -17,13 +16,13 @@ class FinalTeacherViewsTests(APITestCase):
         self.subject_siu_id = Faker().numerify(text='###')
         self.subject_name = Faker().word()
 
-    def test_list(self):
+    def test_success(self):
         """
         Should fetch all finals belonging to authenticated teacher and which have the subject_siu_id
         passed by parameter
         """
-        self.client.force_authenticate(user=self.teacher.user)
         list_url = f"/api/finals/"
+        self.client.force_authenticate(user=self.teacher.user)
 
         finals = FinalFactory.create_batch(size=3, teacher=self.teacher, subject_siu_id=self.subject_siu_id)
         other_finals = FinalFactory.create_batch(size=3, teacher=self.teacher, subject_siu_id=self.subject_siu_id + "2")
@@ -37,12 +36,12 @@ class FinalTeacherViewsTests(APITestCase):
             sorted([final.id for final in finals])
         )
 
-    def test_list_not_logged_in(self):
+    def test_not_logged_in(self):
         """
         Should fail if unauthorized
         """
-        url = f"/api/finals/"
-        response = self.client.get(url, format='json')
+        list_url = f"/api/finals/"
+        response = self.client.get(list_url, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 

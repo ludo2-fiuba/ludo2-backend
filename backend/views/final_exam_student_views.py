@@ -20,7 +20,7 @@ class FinalStudentExamViewSet(BaseViewSet):
 
     @action(detail=False, methods=['POST'])
     def take_exam(self, request):
-        final = get_object_or_404(Final.objects, qrid=self._info_from_qr(request))
+        final = get_object_or_404(Final.objects, qrid=request.data['final'])
 
         is_match = ImageValidatorService(request.data['photo']).validate_identity(request.user.student)
 
@@ -48,9 +48,6 @@ class FinalStudentExamViewSet(BaseViewSet):
         fe = get_object_or_404(FinalExam.objects, id=pk, student=request.user.student)
         result = SiuService().correlative_subjects(fe.final.subject_siu_id)
         return Response(self._paginate(self.queryset.filter(final__subject_name__in=[subject['nombre'] for subject in result], student=request.user.id)))
-
-    def _info_from_qr(self, request):
-        return request.data['final']
 
     def _filter_params(self):
         return dict({key: value for key, value in self.request.query_params.items()})
