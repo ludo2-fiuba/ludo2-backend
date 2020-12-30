@@ -9,11 +9,11 @@ class SiuClient:
     def __init__(self, handler=ClientHandler()):
         self.handler = handler
 
-    def create_act(self, act):
-        pass
+    def create_act(self, final):
+        return self.handler.post(f"{self.SIU_URL}/docentes/{final.teacher.siu_id}/finales/{final.siu_id}/subir_acta")
 
     def list_subjects(self, query=""):
-        return self.handler.get(self.SIU_URL + '/materias' + query)
+        return self.handler.get(f"{self.SIU_URL}/materias{query}")
 
     def get_subject(self, subject_siu_id):
         return self.handler.get(f"{self.SIU_URL}/materias/{subject_siu_id}")
@@ -25,8 +25,7 @@ class SiuClient:
         query = "?codigo[]=" + "&codigo[]=".join(subject['correlativas'])
         return self.list_subjects(query)
 
-
-    def list_finals(self, teacher_siu_id, subject_siu_id):
+    def list_finals(self, teacher_siu_id, subject_siu_id): # TODO, necessary?
         return []
 
     def create_final(self, teacher_siu_id, subject_siu_id, timestamp):
