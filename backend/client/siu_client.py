@@ -10,7 +10,8 @@ class SiuClient:
         self.handler = handler
 
     def create_act(self, final):
-        return self.handler.post(f"{self.SIU_URL}/docentes/{final.teacher.siu_id}/finales/{final.siu_id}/subir_acta")
+        return
+        #return self.handler.post(f"{self.SIU_URL}/docentes/{final.teacher.siu_id}/finales/{final.siu_id}/subir_acta")
 
     def list_subjects(self, query=""):
         return self.handler.get(f"{self.SIU_URL}/materias{query}")
