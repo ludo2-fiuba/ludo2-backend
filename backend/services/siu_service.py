@@ -1,4 +1,5 @@
 from backend.client.siu_client import SiuClient
+from backend.external_mappers.SubjectMapper import SubjectMapper
 from backend.external_mappers.comission_mapper import ComissionMapper
 from backend.services.result import Result
 
@@ -12,10 +13,10 @@ class SiuService:
         return {'result': 'ok'}
 
     def list_subjects(self):
-        return self.client.list_subjects()
+        return SubjectMapper().map_multiple(self.client.list_subjects())
 
     def get_subject(self, subject_siu_id):
-        return self.client.get_subject(subject_siu_id)
+        return SubjectMapper().map_single(self.client.get_subject(subject_siu_id))
 
     def correlative_subjects(self, subject_siu_id):
         return self.client.list_correlatives(subject_siu_id)
