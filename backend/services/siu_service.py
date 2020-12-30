@@ -1,4 +1,5 @@
 from backend.client.siu_client import SiuClient
+from backend.external_mappers.comission_mapper import ComissionMapper
 from backend.services.result import Result
 
 
@@ -33,7 +34,7 @@ class SiuService:
         return Result(data=response)
 
     def list_comissions(self, teacher_siu_id):
-        return self.client.list_comissions(teacher_siu_id)
+        return ComissionMapper().map_multiple(self.client.list_comissions(teacher_siu_id))
 
     def _build_act(self, final):
         return {}

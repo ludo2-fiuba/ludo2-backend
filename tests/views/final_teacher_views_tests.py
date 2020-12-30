@@ -73,6 +73,9 @@ class FinalTeacherViewsTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create(self):
+        """
+        Should create a final with the passed parameters
+        """
         mock_final = {
             "id": 12345678,
             "docente_id": 123456,
@@ -107,6 +110,10 @@ class FinalTeacherViewsTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_close(self):
+        """
+        Should close final, passing it's status to Pending Act
+        :return:
+        """
         self.client.force_authenticate(user=self.teacher.user)
 
         final = FinalFactory(teacher=self.teacher, status=Final.Status.OPEN)
@@ -127,6 +134,9 @@ class FinalTeacherViewsTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_grade(self):
+        """
+        Should add a grade to a final
+        """
         self.client.force_authenticate(user=self.teacher.user)
 
         final = FinalFactory(teacher=self.teacher, status=Final.Status.PENDING_ACT)
@@ -153,10 +163,13 @@ class FinalTeacherViewsTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_send_act(self):
+        """
+        Should pass the status to Act Sent
+        """
         self.client.force_authenticate(user=self.teacher.user)
 
         with mock.patch.object(SiuService, "__init__", lambda x: None):
-            with mock.patch.object(SiuService, "create_final_act", lambda x, y: {'result': 'ok'}):
+            with mock.patch.object(SiuService, "create_final_act", lambda x, y: {'result': 'ok'}) as siu_mock:
 
                 final = FinalFactory(teacher=self.teacher, status=Final.Status.PENDING_ACT)
 
@@ -164,6 +177,7 @@ class FinalTeacherViewsTests(APITestCase):
 
                 response = self.client.post(url, format='json')
 
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
                 self.assertEqual(response.data['status'], Final.Status.ACT_SENT)
 
     def test_send_act_not_logged_in(self):

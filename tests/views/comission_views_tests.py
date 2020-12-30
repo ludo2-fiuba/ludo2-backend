@@ -19,7 +19,10 @@ class ComissionViewsTests(APITestCase):
         """
 
         mock_comissions = [{
-
+            'id': 1,
+            'name': 'SomeName',
+            'teacher_id': 1,
+            'subject_id': 1
         }]
 
         with mock.patch.object(SiuService, "__init__", lambda x: None):
@@ -29,7 +32,11 @@ class ComissionViewsTests(APITestCase):
                 response = self.client.get(self.comissions_uri, format='json')
 
                 self.assertEqual(response.status_code, status.HTTP_200_OK)
-                self.assertEqual(response.data, [{}])
+                for comission in mock_comissions:
+                    self.assertEqual(response.data[0]['id'], comission['id'])
+                    self.assertEqual(response.data[0]['name'], comission['name'])
+                    self.assertEqual(response.data[0]['teacher_id'], comission['teacher_id'])
+                    self.assertEqual(response.data[0]['subject_id'], comission['subject_id'])
 
     def test_list_not_logged_in(self):
         """
