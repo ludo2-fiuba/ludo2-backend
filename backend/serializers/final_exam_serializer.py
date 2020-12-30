@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
 
 from backend.models import FinalExam
 from backend.serializers import StudentSerializer
@@ -25,8 +24,15 @@ class ApprovedFinalExamSerializer(serializers.ModelSerializer):
 class FinalExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinalExam
-        fields = ('id', 'subject', 'student', 'grade', 'date')
+        fields = ('id', 'subject', 'student', 'grade', 'date', 'final')
         list_serializer_class = FinalExamsListSerializer
+
+    def validate(self):
+        try:
+            FinalExam.objects.get(final=self.data['final'], student=self.data['student'])
+        except FinalExam.DoesNotExist:
+            return
+        raise serializers.ValidationError('field1 with field2 already exists')
 
 
 class FinalExamTeacherDetailsSerializer(serializers.ModelSerializer):

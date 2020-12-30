@@ -1,6 +1,9 @@
+from unittest import mock
+
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from backend.services.image_validator_service import ImageValidatorService
 from ..factories import StudentFactory, TeacherFactory, FinalFactory
 
 
@@ -19,23 +22,24 @@ class StudentFinalExamViewsTests(APITestCase):
         """
         self.client.force_authenticate(user=self.student.user)
 
-        response = self.client.post(self.take_exam_uri, {"final": self.final.id}, format='json')
+        with mock.patch.object(ImageValidatorService, "validate_identity", lambda x, y: True):
+            response = self.client.post(self.take_exam_uri, {"final": self.final.qrid, "photo": 'fake_b64'}, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data['student'], self.student.pk)
-        self.assertEqual(response.data['grade'], None)
-        self.assertEqual(response.data['final'], self.final.id)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            self.assertEqual(response.data['student'], self.student.pk)
+            self.assertEqual(response.data['grade'], None)
 
     def test_take_exam_twice(self):
         """
         Should fail if student tries to take the same exam twice.
         """
         self.client.force_authenticate(user=self.student.user)
-        self.client.post(self.take_exam_uri, {"final": self.final.id}, format='json')
 
-        response = self.client.post(self.take_exam_uri, {"final": self.final.id}, format='json')
+        with mock.patch.object(ImageValidatorService, "validate_identity", lambda x, y: True):
+            self.client.post(self.take_exam_uri, {"final": self.final.qrid, "photo": 'fake_b64'}, format='json')
+            response = self.client.post(self.take_exam_uri, {"final": self.final.qrid, "photo": 'fake_b64'}, format='json')
 
-        self.assertEqual(response.status_code, status.HTTP_500_INTERNAL_SERVER_ERROR)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_take_exam_not_logged_in(self):
         """

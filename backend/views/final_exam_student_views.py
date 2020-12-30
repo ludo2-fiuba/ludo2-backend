@@ -28,8 +28,10 @@ class FinalStudentExamViewSet(BaseViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         fe = FinalExam(student=request.user.student, final=final)
+        serializer = FinalExamSerializer(fe)
+        serializer.validate()
         fe.save()
-        return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=["GET"])
     def history(self, request):
@@ -47,7 +49,7 @@ class FinalStudentExamViewSet(BaseViewSet):
         self.extra = {}
         fe = get_object_or_404(FinalExam.objects, id=pk, student=request.user.student)
         result = SiuService().correlative_subjects(fe.final.subject_siu_id)
-        return Response(self._paginate(self.queryset.filter(final__subject_name__in=[subject['nombre'] for subject in result], student=request.user.id)))
+        return Response(self._paginate(self.queryset.filter(final__subject_name__in=[subject['name'] for subject in result], student=request.user.id)))
 
     def _filter_params(self):
         return dict({key: value for key, value in self.request.query_params.items()})
