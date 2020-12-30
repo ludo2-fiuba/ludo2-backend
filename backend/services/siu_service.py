@@ -1,6 +1,5 @@
 from backend.client.siu_client import SiuClient
-from backend.external_mappers.subject_mapper import SubjectMapper
-from backend.external_mappers.comission_mapper import ComissionMapper
+from backend.external_mappers.external_mapper import ExternalMapper
 from backend.services.result import Result
 
 
@@ -13,13 +12,13 @@ class SiuService:
         return {'result': 'ok'}
 
     def list_subjects(self):
-        return SubjectMapper().map_multiple(self.client.list_subjects())
+        return ExternalMapper().map(self.client.list_subjects())
 
     def get_subject(self, subject_siu_id):
-        return SubjectMapper().map_single(self.client.get_subject(subject_siu_id))
+        return ExternalMapper().map(self.client.get_subject(subject_siu_id))
 
     def correlative_subjects(self, subject_siu_id):
-        return SubjectMapper().map_multiple(self.client.list_correlatives(subject_siu_id))
+        return ExternalMapper().map(self.client.list_correlatives(subject_siu_id))
 
     def correlative_finals(self, final_siu_id): #TODO
         subject = self.client.get_subject_from_fina(final_siu_id)
@@ -35,7 +34,7 @@ class SiuService:
         return Result(data=response)
 
     def list_comissions(self, teacher_siu_id):
-        return ComissionMapper().map_multiple(self.client.list_comissions(teacher_siu_id))
+        return ExternalMapper().map(self.client.list_comissions(teacher_siu_id))
 
     def _build_act(self, final):
         return {}
