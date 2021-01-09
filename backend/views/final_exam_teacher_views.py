@@ -6,13 +6,13 @@ from rest_framework.response import Response
 
 from backend.models import FinalExam, Final, Student
 from backend.permissions import *
-from backend.serializers.final_exam_serializer import FinalExamSerializer
+from backend.serializers.final_exam_serializer import FinalExamTeacherDetailsSerializer
 from backend.views.base_view import BaseViewSet
 
 
 class FinalExamTeacherViews(BaseViewSet):
     queryset = FinalExam.objects.all()
-    serializer_class = FinalExamSerializer
+    serializer_class = FinalExamTeacherDetailsSerializer
     permission_classes = [IsAuthenticated, IsTeacher]
 
     @action(detail=True, methods=['PUT'])
@@ -26,15 +26,15 @@ class FinalExamTeacherViews(BaseViewSet):
     def create(self, request, final_pk=None, *args, **kwargs):
         fe = FinalExam(student=self._student(request.data['padron']), final=self._final(final_pk, request.user.teacher))
         serializer = self.get_serializer(fe)
-        serializer.validate()
+        #serializer.validate()
         fe.save()
         return Response(self.get_serializer(fe).data, status=status.HTTP_201_CREATED)
 
     def destroy(self, request, pk=None, final_pk=None, *args, **kwargs):
         fe = self._fe(final_pk, pk, request.user.teacher)
-        serializer = self.get_serializer(fe)
+        data = self.get_serializer(fe).data
         fe.delete()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(data, status=status.HTTP_200_OK)
 
     def _final(self, final_pk, teacher):
         return get_object_or_404(Final.objects, id=final_pk, teacher=teacher)
