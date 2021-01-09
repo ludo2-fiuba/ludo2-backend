@@ -1,15 +1,17 @@
-from django.urls import path, include, re_path
-from rest_framework import routers
+from django.urls import path, include
+from rest_framework_nested import routers
 
 from . import views
 from .views.user_views import UserCustomViewSet
 
-router = routers.DefaultRouter()
-router.register(r'final_exams', views.FinalStudentExamViewSet, 'final_exam')
-router.register(r'final_exams', views.FinalTeacherExamViews, 'final_exam')
+router = routers.SimpleRouter()
+router.register(r'final_exams', views.FinalExamStudentViewSet, 'final_exam')
 router.register(r'finals', views.FinalTeacherViewSet, 'final')
 router.register(r'subjects', views.SubjectViewSet, 'subject')
 router.register(r'comissions', views.ComissionViewSet, 'comission')
+
+teacher_finals_router = routers.NestedSimpleRouter(router, r'finals', lookup='final')
+teacher_finals_router.register(r'final_exams', views.FinalExamTeacherViews, basename='final-final_exams')
 
 auth_router = routers.DefaultRouter()
 auth_router.register(r'auth/users', UserCustomViewSet)
@@ -17,6 +19,7 @@ auth_router.register(r'auth/users', UserCustomViewSet)
 urlpatterns = [
     # app own routes
     path('api/', include(router.urls)),
+    path('api/', include(teacher_finals_router.urls)),
 
     # path to djoser end points
     path('auth/', include('djoser.urls.jwt')),

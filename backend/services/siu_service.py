@@ -7,8 +7,8 @@ class SiuService:
     def __init__(self):
         self.client = SiuClient()
 
-    def create_final_act(self, final): # TODO
-        self.client.create_act(self._build_act(final))
+    def create_final_act(self, final):
+        self.client.create_act(final.siu_id, self._build_act(final.final_exams.all()))
         return {'result': 'ok'}
 
     def list_subjects(self):
@@ -36,5 +36,5 @@ class SiuService:
     def list_comissions(self, teacher_siu_id):
         return ExternalMapper().map(self.client.list_comissions(teacher_siu_id))
 
-    def _build_act(self, final):
-        return {}
+    def _build_act(self, final_exams):
+        return {{fe.student.padron: fe.grade} for fe in final_exams}

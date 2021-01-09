@@ -13,7 +13,7 @@ from backend.serializers.final_exam_serializer import FinalExamSerializer
 from backend.views.base_view import BaseViewSet
 
 
-class FinalStudentExamViewSet(BaseViewSet):
+class FinalExamStudentViewSet(BaseViewSet):
     queryset = FinalExam.objects.all()
     serializer_class = FinalExamSerializer
     permission_classes = [IsAuthenticated, IsStudent]

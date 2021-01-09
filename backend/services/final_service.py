@@ -6,7 +6,7 @@ from backend.services.siu_service import SiuService
 
 
 class FinalService:
-    def grade(self, final, grades):
+    def grade(self, final, grades): # TODO fix validation of grade
         if final.status != Final.Status.PENDING_ACT:
             raise InvalidDataError("Final is not in the correct status to grade")
         final_exams = final.final_exams.filter(id__in=grades.keys())
@@ -23,7 +23,6 @@ class FinalService:
     def close(self, final):
         final.status = Final.Status.PENDING_ACT
         final.save()
-        # Trigger notifications and such
 
     def send_act(self, final):
         response = SiuService().create_final_act(final)
@@ -31,3 +30,4 @@ class FinalService:
             pass
         final.status = Final.Status.ACT_SENT
         final.save()
+        # Trigger notifications and such
