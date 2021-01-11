@@ -11,7 +11,13 @@ from .forms import InscribirForm, StaffCreateForm
 from .models import *
 
 
-@admin.register(User)
+class StaffUser(User):
+    class Meta:
+        verbose_name = "Staff User"
+        proxy = True
+
+
+@admin.register(StaffUser)
 class StaffUserAdmin(UserAdmin):
     title = "Usuario Administrador"
 
@@ -86,6 +92,7 @@ class StudentRegularAdmin(StudentCommonAdmin):
 
 class PreRegisteredStudent(Student):
     class Meta:
+        verbose_name = "Pre Registered Student"
         proxy = True
 
 
@@ -134,7 +141,7 @@ class StudentPreRegistered(StudentCommonAdmin):
             else:
                 self.message_user(request, 'Success')
                 url = reverse(
-                    'admin:backend_student_changelist',
+                    'admin:backend_preregisteredstudent_changelist',
                     current_app=self.admin_site.name,
                 )
                 return HttpResponseRedirect(url)
