@@ -10,6 +10,7 @@ from backend.services.siu_service import SiuService
 from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer
+from backend.model_validators import FinalExamValidator
 from backend.views.base_view import BaseViewSet
 
 
@@ -28,10 +29,9 @@ class FinalExamStudentViewSet(BaseViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         fe = FinalExam(student=request.user.student, final=final)
-        serializer = FinalExamSerializer(fe)
-        serializer.validate()
+        FinalExamValidator(fe).validate()
         fe.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=["GET"])
     def history(self, request):

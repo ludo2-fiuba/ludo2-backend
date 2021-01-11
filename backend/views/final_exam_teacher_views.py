@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from backend.models import FinalExam, Final, Student
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamTeacherDetailsSerializer
+from backend.model_validators import FinalExamValidator
 from backend.views.base_view import BaseViewSet
 
 
@@ -25,8 +26,7 @@ class FinalExamTeacherViews(BaseViewSet):
 
     def create(self, request, final_pk=None, *args, **kwargs):
         fe = FinalExam(student=self._student(request.data['padron']), final=self._final(final_pk, request.user.teacher))
-        serializer = self.get_serializer(fe)
-        #serializer.validate()
+        FinalExamValidator(fe).validate()
         fe.save()
         return Response(self.get_serializer(fe).data, status=status.HTTP_201_CREATED)
 

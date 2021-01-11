@@ -27,13 +27,6 @@ class FinalExamSerializer(serializers.ModelSerializer):
         fields = ('id', 'subject', 'student', 'grade', 'date', 'final')
         list_serializer_class = FinalExamsListSerializer
 
-    def validate(self):
-        try:
-            FinalExam.objects.get(final=self.data['final'], student=self.data['student'])
-        except FinalExam.DoesNotExist:
-            return
-        raise serializers.ValidationError('field1 with field2 already exists')
-
 
 class FinalExamTeacherDetailsSerializer(serializers.ModelSerializer):
     student = StudentSerializer()

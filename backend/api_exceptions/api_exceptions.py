@@ -19,6 +19,11 @@ class InvalidDataError(APIException):
     status_code = 422
     default_code = 'invalid_data'
 
+
+class ValidationError(APIException):
+    status_code = 400
+    default_code = 'invalid_data'
+
 # def custom_exception_handler(exc, context):
 #     # Call REST framework's default exception handler first,
 #     # to get the standard error response.
