@@ -32,7 +32,8 @@ class FinalTeacherViewSet(BaseViewSet):
             subject_name=request.data['subject_name'],
             subject_siu_id=request.data['subject_siu_id'],
             date=datetime.utcfromtimestamp(request.data['timestamp']),
-            teacher=request.user.teacher)
+            teacher=request.user.teacher,
+            status=Final.Status.DRAFT)
         final.save()
         return respond(self.get_serializer(final), response_status=status.HTTP_201_CREATED)
 

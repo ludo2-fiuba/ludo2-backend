@@ -9,6 +9,8 @@ from backend.models import Teacher
 class Final(models.Model):
 
     class Status(models.TextChoices):
+        DRAFT = 'DF', 'Draft'
+        REJECTED = 'RJ', 'Rejected'
         OPEN = 'OP', 'Open'
         PENDING_ACT = 'PA', 'Pending Act'
         ACT_SENT = 'AS', 'Act Sent'

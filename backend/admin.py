@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.http import HttpResponseRedirect, HttpResponse
 from django.template.response import TemplateResponse
@@ -139,7 +139,7 @@ class StudentPreRegistered(StudentCommonAdmin):
                 # field error containing an informative message.
                 pass
             else:
-                self.message_user(request, 'Success')
+                self.message_user(request, f"Success. Student {student} for registered")
                 url = reverse(
                     'admin:backend_preregisteredstudent_changelist',
                     current_app=self.admin_site.name,
@@ -214,12 +214,88 @@ class FinalExamAdmin(admin.ModelAdmin):
         return obj.final.subject_name
 
 
+class FinalToApprove(Final):
+    class Meta:
+        verbose_name = "Final Date to Approve"
+        verbose_name_plural = "Final Dates to Approve"
+        proxy = True
+
+
+@admin.register(FinalToApprove)
+class FinalToApproveAdmin(admin.ModelAdmin):
+    title = "Final Date to Approve"
+    fields = ('subject_name', 'teacher', 'date')
+    exclude = ('updated_at',)
+    readonly_fields = ('subject_name', 'teacher', 'date')
+
+    list_display = ('subject_name', 'teacher', 'date', 'approve', 'reject')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(status=Final.Status.DRAFT)
+
+
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [
+            url(r'^(?P<final_id>.+)/approve/$',
+                self.admin_site.admin_view(self.approve_action),
+                name='approve_action'),
+            url(r'^(?P<final_id>.+)/reject/$',
+                self.admin_site.admin_view(self.reject_action),
+                name='reject_action'),
+        ]
+        return my_urls + urls
+
+    def approve(self, obj):
+        return format_html(
+            '<a class="button" href="{}">Aprobar</a>',
+            reverse('admin:approve_action', args=[obj.pk]),
+        )
+
+    def reject(self, obj):
+        return format_html(
+            '<a class="button" href="{}">Rechazar</a>',
+            reverse('admin:reject_action', args=[obj.pk]),
+        )
+
+    actions = ['approve_action', 'reject_action']
+
+    def approve_action(self, request, final_id):
+        final = self.get_object(request, final_id)
+        final.status = Final.Status.OPEN
+        final.save()
+
+        self.message_user(request, f"Final date approved")
+        url = reverse(
+            'admin:backend_finaltoapprove_changelist',
+            current_app=self.admin_site.name,
+        )
+        return HttpResponseRedirect(url)
+
+    def reject_action(self, request, final_id):
+        final = self.get_object(request, final_id)
+        final.status = Final.Status.REJECTED
+        final.save()
+
+        self.message_user(request, f"Final date rejected", level=messages.WARNING)
+        url = reverse(
+            'admin:backend_finaltoapprove_changelist',
+            current_app=self.admin_site.name,
+        )
+        return HttpResponseRedirect(url)
+
+
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
     title = "Final"
     fields = ('subject_name', 'subject_siu_id', 'teacher', 'date', 'qrid')
     exclude = ('updated_at',)
     readonly_fields = ('subject_name', 'subject_siu_id', 'date', 'qrid')
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(status__in=(Final.Status.OPEN, Final.Status.PENDING_ACT, Final.Status.ACT_SENT))
 
     def get_urls(self):
         urls = super().get_urls()
@@ -254,5 +330,5 @@ class FinalAdmin(admin.ModelAdmin):
         file = output.getvalue()
 
         file_response = HttpResponse(file, content_type='image/png')
-        file_response['Content-Disposition'] = f"attachment; filename={final.teacher().user.last_name}-{final.date}.png"
+        file_response['Content-Disposition'] = f"attachment; filename={final.teacher.user.last_name}-{final.date.strftime('%Y-%m-%d_%H_%M')}.png"
         return file_response
