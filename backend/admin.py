@@ -234,7 +234,6 @@ class FinalToApproveAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.filter(status=Final.Status.DRAFT)
 
-
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [

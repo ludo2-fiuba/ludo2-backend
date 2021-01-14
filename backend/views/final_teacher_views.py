@@ -38,25 +38,25 @@ class FinalTeacherViewSet(BaseViewSet):
         return respond(self.get_serializer(final), response_status=status.HTTP_201_CREATED)
 
     def detail(self, request, pk=None):
-        return respond(self.get_serializer(self._get_final(request.user.teacher, pk)))
+        return respond(self.get_serializer( get_object_or_404(Final.objects, teacher=request.user.teacher, id=pk)))
 
     @action(detail=True, methods=['POST'])
     def close(self, request, pk):
-        final = self._get_final(request.user.teacher, pk)
+        final = self._get_final(request.user.teacher, pk, Final.Status.OPEN)
         FinalService().close(final)
         return respond(self.get_serializer(final))
 
     @action(detail=True, methods=['PUT'])
     def grade(self, request, pk):
-        final = self._get_final(request.user.teacher, pk)
+        final = self._get_final(request.user.teacher, pk, Final.Status.OPEN)
         FinalService().grade(final, request.data['grades'])
         return respond(self.get_serializer(final))
 
     @action(detail=True, methods=['POST'])
     def send_act(self, request, pk):
-        final = self._get_final(request.user.teacher, pk)
+        final = self._get_final(request.user.teacher, pk, Final.Status.PENDING_ACT)
         FinalService().send_act(final)
         return respond(self.get_serializer(final))
 
-    def _get_final(self, teacher, pk):
-        return get_object_or_404(Final.objects, teacher=teacher, id=pk)
+    def _get_final(self, teacher, pk, status):
+        return get_object_or_404(Final.objects, teacher=teacher, id=pk, status=status)

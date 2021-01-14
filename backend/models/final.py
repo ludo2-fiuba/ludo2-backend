@@ -26,6 +26,7 @@ class Final(models.Model):
       choices=[(tag, tag.value) for tag in Status],  # Choices is a list of Tuple
       default=Status.OPEN
     )
+    act = models.CharField(max_length=10, db_index=True, null=True)
 
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)

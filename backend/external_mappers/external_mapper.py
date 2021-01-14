@@ -1,7 +1,8 @@
 class ExternalMapper:
     MAPPINGS = {
         'id': 'id', 'codigo': 'code', 'nombre': 'name', 'correlativas': 'correlatives',
-        'materiaId': 'subject_id', 'docenteId': 'teacher_id', 'materia': 'subject'
+        'materiaId': 'subject_id', 'docenteId': 'teacher_id', 'materia': 'subject', 'finalId': 'final_id',
+        'notas': 'grades'
     }
 
     def map(self, data):

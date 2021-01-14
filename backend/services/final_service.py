@@ -26,8 +26,7 @@ class FinalService:
 
     def send_act(self, final):
         response = SiuService().create_final_act(final)
-        if response['result'] != 'ok':
-            pass
+        final.act = response['id']
         final.status = Final.Status.ACT_SENT
         final.save()
         # Trigger notifications and such

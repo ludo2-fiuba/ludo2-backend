@@ -40,7 +40,7 @@ class FinalExamTeacherViews(BaseViewSet):
         return get_object_or_404(Final.objects, id=final_pk, teacher=teacher)
 
     def _fe(self, final_pk, pk, teacher):
-        return get_object_or_404(FinalExam.objects, id=pk, final_id=final_pk, final__teacher=teacher, final__status=Final.Status.PENDING_ACT)
+        return get_object_or_404(FinalExam.objects, id=pk, final_id=final_pk, final__teacher=teacher, final__status=Final.Status.OPEN)
 
     def _student(self, padron):
         return get_object_or_404(Student.objects, padron=padron)
