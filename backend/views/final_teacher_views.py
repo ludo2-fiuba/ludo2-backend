@@ -9,9 +9,7 @@ from rest_framework.response import Response
 from backend.models import Final
 from backend.permissions import *
 from backend.serializers.final_serializer import FinalTeacherSerializer, FinalTeacherListSerializer
-
 from backend.services.final_service import FinalService
-from backend.services.siu_service import SiuService
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import respond
 
@@ -26,9 +24,7 @@ class FinalTeacherViewSet(BaseViewSet):
         return Response(self._paginate(finals, FinalTeacherListSerializer))
 
     def create(self, request):
-        siu_final = SiuService().create_final(request.user.teacher.siu_id, request.data['subject_siu_id'], request.data["timestamp"])
         final = Final(
-            siu_id=siu_final["id"],
             subject_name=request.data['subject_name'],
             subject_siu_id=request.data['subject_siu_id'],
             date=datetime.utcfromtimestamp(request.data['timestamp']),

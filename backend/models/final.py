@@ -20,11 +20,11 @@ class Final(models.Model):
     subject_name = models.CharField(max_length=100, db_index=True, null=False, editable=False)
     subject_siu_id = models.IntegerField(db_index=True, default=0, null=False, editable=False)
     qrid = models.UUIDField(default=uuid.uuid4, editable=False)
-    siu_id = models.IntegerField(db_index=True, default=0, null=False, editable=False)
+    siu_id = models.IntegerField(db_index=True, null=True, editable=True)
     status = models.CharField(
       max_length=2,
       choices=[(tag, tag.value) for tag in Status],  # Choices is a list of Tuple
-      default=Status.OPEN
+      default=Status.DRAFT
     )
     act = models.CharField(max_length=10, db_index=True, null=True)
 

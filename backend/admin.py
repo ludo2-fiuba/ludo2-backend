@@ -9,6 +9,7 @@ from django_reverse_admin import ReverseModelAdmin
 
 from .forms import InscribirForm, StaffCreateForm
 from .models import *
+from .services.siu_service import SiuService
 
 
 class StaffUser(User):
@@ -262,10 +263,15 @@ class FinalToApproveAdmin(admin.ModelAdmin):
 
     def approve_action(self, request, final_id):
         final = self.get_object(request, final_id)
+
+        siu_final = SiuService().create_final(final.teacher.siu_id, final.subject_siu_id,
+                                              int(final.date.timestamp()))
+
+        final.siu_id = siu_final["id"]
         final.status = Final.Status.OPEN
         final.save()
 
-        self.message_user(request, f"Final date approved")
+        self.message_user(request, "Final date approved")
         url = reverse(
             'admin:backend_finaltoapprove_changelist',
             current_app=self.admin_site.name,
