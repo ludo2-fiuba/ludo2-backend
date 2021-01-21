@@ -44,7 +44,7 @@ class FinalTeacherViewSet(BaseViewSet):
 
     @action(detail=True, methods=['PUT'])
     def grade(self, request, pk):
-        final = self._get_final(request.user.teacher, pk, Final.Status.OPEN)
+        final = self._get_final(request.user.teacher, pk, Final.Status.PENDING_ACT)
         FinalService().grade(final, request.data['grades'])
         return respond(self.get_serializer(final))
 

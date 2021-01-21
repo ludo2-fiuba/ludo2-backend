@@ -31,6 +31,9 @@ class FinalExam(models.Model):
     def teacher(self):
         return self.final.teacher
 
+    def teacher_name(self):
+        return f"{self.final.teacher.user.first_name} {self.final.teacher.user.last_name}"
+
     def __str__(self):
         return f"{self.student} - {self.final.date} - {self.grade}"
 

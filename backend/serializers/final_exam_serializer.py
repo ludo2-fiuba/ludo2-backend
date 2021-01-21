@@ -24,7 +24,7 @@ class ApprovedFinalExamSerializer(serializers.ModelSerializer):
 class FinalExamSerializer(serializers.ModelSerializer):
     class Meta:
         model = FinalExam
-        fields = ('id', 'subject', 'student', 'grade', 'date', 'final')
+        fields = ('id', 'subject', 'teacher_name', 'student', 'grade', 'date', 'final')
         list_serializer_class = FinalExamsListSerializer
 
 
