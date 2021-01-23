@@ -18,18 +18,33 @@ class StaffUser(User):
         proxy = True
 
 
+class StaffInline(admin.TabularInline):
+    model = Staff
+    fieldsets = [
+        (None, {
+            'fields': ('subject_siu_id',)
+            }),
+        ]
+
+
 @admin.register(StaffUser)
 class StaffUserAdmin(UserAdmin):
-    title = "Usuario Administrador"
+    inlines = [StaffInline]
 
-    list_display = ('id', 'dni', 'email', 'first_name', 'last_name', 'get_groups')
-    exclude = ('is_student', 'is_teacher', 'username', 'user_permissions', 'updated_at', 'date_joined', 'last_login')
+    exclude = ('user_permissions', 'is_student', 'is_teacher', 'date_joined', 'username', 'last_login', 'active', 'password', 'updated_at', 'is_staff', 'is_superuser')
+    can_delete = False
+    list_display = ('dni', 'first_name', 'last_name', 'subject_siu_id')
+    search_fields = ('dni', 'first_name', 'last_name', 'subject_siu_id')
+
+    add_form = StaffCreateForm
+
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
             'fields': ('email', 'dni', 'first_name', 'last_name', 'password1', 'password2', 'groups')}
         ),
     )
+
     fieldsets = (
         (None, {
             'classes': ('wide',),
@@ -37,17 +52,12 @@ class StaffUserAdmin(UserAdmin):
         ),
     )
 
-    add_form = StaffCreateForm
-
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         return qs.filter(is_staff=True)
 
-    def get_password(self, obj):
-        return obj.password
-
-    def get_groups(self, obj):
-        return [g.name for g in obj.groups.all()]
+    def subject_siu_id(self, obj):
+        return obj.staff.subject_siu_id
 
 
 class StudentCommonAdmin(admin.ModelAdmin):
@@ -55,9 +65,9 @@ class StudentCommonAdmin(admin.ModelAdmin):
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
     list_display = ('dni', 'first_name', 'last_name', 'padron')
-    exclude = ("face_encodings", 'inscripto')
+    exclude = ("face_encodings", 'inscripto', 'user')
     search_fields = ('dni', 'first_name', 'last_name', 'padron')
-    readonly_fields = ('dni', 'first_name', 'last_name', 'padron', 'user')
+    readonly_fields = ('padron', 'dni', 'first_name', 'last_name')
 
     def get_password(self, obj):
         return obj.user.password
@@ -164,14 +174,13 @@ class StudentPreRegistered(StudentCommonAdmin):
 
 @admin.register(Teacher)
 class TeacherAdmin(ReverseModelAdmin):
-    title = "Teacher"
     inline_type = 'tabular'
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
-    list_display = ('dni', 'first_name', 'siu_id','last_name', 'legajo')
+    list_display = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo')
     exclude = ("face_encodings", )
-    search_fields = ('dni', 'first_name', 'siu_id', 'last_name', 'legajo')
-    readonly_fields = ('dni', 'first_name', 'siu_id', 'last_name', 'legajo', 'user')
+    search_fields = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo')
+    readonly_fields = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo', 'user')
 
     def get_password(self, obj):
         return obj.user.password
@@ -233,6 +242,8 @@ class FinalToApproveAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            qs.filter(subject_siu_id=request.user.staff.subject_siu_id)
         return qs.filter(status=Final.Status.DRAFT)
 
     def get_urls(self):
@@ -300,6 +311,8 @@ class FinalAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
+        if not request.user.is_superuser:
+            qs = qs.filter(subject_siu_id=request.user.staff.subject_siu_id)
         return qs.filter(status__in=(Final.Status.OPEN, Final.Status.PENDING_ACT, Final.Status.ACT_SENT))
 
     def get_urls(self):
