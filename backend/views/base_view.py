@@ -10,5 +10,6 @@ class BaseViewSet(viewsets.ModelViewSet):
             serializer = serializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
-        serializer = serializer(relation, many=True)
+        kwargs = {'context': self.get_serializer_context(), 'many': True}
+        serializer = serializer(relation, **kwargs)
         return serializer.data

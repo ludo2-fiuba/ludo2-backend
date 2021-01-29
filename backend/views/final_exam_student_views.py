@@ -9,7 +9,7 @@ from backend.services.image_validator_service import ImageValidatorService
 from backend.services.siu_service import SiuService
 from backend.models import FinalExam, Final
 from backend.permissions import *
-from backend.serializers.final_exam_serializer import FinalExamSerializer
+from backend.serializers.final_exam_serializer import FinalExamSerializer, FinalExamStudentSerializer
 from backend.model_validators import FinalExamValidator
 from backend.views.base_view import BaseViewSet
 
@@ -42,7 +42,7 @@ class FinalExamStudentViewSet(BaseViewSet):
     def pending(self, request):
         self.extra = {"student": request.user.id}
         subjects_passed = [x.subject for x in self.get_queryset().annotate(subject=F('final__subject_name')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
-        return Response(self._group_by(self._paginate(self.get_queryset().exclude(final__subject_name__in=subjects_passed)), 'subject'))
+        return Response(self._group_by(self._paginate(self.get_queryset().exclude(final__subject_name__in=subjects_passed), FinalExamStudentSerializer), 'subject'))
 
     @action(detail=True, methods=["GET"])
     def correlatives(self, request, pk):
