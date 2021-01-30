@@ -17,7 +17,8 @@ class FinalExam(models.Model):
         "year": "final__date__year",
         "grade_gte": "grade__gte",
         "subject": "final__subject_name__contains",
-        "student": "student"
+        "student": "student",
+        "status": "final__status"
     }
 
     PASSING_GRADE = 4

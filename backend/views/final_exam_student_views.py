@@ -35,7 +35,7 @@ class FinalExamStudentViewSet(BaseViewSet):
 
     @action(detail=False, methods=["GET"])
     def history(self, request):
-        self.extra = {"grade_gte": FinalExam.PASSING_GRADE, "student": request.user.id, "final__status": Final.Status.ACT_SENT}
+        self.extra = {"grade_gte": FinalExam.PASSING_GRADE, "student": request.user.id, "status": Final.Status.ACT_SENT}
         return Response(self._paginate(self.get_queryset()))
 
     @action(detail=False, methods=["GET"])
