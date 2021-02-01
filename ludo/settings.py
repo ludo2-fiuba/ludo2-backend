@@ -36,6 +36,10 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0', 'salty-badlands-32978.hero
 
 AUTH_USER_MODEL = 'backend.User'
 
+LANGUAGE_CODE = 'es-AR'
+USE_I18N = True
+USE_L10N = True
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -66,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'ludo.urls'

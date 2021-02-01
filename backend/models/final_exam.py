@@ -6,12 +6,12 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class FinalExam(models.Model):
-    final = models.ForeignKey(Final, on_delete=models.CASCADE, related_name='final_exams')
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='final_exams')
-    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, db_index=True)
+    final = models.ForeignKey(Final, on_delete=models.CASCADE, related_name='final_exams', verbose_name="Final")
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='final_exams', verbose_name="Estudiante")
+    grade = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)], null=True, db_index=True, verbose_name="Nota")
 
-    created_at = models.DateTimeField(default=timezone.now, editable=False)
-    updated_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now, editable=False, verbose_name="Creado en")
+    updated_at = models.DateTimeField(default=timezone.now, verbose_name="Última actualización")
 
     ALLOWED_FILTERS = {
         "year": "final__date__year",
@@ -42,3 +42,6 @@ class FinalExam(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['final', 'student'], name='one_final_exam_per_student')
         ]
+
+        verbose_name = "Exámen final"
+        verbose_name_plural = "Exámenes finales"

@@ -51,14 +51,15 @@ class CustomUserManager(UserManager):
 
 
 class User(AbstractUser):
-    is_student = models.BooleanField(default=False)
-    is_teacher = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=50, blank=False)
-    last_name = models.CharField(max_length=50, blank=False)
+    is_student = models.BooleanField(default=False, verbose_name="Es estudiante?")
+    is_teacher = models.BooleanField(default=False, verbose_name="Es docente?")
+    first_name = models.CharField(max_length=50, blank=False, verbose_name="Nombre")
+    last_name = models.CharField(max_length=50, blank=False, verbose_name="Apellido")
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
-    dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False)
-    created_at = models.DateTimeField(default=timezone.now, editable=False)
-    updated_at = models.DateTimeField(default=timezone.now)
+    dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False, verbose_name="DNI")
+
+    created_at = models.DateTimeField(default=timezone.now, editable=False, verbose_name="Creado en")
+    updated_at = models.DateTimeField(default=timezone.now, verbose_name="Última actualización")
 
     objects = CustomUserManager()
 

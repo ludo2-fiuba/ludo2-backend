@@ -14,7 +14,8 @@ from .services.siu_service import SiuService
 
 class StaffUser(User):
     class Meta:
-        verbose_name = "Staff User"
+        verbose_name = "Usuario Administrador"
+        verbose_name_plural = "Usuarios Administradores"
         proxy = True
 
 
@@ -67,19 +68,22 @@ class StudentCommonAdmin(admin.ModelAdmin):
     list_display = ('dni', 'first_name', 'last_name', 'padron')
     exclude = ("face_encodings", 'inscripto', 'user')
     search_fields = ('dni', 'first_name', 'last_name', 'padron')
-    readonly_fields = ('padron', 'dni', 'first_name', 'last_name')
+    readonly_fields = ('dni', 'first_name', 'last_name', 'padron')
 
     def get_password(self, obj):
         return obj.user.password
 
     def dni(self, obj):
         return obj.user.dni
+    dni.short_description = "DNI"
 
     def first_name(self, obj):
         return obj.user.first_name
+    first_name.short_description = "Nombre"
 
     def last_name(self, obj):
         return obj.user.last_name
+    last_name.short_description = "Apellido"
 
     def get_last_login(self, obj):
         return obj.user.last_login
@@ -103,7 +107,8 @@ class StudentRegularAdmin(StudentCommonAdmin):
 
 class PreRegisteredStudent(Student):
     class Meta:
-        verbose_name = "Pre Registered Student"
+        verbose_name = "Estudiante pre registrado"
+        verbose_name_plural = "Estudiantes pre registrados"
         proxy = True
 
 
@@ -173,26 +178,29 @@ class StudentPreRegistered(StudentCommonAdmin):
 
 
 @admin.register(Teacher)
-class TeacherAdmin(ReverseModelAdmin):
+class TeacherAdmin(admin.ModelAdmin):
     inline_type = 'tabular'
     inline_reverse = [('user', {'fields': ['first_name', 'last_name', 'dni']})]
 
     list_display = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo')
-    exclude = ("face_encodings", )
+    exclude = ("face_encodings", 'user')
     search_fields = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo')
-    readonly_fields = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo', 'user')
+    readonly_fields = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo')
 
     def get_password(self, obj):
         return obj.user.password
 
     def dni(self, obj):
         return obj.user.dni
+    dni.short_description = "DNI"
 
     def first_name(self, obj):
         return obj.user.first_name
+    first_name.short_description = "Nombre"
 
     def last_name(self, obj):
         return obj.user.last_name
+    last_name.short_description = "Apellido"
 
     def get_last_login(self, obj):
         return obj.user.last_login
@@ -226,8 +234,8 @@ class FinalExamAdmin(admin.ModelAdmin):
 
 class FinalToApprove(Final):
     class Meta:
-        verbose_name = "Final Date to Approve"
-        verbose_name_plural = "Final Dates to Approve"
+        verbose_name = "Fecha para aprobar"
+        verbose_name_plural = "Fechas para aprobar"
         proxy = True
 
 
@@ -263,12 +271,14 @@ class FinalToApproveAdmin(admin.ModelAdmin):
             '<a class="button" href="{}">Aprobar</a>',
             reverse('admin:approve_action', args=[obj.pk]),
         )
+    approve.short_description="Aprobar"
 
     def reject(self, obj):
         return format_html(
             '<a class="button" href="{}">Rechazar</a>',
             reverse('admin:reject_action', args=[obj.pk]),
         )
+    reject.short_description = "Rechazar"
 
     actions = ['approve_action', 'reject_action']
 
@@ -332,6 +342,7 @@ class FinalAdmin(admin.ModelAdmin):
             '<a class="button" href="{}">Descargar QR</a>',
             reverse('admin:download', args=[obj.pk]),
         )
+    download_qr.short_description="Descargar QR"
 
     actions = ['download']
 
