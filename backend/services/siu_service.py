@@ -10,8 +10,8 @@ class SiuService:
     def create_final_act(self, final):
         return ExternalMapper().map(self.client.create_act(final.siu_id, final.teacher.siu_id, self._build_act(final.final_exams.all())))
 
-    def list_subjects(self):
-        return ExternalMapper().map(self.client.list_subjects())
+    def list_subjects(self, filters=None):
+        return ExternalMapper().map(self.client.list_subjects(filters))
 
     def get_subject(self, subject_siu_id):
         return ExternalMapper().map(self.client.get_subject(subject_siu_id))

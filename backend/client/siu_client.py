@@ -13,8 +13,9 @@ class SiuClient:
         data = {"finalId": final_siu_id, "notas": grades}
         return self.handler.post(f"{self.SIU_URL}/docentes/{teacher_siu_id}/actas", data=data)
 
-    def list_subjects(self, query=""):
-        return self.handler.get(f"{self.SIU_URL}/materias{query}")
+    def list_subjects(self, filters):
+        query = "?" + "&".join(f"{k}={v}" for k, v in filters.items())
+        return self.handler.get(f"{self.SIU_URL}/materias/{query}")
 
     def get_subject(self, subject_siu_id):
         return self.handler.get(f"{self.SIU_URL}/materias/{subject_siu_id}")

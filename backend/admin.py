@@ -5,7 +5,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.html import format_html
-from django_reverse_admin import ReverseModelAdmin
 
 from .forms import InscribirForm, StaffCreateForm
 from .models import *
@@ -23,7 +22,7 @@ class StaffInline(admin.TabularInline):
     model = Staff
     fieldsets = [
         (None, {
-            'fields': ('subject_siu_id',)
+            'fields': ('department_siu_id',)
             }),
         ]
 
@@ -34,8 +33,8 @@ class StaffUserAdmin(UserAdmin):
 
     exclude = ('user_permissions', 'is_student', 'is_teacher', 'date_joined', 'username', 'last_login', 'active', 'password', 'updated_at', 'is_staff', 'is_superuser')
     can_delete = False
-    list_display = ('dni', 'first_name', 'last_name', 'subject_siu_id')
-    search_fields = ('dni', 'first_name', 'last_name', 'subject_siu_id')
+    list_display = ('dni', 'first_name', 'last_name', 'department_siu_id')
+    search_fields = ('dni', 'first_name', 'last_name', 'department_siu_id')
 
     add_form = StaffCreateForm
 
@@ -57,8 +56,10 @@ class StaffUserAdmin(UserAdmin):
         qs = super().get_queryset(request)
         return qs.filter(is_staff=True)
 
-    def subject_siu_id(self, obj):
-        return obj.staff.subject_siu_id
+    def department_siu_id(self, obj):
+        return obj.staff.department_siu_id
+
+    department_siu_id.short_description = "SIU ID del Departamento"
 
 
 class StudentCommonAdmin(admin.ModelAdmin):
@@ -251,7 +252,8 @@ class FinalToApproveAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if not request.user.is_superuser:
-            qs.filter(subject_siu_id=request.user.staff.subject_siu_id)
+            owning_subjects = SiuService().list_subjects({"departamentoId": request.user.staff.department_siu_id})
+            qs = qs.filter(subject_siu_id__in=[s["department_id"] for s in owning_subjects])
         return qs.filter(status=Final.Status.DRAFT)
 
     def get_urls(self):
@@ -322,7 +324,8 @@ class FinalAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if not request.user.is_superuser:
-            qs = qs.filter(subject_siu_id=request.user.staff.subject_siu_id)
+            owning_subjects = SiuService().list_subjects({"departamentoId": request.user.staff.department_siu_id})
+            qs = qs.filter(subject_siu_id__in=[s["id"] for s in owning_subjects])
         return qs.filter(status__in=(Final.Status.OPEN, Final.Status.PENDING_ACT, Final.Status.ACT_SENT))
 
     def get_urls(self):
