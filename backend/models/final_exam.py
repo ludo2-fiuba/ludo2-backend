@@ -1,8 +1,8 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils import timezone
 
 from . import Final, Student
-from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class FinalExam(models.Model):
@@ -26,8 +26,11 @@ class FinalExam(models.Model):
     def date(self):
         return self.final.date
 
-    def subject(self):
+    def subject_name(self): # Deprecated
         return self.final.subject_name
+
+    def subject(self):
+        return self.final.subject()
 
     def teacher(self):
         return self.final.teacher
