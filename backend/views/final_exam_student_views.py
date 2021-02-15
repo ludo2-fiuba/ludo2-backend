@@ -56,7 +56,7 @@ class FinalExamStudentViewSet(BaseViewSet):
 
     def _group_by(self, data, field):
         import itertools
-        return {k: list(group) for k, group in itertools.groupby(data, lambda x: x[field])}
+        return {k: list(group) for k, group in itertools.groupby(data, lambda x: x[field]['name'])}
 
     def get_serializer_context(self):
         filter_params = {"filters": dict(self._filter_params(), **self.extra)}
