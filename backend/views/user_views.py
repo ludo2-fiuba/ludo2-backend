@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from backend.serializers.user_serializer import UserCustomCreateSerializer
 from backend.services.image_validator_service import ImageValidatorService
 from ..models import User
+from ..services.siu_service import SiuService
 
 
 class UserCustomViewSet(UserViewSet):
@@ -21,3 +22,6 @@ class UserCustomViewSet(UserViewSet):
     def is_me(self, request):
         result = ImageValidatorService(request.data['photo']).validate_identity(request.user.student)
         return Response({"match": result}, status=status.HTTP_200_OK)
+
+    def _get_siu_user(self, is_student, email, dni):
+            return SiuService().get_student(email, dni) if is_student else SiuService().get_teacher(email, dni)

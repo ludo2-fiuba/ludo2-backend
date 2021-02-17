@@ -20,6 +20,7 @@ class CustomUserManager(UserManager):
         from .student import Student
         from .teacher import Teacher
         face_encodings = extra_fields.pop("face_encodings")
+        file = extra_fields.pop('file')
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -28,9 +29,9 @@ class CustomUserManager(UserManager):
         if extra_fields['is_staff']:
             return user
         if extra_fields.get('is_teacher', False):
-            Teacher(user=user, face_encodings=face_encodings).save()
+            Teacher(user=user, face_encodings=face_encodings, legajo=file).save()
         elif extra_fields.get('is_student', False):
-            Student(user=user, face_encodings=face_encodings).save()
+            Student(user=user, face_encodings=face_encodings, padron=file).save()
         else:
             raise ValidationError('Either is_student or is_teacher is needed')
         return user

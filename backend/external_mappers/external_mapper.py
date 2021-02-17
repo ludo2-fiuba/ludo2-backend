@@ -2,7 +2,9 @@ class ExternalMapper:
     MAPPINGS = {
         'id': 'id', 'codigo': 'code', 'nombre': 'name', 'correlativas': 'correlatives',
         'materiaId': 'subject_id', 'docenteId': 'teacher_id', 'materia': 'subject', 'finalId': 'final_id',
-        'notas': 'grades', 'departamento': 'department', 'departamentoId': 'department_id'
+        'notas': 'grades', 'departamento': 'department', 'departamentoId': 'department_id',
+        'nombre': 'first_name', 'apellido': 'last_name', 'padron': 'file', 'legajo': 'file',
+        'tipo_documento': 'document_type', 'numero_documento': 'dni', 'email': 'email'
     }
 
     def map(self, data):

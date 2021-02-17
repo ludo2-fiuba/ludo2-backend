@@ -36,3 +36,11 @@ class SiuClient:
 
     def list_comissions(self, teacher_siu_id):
         return self.handler.get(f"{self.SIU_URL}/docentes/{teacher_siu_id}/comisiones?_expand=materia")
+
+    def get_student(self, email, dni):
+        query = f"?tipo_documento=DNI&numero_documento={dni}&email={email}"
+        return self.handler.get(f"{self.SIU_URL}/alumnos/{query}")[0]
+
+    def get_teacher(self, email, dni):
+        query = f"?tipo_documento=DNI&numero_documento={dni}&email={email}"
+        return self.handler.get(f"{self.SIU_URL}/docentes/{query}")
