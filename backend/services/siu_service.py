@@ -29,5 +29,8 @@ class SiuService:
     def list_comissions(self, teacher_siu_id):
         return ExternalMapper().map(self.client.list_comissions(teacher_siu_id))
 
+    def list_departments(self):
+        return ExternalMapper().map(self.client.list_departments())
+
     def _build_act(self, final_exams):
         return {fe.student.padron: fe.grade for fe in final_exams}

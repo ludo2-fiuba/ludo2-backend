@@ -240,14 +240,18 @@ class FinalToApprove(Final):
         proxy = True
 
 
+departments = SiuService().list_departments()
+subjects = SiuService().list_subjects()
+
+
 @admin.register(FinalToApprove)
 class FinalToApproveAdmin(admin.ModelAdmin):
     title = "Final Date to Approve"
     fields = ('subject_name', 'teacher', 'date')
     exclude = ('updated_at',)
-    readonly_fields = ('subject_name', 'teacher', 'date')
+    readonly_fields = ('subject_name', 'department', 'teacher', 'date')
 
-    list_display = ('subject_name', 'teacher', 'date', 'approve', 'reject')
+    list_display = ('subject_name', 'department', 'teacher', 'date', 'approve', 'reject')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -267,6 +271,14 @@ class FinalToApproveAdmin(admin.ModelAdmin):
                 name='reject_action'),
         ]
         return my_urls + urls
+
+    def department(self, obj):
+        for subject in subjects:
+            if subject['id'] == obj.subject_siu_id:
+                for department in departments:
+                    if department['id'] == subject['department_id']:
+                        return department['name']
+    department.short_description="Departamento"
 
     def approve(self, obj):
         return format_html(
@@ -300,6 +312,7 @@ class FinalToApproveAdmin(admin.ModelAdmin):
             current_app=self.admin_site.name,
         )
         return HttpResponseRedirect(url)
+    approve_action.short_description = "Aprobar Fechas"
 
     def reject_action(self, request, final_id):
         final = self.get_object(request, final_id)
@@ -312,12 +325,17 @@ class FinalToApproveAdmin(admin.ModelAdmin):
             current_app=self.admin_site.name,
         )
         return HttpResponseRedirect(url)
+    reject_action.short_description = "Rechazar Fechas"
+
+
+departments = SiuService().list_departments()
+subjects = SiuService().list_subjects()
 
 
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
     title = "Final"
-    fields = ('subject_name', 'subject_siu_id', 'teacher', 'date', 'qrid')
+    fields = ('subject_name', 'department', 'teacher', 'date', 'qrid')
     exclude = ('updated_at',)
     readonly_fields = ('subject_name', 'subject_siu_id', 'date', 'qrid')
 
@@ -332,24 +350,32 @@ class FinalAdmin(admin.ModelAdmin):
         urls = super().get_urls()
         my_urls = [
             url(r'^(?P<final_id>.+)/download/$',
-                self.admin_site.admin_view(self.download),
-                name='download')
+                self.admin_site.admin_view(self.download_action),
+                name='download_action')
         ]
         return my_urls + urls
 
-    list_display = ('subject_name', 'subject_siu_id', 'teacher', 'date', 'download_qr')
+    list_display = ('subject_name', 'department', 'teacher', 'date', 'download_qr')
     search_fields = ('subject_name', 'date',)
+
+    def department(self, obj):
+        for subject in subjects:
+            if subject['id'] == obj.subject_siu_id:
+                for department in departments:
+                    if department['id'] == subject['department_id']:
+                        return department['name']
+    department.short_description="Departamento"
 
     def download_qr(self, obj):
         return format_html(
             '<a class="button" href="{}">Descargar QR</a>',
-            reverse('admin:download', args=[obj.pk]),
+            reverse('admin:download_action', args=[obj.pk]),
         )
     download_qr.short_description="Descargar QR"
 
-    actions = ['download']
+    actions = ['download_action']
 
-    def download(self, request, final_id):
+    def download_action(self, request, final_id):
         import qrcode
         import io
 
@@ -364,3 +390,4 @@ class FinalAdmin(admin.ModelAdmin):
         file_response = HttpResponse(file, content_type='image/png')
         file_response['Content-Disposition'] = f"attachment; filename={final.teacher.user.last_name}-{final.date.strftime('%Y-%m-%d_%H_%M')}.png"
         return file_response
+    download_action.short_description="Descargar QR"

@@ -11,10 +11,10 @@ class SiuClient:
 
     def create_act(self, final_siu_id, teacher_siu_id, grades):
         data = {"finalId": final_siu_id, "notas": grades}
-        return self.handler.post(f"{self.SIU_URL}/docentes/{teacher_siu_id}/actas", data=data)
+        return self.handler.post(f"{self.SIU_URL}/docentes/{teacher_siu_id}/actas", data=data) # TODO: fix no grades only padrones
 
     def list_subjects(self, filters):
-        query = "?" + "&".join(f"{k}={v}" for k, v in filters.items())
+        query = "?" + "&".join(f"{k}={v}" for k, v in filters.items()) if filters else ""
         return self.handler.get(f"{self.SIU_URL}/materias/{query}")
 
     def get_subject(self, subject_siu_id):
@@ -36,3 +36,6 @@ class SiuClient:
 
     def list_comissions(self, teacher_siu_id):
         return self.handler.get(f"{self.SIU_URL}/docentes/{teacher_siu_id}/comisiones?_expand=materia")
+
+    def list_departments(self):
+        return self.handler.get(f"{self.SIU_URL}/departamentos")
