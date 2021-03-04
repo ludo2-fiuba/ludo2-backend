@@ -1,6 +1,9 @@
 from rest_framework import status
 from rest_framework.response import Response
 
+from backend.api_exceptions import InvalidFaceError
+from backend.services.image_validator_service import ImageValidatorService
+
 
 def respond(result, response_status=status.HTTP_200_OK):
     return respond_plain(result.data, response_status=response_status)
@@ -18,3 +21,13 @@ def serialize(self, relation):
 
     serializer = self.get_serializer(relation, many=True)
     return Response(serializer.data)
+
+
+def validate_face(request, model):
+    if not request.data.get('image'):
+        raise InvalidFaceError()
+
+    is_match = ImageValidatorService(request.data['image']).validate_identity(model)
+
+    if not is_match:
+        return Response(status=status.HTTP_403_FORBIDDEN)

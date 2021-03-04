@@ -24,6 +24,11 @@ class ValidationError(APIException):
     status_code = 400
     default_code = 'invalid_data'
 
+
+class InvalidFaceError(APIException):
+    status_code = 403
+    default_code = 'invalid_face'
+
 # def custom_exception_handler(exc, context):
 #     # Call REST framework's default exception handler first,
 #     # to get the standard error response.

@@ -4,7 +4,7 @@ from rest_framework import exceptions
 from rest_framework.response import Response
 from rest_framework.views import exception_handler, set_rollback
 
-IMAGE_EXTENTION = 'jpg'
+IMAGE_EXTENSION = 'jpg'
 
 
 def api_exception_handler(exception, context):
@@ -36,7 +36,7 @@ def encode_image(io_object):
 
 
 def user_image_path(dni):
-    return f"{dni}.{IMAGE_EXTENTION}"
+    return f"{dni}.{IMAGE_EXTENSION}"
 
 
 def response_error_msg(message, code="invalid"):

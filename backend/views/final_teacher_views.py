@@ -10,8 +10,9 @@ from backend.models import Final
 from backend.permissions import *
 from backend.serializers.final_serializer import FinalTeacherSerializer, FinalTeacherListSerializer
 from backend.services.final_service import FinalService
+from backend.services.image_validator_service import ImageValidatorService
 from backend.views.base_view import BaseViewSet
-from backend.views.utils import respond
+from backend.views.utils import respond, validate_face
 
 
 class FinalTeacherViewSet(BaseViewSet):
@@ -50,8 +51,11 @@ class FinalTeacherViewSet(BaseViewSet):
 
     @action(detail=True, methods=['POST'])
     def send_act(self, request, pk):
+        validate_face(request, request.user.teacher)
+
         final = self._get_final(request.user.teacher, pk, Final.Status.PENDING_ACT)
         FinalService().send_act(final)
+
         return respond(self.get_serializer(final))
 
     def _get_final(self, teacher, pk, status):

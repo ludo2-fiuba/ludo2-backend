@@ -12,6 +12,7 @@ from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer, FinalExamStudentSerializer
 from backend.model_validators import FinalExamValidator
 from backend.views.base_view import BaseViewSet
+from backend.views.utils import validate_face
 
 
 class FinalExamStudentViewSet(BaseViewSet):
@@ -23,10 +24,7 @@ class FinalExamStudentViewSet(BaseViewSet):
     def take_exam(self, request):
         final = get_object_or_404(Final.objects, qrid=request.data['final'])
 
-        is_match = ImageValidatorService(request.data['photo']).validate_identity(request.user.student)
-
-        if not is_match:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+        validate_face(request, request.user.student)
 
         fe = FinalExam(student=request.user.student, final=final)
         FinalExamValidator(fe).validate()
