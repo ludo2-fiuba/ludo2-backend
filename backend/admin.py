@@ -1,3 +1,5 @@
+import os
+
 from django.conf.urls import url
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
@@ -240,11 +242,13 @@ class FinalToApprove(Final):
         proxy = True
 
 
-@admin.register(FinalToApprove)
-class FinalToApproveAdmin(admin.ModelAdmin):
+if os.environ["SIU_URL"]:
     departments = SiuService().list_departments()
     subjects = SiuService().list_subjects()
 
+
+@admin.register(FinalToApprove)
+class FinalToApproveAdmin(admin.ModelAdmin):
     title = "Final Date to Approve"
     fields = ('subject_name', 'teacher', 'date')
     exclude = ('updated_at',)
@@ -272,9 +276,9 @@ class FinalToApproveAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def department(self, obj):
-        for subject in FinalToApproveAdmin.subjects:
+        for subject in subjects:
             if subject['id'] == obj.subject_siu_id:
-                for department in FinalToApproveAdmin.departments:
+                for department in departments:
                     if department['id'] == subject['department_id']:
                         return department['name']
     department.short_description="Departamento"
@@ -329,9 +333,6 @@ class FinalToApproveAdmin(admin.ModelAdmin):
 
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
-    departments = SiuService().list_departments()
-    subjects = SiuService().list_subjects()
-
     title = "Final"
     fields = ('subject_name', 'department', 'teacher', 'date', 'qrid')
     exclude = ('updated_at',)
@@ -357,9 +358,9 @@ class FinalAdmin(admin.ModelAdmin):
     search_fields = ('subject_name', 'date',)
 
     def department(self, obj):
-        for subject in FinalAdmin.subjects:
+        for subject in subjects:
             if subject['id'] == obj.subject_siu_id:
-                for department in FinalAdmin.departments:
+                for department in departments:
                     if department['id'] == subject['department_id']:
                         return department['name']
     department.short_description = "Departamento"
