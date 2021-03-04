@@ -240,12 +240,11 @@ class FinalToApprove(Final):
         proxy = True
 
 
-departments = SiuService().list_departments()
-subjects = SiuService().list_subjects()
-
-
 @admin.register(FinalToApprove)
 class FinalToApproveAdmin(admin.ModelAdmin):
+    departments = SiuService().list_departments()
+    subjects = SiuService().list_subjects()
+
     title = "Final Date to Approve"
     fields = ('subject_name', 'teacher', 'date')
     exclude = ('updated_at',)
@@ -273,9 +272,9 @@ class FinalToApproveAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def department(self, obj):
-        for subject in subjects:
+        for subject in FinalToApproveAdmin.subjects:
             if subject['id'] == obj.subject_siu_id:
-                for department in departments:
+                for department in FinalToApproveAdmin.departments:
                     if department['id'] == subject['department_id']:
                         return department['name']
     department.short_description="Departamento"
@@ -328,12 +327,11 @@ class FinalToApproveAdmin(admin.ModelAdmin):
     reject_action.short_description = "Rechazar Fechas"
 
 
-departments = SiuService().list_departments()
-subjects = SiuService().list_subjects()
-
-
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
+    departments = SiuService().list_departments()
+    subjects = SiuService().list_subjects()
+
     title = "Final"
     fields = ('subject_name', 'department', 'teacher', 'date', 'qrid')
     exclude = ('updated_at',)
@@ -359,12 +357,12 @@ class FinalAdmin(admin.ModelAdmin):
     search_fields = ('subject_name', 'date',)
 
     def department(self, obj):
-        for subject in subjects:
+        for subject in FinalAdmin.subjects:
             if subject['id'] == obj.subject_siu_id:
-                for department in departments:
+                for department in FinalAdmin.departments:
                     if department['id'] == subject['department_id']:
                         return department['name']
-    department.short_description="Departamento"
+    department.short_description = "Departamento"
 
     def download_qr(self, obj):
         return format_html(
