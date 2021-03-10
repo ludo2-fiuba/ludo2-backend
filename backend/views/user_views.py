@@ -19,5 +19,5 @@ class UserCustomViewSet(UserViewSet):
 
     @action(detail=False, methods=['POST'])
     def is_me(self, request):
-        result = ImageValidatorService(request.data['photo']).validate_identity(request.user.student)
+        result = ImageValidatorService(request.data['image']).validate_identity(request.user.student)
         return Response({"match": result}, status=status.HTTP_200_OK)

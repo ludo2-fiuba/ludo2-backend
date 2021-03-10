@@ -1,4 +1,6 @@
 import os
+import collections
+import functools
 
 from django.conf.urls import url
 from django.contrib import admin, messages
@@ -11,6 +13,44 @@ from django.utils.html import format_html
 from .forms import InscribirForm, StaffCreateForm
 from .models import *
 from .services.siu_service import SiuService
+
+
+class memoized(object):
+    '''Decorator. Caches a function's return value each time it is called.
+    If called later with the same arguments, the cached value is returned
+    (not reevaluated).
+    '''
+
+    def __init__(self, func):
+        self.func = func
+        self.cache = {}
+
+    def __call__(self, *args):
+        if not isinstance(args, collections.Hashable):
+            # uncacheable. a list, for instance.
+            # better to not cache than blow up.
+            return self.func(*args)
+        if args in self.cache:
+            return self.cache[args]
+        else:
+            value = self.func(*args)
+            self.cache[args] = value
+            return value
+
+    def __repr__(self):
+        return self.func.__doc__
+
+    def __get__(self, obj, objtype):
+        return functools.partial(self.__call__, obj)
+
+
+@memoized
+def departments():
+    return SiuService().list_departments()
+
+@memoized
+def subjects():
+    return SiuService().list_subjects()
 
 
 class StaffUser(User):
@@ -242,11 +282,6 @@ class FinalToApprove(Final):
         proxy = True
 
 
-if os.environ["SIU_URL"]:
-    departments = SiuService().list_departments()
-    subjects = SiuService().list_subjects()
-
-
 @admin.register(FinalToApprove)
 class FinalToApproveAdmin(admin.ModelAdmin):
     title = "Final Date to Approve"
@@ -276,9 +311,9 @@ class FinalToApproveAdmin(admin.ModelAdmin):
         return my_urls + urls
 
     def department(self, obj):
-        for subject in subjects:
+        for subject in subjects():
             if subject['id'] == obj.subject_siu_id:
-                for department in departments:
+                for department in departments():
                     if department['id'] == subject['department_id']:
                         return department['name']
     department.short_description="Departamento"
@@ -358,9 +393,9 @@ class FinalAdmin(admin.ModelAdmin):
     search_fields = ('subject_name', 'date',)
 
     def department(self, obj):
-        for subject in subjects:
+        for subject in subjects():
             if subject['id'] == obj.subject_siu_id:
-                for department in departments:
+                for department in departments():
                     if department['id'] == subject['department_id']:
                         return department['name']
     department.short_description = "Departamento"
