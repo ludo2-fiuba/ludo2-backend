@@ -22,11 +22,15 @@ class CustomUserManager(UserManager):
         face_encodings = extra_fields.pop("face_encodings")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
-        user.set_password(password)
 
-        user.save(using=self._db)
         if extra_fields['is_staff']:
+            user.set_password(password)
+            user.save(using=self._db)
             return user
+
+        user.set_unusable_password()
+        user.save(using=self._db)
+
         if extra_fields.get('is_teacher', False):
             Teacher(user=user, face_encodings=face_encodings).save()
         elif extra_fields.get('is_student', False):
@@ -53,8 +57,8 @@ class CustomUserManager(UserManager):
 class User(AbstractUser):
     is_student = models.BooleanField(default=False, verbose_name="Es estudiante?")
     is_teacher = models.BooleanField(default=False, verbose_name="Es docente?")
-    first_name = models.CharField(max_length=50, blank=False, verbose_name="Nombre")
-    last_name = models.CharField(max_length=50, blank=False, verbose_name="Apellido")
+    first_name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
+    last_name = models.CharField(max_length=50, blank=True, verbose_name="Apellido")
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
     dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False, verbose_name="DNI")
 
@@ -64,5 +68,5 @@ class User(AbstractUser):
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'dni'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'email', 'is_student', 'is_teacher']
+    REQUIRED_FIELDS = ['email', 'is_student', 'is_teacher']
 
