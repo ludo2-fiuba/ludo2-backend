@@ -11,7 +11,7 @@ from backend.services.image_validator_service import ImageValidatorService
 class UserCustomCreateSerializer(UserCreateSerializer):
     class Meta:
         model = User
-        fields = ('dni', 'email', 'is_student', 'is_teacher')
+        fields = ('code', 'is_student', 'is_teacher')
 
     def create(self, validated_data):
         b64_string = self.context['request'].data['image']
@@ -27,9 +27,11 @@ class UserCustomCreateSerializer(UserCreateSerializer):
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'code'
+
     class Meta:
         model = User
-        fields = ('dni', 'email', 'is_student', 'is_teacher')
+        fields = ('code',)
 
     def validate(self, attrs):
         token_response = self.fiuba_service().get_token(self.context['request'].data['code'])
@@ -44,8 +46,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
         data['refresh'] = str(refresh)
         data['access'] = str(refresh.access_token)
+        self._validated_data = data
 
         return data
+
+    def is_valid(self, raise_exception=False):
+        return self.validate(self.initial_data)
 
     def fiuba_service(self):
         return AuthFiubaService()
