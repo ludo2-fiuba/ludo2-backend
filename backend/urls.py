@@ -1,8 +1,9 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from rest_framework_nested import routers
 
 from . import views
 from .views.user_views import UserCustomViewSet
+from rest_framework_simplejwt import views as jwt_views
 
 router = routers.SimpleRouter()
 router.register(r'final_exams', views.FinalExamStudentViewSet, 'final_exam')
@@ -25,4 +26,5 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
 
     path('', include(auth_router.urls)),
+    re_path(r'^api/oauth/$', views.user_views.token_obtain_pair, name='api-oauth'),
 ]

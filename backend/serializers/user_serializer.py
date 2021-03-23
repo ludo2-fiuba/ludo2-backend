@@ -1,8 +1,10 @@
-from djoser.serializers import UserCreateSerializer
+from djoser.serializers import UserCreateSerializer, User
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from backend.api_exceptions import InvalidImageError
 from backend.models import User
+from backend.services.auth_fiuba_service import AuthFiubaService
 from backend.services.image_validator_service import ImageValidatorService
 
 
@@ -21,4 +23,29 @@ class UserCustomCreateSerializer(UserCreateSerializer):
         return super().create(validated_data)
 
     def validate(self, attrs):
-        return attrs;
+        return attrs
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    class Meta:
+        model = User
+        fields = ('dni', 'email', 'is_student', 'is_teacher')
+
+    def validate(self, attrs):
+        token_response = self.fiuba_service().get_token(self.context['request'].data['code'])
+
+        user_info = self.fiuba_service().userinfo(token_response['access_token'])
+
+        user = User.objects.get(dni=user_info['sub'])
+
+        data = {}
+
+        refresh = self.get_token(user)
+
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+
+        return data
+
+    def fiuba_service(self):
+        return AuthFiubaService()
