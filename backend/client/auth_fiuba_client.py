@@ -5,6 +5,9 @@ from backend.client.client_handler import ClientHandler
 
 class AuthFiubaClient:
     AUTH_URL = os.environ["AUTH_FIUBA_URL"]
+    AUTH_CLIENT_SECRET = os.environ["AUTH_CLIENT_SECRET"]
+    AUTH_CLIENT_ID = os.environ["AUTH_CLIENT_ID"]
+    AUTH_REDIRECT_URI = os.environ["AUTH_REDIRECT_URI"]
 
     def __init__(self, handler=ClientHandler()):
         self.handler = handler
@@ -19,9 +22,9 @@ class AuthFiubaClient:
         return {
             'code': code,
             'grant_type': 'authorization_code',
-            'client_id': 'ed6fdc77-51b0-4828-be5d-37d23d1b6880',
-            'client_secret': 'AJh11o6_IWoUKzwEt_CkrS6DGPKSyhcUDpxLZVNJ_aGeuasY0sYq6Jk5PV-HbX5IJwUe26kFLAYBzf3_jUgDbxA',
-            'redirect_uri': "https://oauthdebugger.com/debug"
+            'client_id': self.AUTH_CLIENT_ID,
+            'client_secret': self.AUTH_CLIENT_SECRET,
+            'redirect_uri': self.AUTH_REDIRECT_URI
         }
 
     def _token_headers(self):
