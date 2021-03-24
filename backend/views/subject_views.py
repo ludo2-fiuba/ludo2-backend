@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 
 from backend.services.siu_service import SiuService
-from backend.views.utils import respond, respond_plain
+from backend.views.utils import respond_plain
 
 
 class SubjectViewSet(viewsets.ModelViewSet):

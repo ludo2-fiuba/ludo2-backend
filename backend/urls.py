@@ -3,7 +3,6 @@ from rest_framework_nested import routers
 
 from . import views
 from .views.user_views import UserCustomViewSet
-from rest_framework_simplejwt import views as jwt_views
 
 router = routers.SimpleRouter()
 router.register(r'final_exams', views.FinalExamStudentViewSet, 'final_exam')

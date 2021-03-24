@@ -23,10 +23,7 @@ class StaffCreateForm(UserCreationForm):
         return user
 
 
-class InscribirForm(forms.Form):
-    inscripto = forms.BooleanField(
-        required=True,
-    )
+class RegisterForm(forms.Form):
     padron = forms.CharField(max_length=6, validators=[MinLengthValidator(5)], required=True)
 
     def save(self, student):

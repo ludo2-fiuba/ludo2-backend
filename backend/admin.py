@@ -10,7 +10,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.html import format_html
 
-from .forms import InscribirForm, StaffCreateForm
+from .forms import RegisterForm, StaffCreateForm
 from .models import *
 from .services.siu_service import SiuService
 
@@ -189,7 +189,7 @@ class StudentPreRegistered(StudentCommonAdmin):
 
     def inscribir(self, request, student_id):
         student = self.get_object(request, student_id)
-        form = InscribirForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             try:
                 form.save(student)
@@ -213,7 +213,7 @@ class StudentPreRegistered(StudentCommonAdmin):
 
         return TemplateResponse(
             request,
-            'admin/inscribir_alumno.html',
+            'admin/register_student.html',
             context,
         )
 
