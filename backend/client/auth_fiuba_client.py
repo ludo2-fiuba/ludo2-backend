@@ -16,7 +16,7 @@ class AuthFiubaClient:
         return self.handler.post(f"{self.AUTH_URL}/token", data=self._token_body(code, redirect_uri), headers=self._token_headers())
 
     def get_userinfo(self, access_token):
-        return self.handler.post(f"{self.AUTH_URL}/userinfo", headers=self._uuserinfo_headers(access_token))
+        return self.handler.post(f"{self.AUTH_URL}/userinfo", headers=self._userinfo_headers(access_token))
 
     def _token_body(self, code, redirect_uri):
         return {
@@ -30,5 +30,5 @@ class AuthFiubaClient:
     def _token_headers(self):
         return {'Content-Type': 'application/x-www-form-urlencoded'}
 
-    def _uuserinfo_headers(self, access_token):
+    def _userinfo_headers(self, access_token):
         return {"Authorization": f"Bearer {access_token}"}
