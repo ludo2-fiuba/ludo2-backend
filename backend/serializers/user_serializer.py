@@ -34,7 +34,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         fields = ('code',)
 
     def validate(self, attrs):
-        token_response = self.fiuba_service().get_token(self.context['request'].query_params['code'])
+        token_response = self.fiuba_service().get_token(self.context['request'].data['code'], self.context['request'].data['redirect_uri'])
 
         user_info = self.fiuba_service().userinfo(token_response['access_token'])
 

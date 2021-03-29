@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from backend.services.image_validator_service import ImageValidatorService
+from backend.services.siu_service import SiuService
 from ..factories import StudentFactory, TeacherFactory, FinalFactory
 
 
@@ -16,18 +17,30 @@ class StudentFinalExamViewsTests(APITestCase):
 
         self.take_exam_uri = "/api/final_exams/take_exam/"
 
+        self.subject_response = {
+            "id": 1,
+            "code": "62.01",
+            "name": "Física I",
+            "department_id": 2,
+            "correlatives": []
+        }
+
     def test_take_exam(self):
         """
-        Should register that the student took the exam and has a FinalExam for him, the Course and the Final.
+        Should register that the student took the exam and has a FinalExam for him.
         """
         self.client.force_authenticate(user=self.student.user)
 
         with mock.patch.object(ImageValidatorService, "validate_identity", lambda x, y: True):
-            response = self.client.post(self.take_exam_uri, {"final": self.final.qrid, "photo": 'fake_b64'}, format='json')
+            with mock.patch.object(SiuService, "get_subject", lambda x, y: self.subject_response):
+                response = self.client.post(self.take_exam_uri, {"final": self.final.qrid, "image": 'fake_b64'}, format='json')
 
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-            self.assertEqual(response.data['student'], self.student.pk)
-            self.assertEqual(response.data['grade'], None)
+                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+                self.assertEqual(response.data['student'], self.student.pk)
+                self.assertEqual(response.data['grade'], None)
+
+                self.assertEqual(self.final.final_exams.count(), 1)
+                self.assertEqual(self.final.final_exams.first().student, self.student)
 
     def test_take_exam_twice(self):
         """
@@ -36,8 +49,9 @@ class StudentFinalExamViewsTests(APITestCase):
         self.client.force_authenticate(user=self.student.user)
 
         with mock.patch.object(ImageValidatorService, "validate_identity", lambda x, y: True):
-            self.client.post(self.take_exam_uri, {"final": self.final.qrid, "photo": 'fake_b64'}, format='json')
-            response = self.client.post(self.take_exam_uri, {"final": self.final.qrid, "photo": 'fake_b64'}, format='json')
+            with mock.patch.object(SiuService, "get_subject", lambda x, y: self.subject_response):
+                self.client.post(self.take_exam_uri, {"final": self.final.qrid, "image": 'fake_b64'}, format='json')
+                response = self.client.post(self.take_exam_uri, {"final": self.final.qrid, "image": 'fake_b64'}, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 

@@ -4,8 +4,8 @@ from backend.client.client_handler import ClientHandler
 
 
 class SiuClient:
-    SIU_URL = os.environ["SIU_URL"]
-    API_KEY = os.environ["SIU_API_KEY"]
+    SIU_URL = os.environ.get("SIU_URL")
+    API_KEY = os.environ.get("SIU_API_KEY")
 
     def __init__(self, handler=ClientHandler()):
         self.handler = handler

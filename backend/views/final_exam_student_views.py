@@ -5,12 +5,11 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.services.image_validator_service import ImageValidatorService
-from backend.services.siu_service import SiuService
+from backend.model_validators import FinalExamValidator
 from backend.models import FinalExam, Final
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import FinalExamSerializer, FinalExamStudentSerializer
-from backend.model_validators import FinalExamValidator
+from backend.services.siu_service import SiuService
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import validate_face
 
