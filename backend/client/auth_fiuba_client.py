@@ -7,7 +7,6 @@ class AuthFiubaClient:
     AUTH_URL = os.environ.get("AUTH_FIUBA_URL")
     AUTH_CLIENT_SECRET = os.environ.get("AUTH_CLIENT_SECRET")
     AUTH_CLIENT_ID = os.environ.get("AUTH_CLIENT_ID")
-    AUTH_REDIRECT_URI = os.environ.get("AUTH_REDIRECT_URI")
 
     def __init__(self, handler=ClientHandler()):
         self.handler = handler
