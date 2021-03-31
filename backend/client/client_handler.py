@@ -26,7 +26,7 @@ class ClientHandler:
             r = method(url, headers=headers, params=params, data=data, verify=False)
             if not r.ok:
                 self.LOG.error(f"Unexpected response from external source with status {r.status_code} and body {r.text}")
-                raise ErrorCommunicatingWithExternalSourceError(status_code=r.status_code, detail="Invalid response from external source")
+                raise ErrorCommunicatingWithExternalSourceError(external_status_code=r.status_code, detail="Invalid response from external source")
             return r
         except requests.exceptions.RequestException as e:
             self.LOG.error(f"An unexpected error occurred, tried performing request but resulted in {e}")

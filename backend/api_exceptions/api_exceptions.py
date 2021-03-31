@@ -1,18 +1,15 @@
 from rest_framework.exceptions import APIException
+from rest_framework import status
 
 
 class InvalidImageError(APIException):
-    status_code = 400
+    status_code = status.HTTP_400_BAD_REQUEST
     default_code = 'invalid_image'
 
 
 class ErrorCommunicatingWithExternalSourceError(APIException):
-    status_code = 500
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
     default_code = 'communication_error'
-
-    def __init__(self, status_code, **kwargs):
-        super().__init__(**kwargs)
-        self.status_code = status_code
 
 
 class InvalidDataError(APIException):
@@ -21,21 +18,21 @@ class InvalidDataError(APIException):
 
 
 class ValidationError(APIException):
-    status_code = 400
+    status_code = status.HTTP_400_BAD_REQUEST
     default_code = 'invalid_data'
 
 
 class InvalidFaceError(APIException):
-    status_code = 403
+    status_code = status.HTTP_403_FORBIDDEN
     default_code = 'invalid_face'
 
-# def custom_exception_handler(exc, context):
-#     # Call REST framework's default exception handler first,
-#     # to get the standard error response.
-#     response = exception_handler(exc, context)
-#
-#     # Now add the HTTP status code to the response.
-#     if response is not None:
-#         response.data['status_code'] = response.status_code
-#
-#     return response
+
+class UserTypeMisMatch(APIException):
+    status_code = status.HTTP_404_NOT_FOUND
+    default_code = 'invalid_user_type'
+
+
+class InvalidToken(APIException):
+    status_code = status.HTTP_401_UNAUTHORIZED
+    # default_detail = _('Token is invalid or expired')
+    default_code = 'token_not_valid'

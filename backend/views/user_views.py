@@ -1,15 +1,14 @@
 from djoser.views import UserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.exceptions import APIException
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import AUTH_HEADER_TYPES
-from rest_framework_simplejwt.views import TokenObtainPairView
 
 from backend.serializers.user_serializer import UserCustomCreateSerializer, CustomTokenObtainPairSerializer
 from backend.services.image_validator_service import ImageValidatorService
+from ..api_exceptions import InvalidToken
 from ..models import User
 
 
@@ -57,12 +56,6 @@ class CustomTokenObtainPairView(GenericAPIView):
 
 class TokenError(Exception):
     pass
-
-
-class InvalidToken(APIException):
-    status_code = status.HTTP_401_UNAUTHORIZED
-    # default_detail = _('Token is invalid or expired')
-    default_code = 'token_not_valid'
 
 
 token_obtain_pair = CustomTokenObtainPairView.as_view()
