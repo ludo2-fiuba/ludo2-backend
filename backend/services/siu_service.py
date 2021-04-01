@@ -1,5 +1,6 @@
 from backend.client.siu_client import SiuClient
 from backend.external_mappers.external_mapper import ExternalMapper
+from backend.external_mappers.user_external_mapper import UserExternalMapper
 from backend.services.result import Result
 
 
@@ -33,10 +34,10 @@ class SiuService:
         return ExternalMapper().map(self.client.list_departments())
 
     def get_student(self, dni):
-        return ExternalMapper().map(self.client.get_student(dni))
+        return UserExternalMapper().map(self.client.get_student(dni))
 
     def get_teacher(self, dni):
-        return ExternalMapper().map(self.client.get_teacher(dni))
+        return UserExternalMapper().map(self.client.get_teacher(dni))
 
     def _build_act(self, final_exams):
         return {fe.student.padron: fe.grade for fe in final_exams}
