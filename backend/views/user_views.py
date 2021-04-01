@@ -6,7 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import AUTH_HEADER_TYPES
 
-from backend.serializers.user_serializer import UserCustomCreateSerializer, CustomTokenObtainPairSerializer
+from backend.serializers.user_serializer import UserCustomCreateSerializer, CustomTokenObtainPairSerializer, \
+    UserCustomGetSerializer
 from backend.services.image_validator_service import ImageValidatorService
 from ..api_exceptions import InvalidToken
 from ..models import User
@@ -20,10 +21,19 @@ class UserCustomViewSet(UserViewSet):
     def get_serializer_class(self):
         return UserCustomCreateSerializer
 
+    @action(["get"], detail=False)
+    def me(self, request, *args, **kwargs):
+        return super().me(request, *args, **kwargs)
+
     @action(detail=False, methods=['POST'])
     def is_me(self, request):
         result = ImageValidatorService(request.data['image']).validate_identity(request.user.student)
         return Response({"match": result}, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = UserCustomGetSerializer(instance)
+        return Response(serializer.data)
 
 
 class CustomTokenObtainPairView(GenericAPIView):

@@ -70,3 +70,6 @@ class User(AbstractUser):
     USERNAME_FIELD = 'dni'
     REQUIRED_FIELDS = ['email', 'is_student', 'is_teacher']
 
+    def file(self):
+        return self.student.padron if self.student else self.teacher.legajo
+

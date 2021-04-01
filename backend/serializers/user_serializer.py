@@ -1,8 +1,8 @@
-from djoser.serializers import UserCreateSerializer, User
+from djoser.serializers import UserCreateSerializer, User, UserSerializer
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from backend.api_exceptions import InvalidImageError, ErrorCommunicatingWithExternalSourceError, UserTypeMisMatch
+from backend.api_exceptions import InvalidImageError
 from backend.models import User
 from backend.services.auth_fiuba_service import AuthFiubaService
 from backend.services.image_validator_service import ImageValidatorService
@@ -25,6 +25,12 @@ class UserCustomCreateSerializer(UserCreateSerializer):
 
     def validate(self, attrs):
         return attrs
+
+
+class UserCustomGetSerializer(UserSerializer):
+    class Meta:
+        model = User
+        fields = ('dni', 'email', 'first_name', 'last_name', 'is_student', 'is_teacher', 'file')
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
