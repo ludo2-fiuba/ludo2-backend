@@ -77,6 +77,7 @@ class StaffUserAdmin(UserAdmin):
     can_delete = False
     list_display = ('dni', 'first_name', 'last_name', 'department_siu_id')
     search_fields = ('dni', 'first_name', 'last_name', 'department_siu_id')
+    ordering = ('dni', 'first_name', 'last_name')
 
     add_form = StaffCreateForm
 
@@ -112,6 +113,7 @@ class StudentCommonAdmin(admin.ModelAdmin):
     exclude = ("face_encodings", 'inscripto', 'user')
     search_fields = ('dni', 'first_name', 'last_name', 'padron')
     readonly_fields = ('dni', 'first_name', 'last_name', 'padron')
+    ordering = ('padron',)
 
     def get_password(self, obj):
         return obj.user.password
@@ -229,6 +231,7 @@ class TeacherAdmin(admin.ModelAdmin):
     exclude = ("face_encodings", 'user')
     search_fields = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo')
     readonly_fields = ('dni', 'first_name', 'last_name', 'siu_id', 'legajo')
+    ordering = ('legajo',)
 
     def get_password(self, obj):
         return obj.user.password
@@ -288,8 +291,8 @@ class FinalToApproveAdmin(admin.ModelAdmin):
     fields = ('subject_name', 'teacher', 'date')
     exclude = ('updated_at',)
     readonly_fields = ('subject_name', 'department', 'teacher', 'date')
-
     list_display = ('subject_name', 'department', 'teacher', 'date', 'approve', 'reject')
+    ordering = ('subject_name', 'teacher', 'date')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -372,6 +375,7 @@ class FinalAdmin(admin.ModelAdmin):
     fields = ('subject_name', 'department', 'teacher', 'date', 'qrid')
     exclude = ('updated_at',)
     readonly_fields = ('subject_name', 'subject_siu_id', 'date', 'qrid')
+    ordering = ('subject_name', 'teacher', 'date')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
