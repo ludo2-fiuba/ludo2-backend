@@ -161,8 +161,8 @@ class PreRegisteredStudent(Student):
 class StudentPreRegistered(StudentCommonAdmin):
     title = "Student to Register"
 
-    list_display = ('dni', 'first_name', 'last_name', 'inscribir_button')
-    readonly_fields = ('dni', 'first_name', 'last_name', 'inscribir_button')
+    list_display = ('dni', 'first_name', 'last_name', 'revisar_boton')
+    readonly_fields = ('dni', 'first_name', 'last_name', 'revisar_boton')
 
     def get_queryset(self, request):
         """
@@ -175,51 +175,64 @@ class StudentPreRegistered(StudentCommonAdmin):
     def get_urls(self):
         urls = super().get_urls()
         my_urls = [
-            url(r'^(?P<student_id>.+)/inscribir/$',
-                self.admin_site.admin_view(self.inscribir),
-                name='inscribir')
+            url(r'^(?P<student_id>.+)/revisar/$',
+                self.admin_site.admin_view(self.revisar),
+                name='revisar'),
+            url(r'^(?P<student_id>.+)/aprobar/$',
+                self.admin_site.admin_view(self.aprobar),
+                name='aprobar'),
+            url(r'^(?P<student_id>.+)/rechazar/$',
+                self.admin_site.admin_view(self.rechazar),
+                name='rechazar'),
         ]
         return my_urls + urls
 
-    def inscribir_button(self, obj):
+    def revisar_boton(self, obj):
         return format_html(
-            '<a class="button" href="{}">Inscribir</a>',
-            reverse('admin:inscribir', args=[obj.pk]),
+            '<a class="button" href="{}">Revisar</a>',
+            reverse('admin:revisar', args=[obj.pk]),
         )
 
-    actions = ['inscribir']
+    actions = ['revisar', 'aprobar', 'rechazar']
 
-    def inscribir(self, request, student_id):
+    def revisar(self, request, student_id):
         student = self.get_object(request, student_id)
         form = RegisterForm(request.POST)
-        if form.is_valid():
-            try:
-                form.save(student)
-            except Exception as e:
-                # If save() raised, the form will a have a non
-                # field error containing an informative message.
-                pass
-            else:
-                self.message_user(request, f"Success. Student {student} for registered")
-                url = reverse(
-                    'admin:backend_preregisteredstudent_changelist',
-                    current_app=self.admin_site.name,
-                )
-                return HttpResponseRedirect(url)
 
         context = self.admin_site.each_context(request)
         context['opts'] = self.model._meta
         context['form'] = form
         context['student'] = student
-        context['title'] = "Inscribir"
+        context['title'] = "Revisar"
 
         return TemplateResponse(
             request,
             'admin/register_student.html',
-            context,
+            context
         )
 
-    inscribir.short_description = "Inscribir Alumno"
+    def aprobar(self, request, student_id):
+        student = self.get_object(request, student_id)
+        student.inscripto = True
+        # student.save()
+        self.message_user(request, f"El estudiante {student} ha sido registrado")
+        url = reverse(
+            'admin:backend_preregisteredstudent_changelist',
+            current_app=self.admin_site.name,
+        )
+        return HttpResponseRedirect(url)
+
+    def rechazar(self, request, student_id):
+        student = self.get_object(request, student_id)
+        student.delete()
+        self.message_user(request, f"El estudiante {student} ha sido reseteado")
+        url = reverse(
+            'admin:backend_preregisteredstudent_changelist',
+            current_app=self.admin_site.name,
+        )
+        return HttpResponseRedirect(url)
+
+    revisar.short_description = "Revisar Alumno"
 
 
 @admin.register(Teacher)
@@ -372,7 +385,7 @@ class FinalToApproveAdmin(admin.ModelAdmin):
 @admin.register(Final)
 class FinalAdmin(admin.ModelAdmin):
     title = "Final"
-    fields = ('subject_name', 'department', 'teacher', 'date', 'qrid')
+    fields = ('subject_name', 'teacher', 'date', 'qrid')
     exclude = ('updated_at',)
     readonly_fields = ('subject_name', 'subject_siu_id', 'date', 'qrid')
     ordering = ('subject_name', 'teacher', 'date')

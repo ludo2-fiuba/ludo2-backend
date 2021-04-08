@@ -1,8 +1,10 @@
 {% extends "admin/base_site.html" %}
 
+{% load customtag %}
+
 {% block content %}
 <div id="content-main">
-  <form action="" method="POST">
+  <form action="aprobar/" method="POST">
     {% csrf_token %}
     {% if form.non_field_errors|length > 0 %}
       <p class="errornote">
@@ -24,10 +26,17 @@
         </div>
       {% endfor %}
     </fieldset>
-    <div class="submit-row">
-      <input type="submit" class="default" value="Submit">
-    </div>
   </form>
+  <div class="flex" style="justify-content: center">
+    <button class="default" style="font-weight: 400; padding: 10px 15px; border-radius: 4px; cursor: pointer; color: #fff; background-color: darkred; border: none; margin-right: 20px">
+      {% reject_url student as url_reject %}
+      <a href={{ url_reject }}>Rechazar</a>
+    </button>
+    <button class="default" style="font-weight: 400; padding: 10px 15px; border-radius: 4px; cursor: pointer; color: #fff; background-color: #417690; border: none; margin-right: 20px">
+      {% approve_url student as url_approve %}
+      <a href={{ url_approve }}>Aprobar</a>
+    </button>
+  </div>
 </div>
 {% endblock %}
 

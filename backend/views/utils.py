@@ -30,4 +30,4 @@ def validate_face(request, model):
     is_match = ImageValidatorService(request.data['image']).validate_identity(model)
 
     if not is_match:
-        return Response(status=status.HTTP_403_FORBIDDEN)
+        return InvalidFaceError()

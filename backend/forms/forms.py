@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.core.validators import MinLengthValidator
 
 from backend.models import User
 
@@ -10,8 +9,6 @@ class StaffCreateForm(UserCreationForm):
         model = User
         fields = ('email', 'dni', 'first_name', 'last_name', 'password1', 'password2', 'groups', 'is_staff')
 
-    # or override the __init__ method and set initial=False
-    # this is a bit more complicated but less repetitive
     def __init__(self, *args, **kwargs):
         super(StaffCreateForm, self).__init__(*args, **kwargs)
 
@@ -24,10 +21,12 @@ class StaffCreateForm(UserCreationForm):
 
 
 class RegisterForm(forms.Form):
-    padron = forms.CharField(max_length=6, validators=[MinLengthValidator(5)], required=True)
+    name = forms.CharField(label='Your name')
 
     def save(self, student):
         try:
+            if not student.inscripto:
+                raise Exception("adasd")
             student.inscripto = True
             student.save()
         except Exception as e:
