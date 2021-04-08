@@ -214,7 +214,7 @@ class StudentPreRegistered(StudentCommonAdmin):
     def aprobar(self, request, student_id):
         student = self.get_object(request, student_id)
         student.inscripto = True
-        # student.save()
+        student.save()
         self.message_user(request, f"El estudiante {student} ha sido registrado")
         url = reverse(
             'admin:backend_preregisteredstudent_changelist',

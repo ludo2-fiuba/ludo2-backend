@@ -27,14 +27,14 @@
       {% endfor %}
     </fieldset>
   </form>
-  <div class="flex" style="justify-content: center">
-    <button class="default" style="font-weight: 400; padding: 10px 15px; border-radius: 4px; cursor: pointer; color: #fff; background-color: darkred; border: none; margin-right: 20px">
+  <div style="display: flex; justify-content: center">
+    <button style="font-weight: 400; padding: 10px 15px; border-radius: 4px; cursor: pointer; color: #fff; background-color: #c4082e; border: none; margin-right: 20px">
       {% reject_url student as url_reject %}
-      <a href={{ url_reject }}>Rechazar</a>
+      <a style="color: #fff;" href={{ url_reject }}>Rechazar</a>
     </button>
-    <button class="default" style="font-weight: 400; padding: 10px 15px; border-radius: 4px; cursor: pointer; color: #fff; background-color: #417690; border: none; margin-right: 20px">
+    <button style="font-weight: 400; padding: 10px 15px; border-radius: 4px; cursor: pointer; color: #fff; background-color: #417690; border: none; margin-right: 20px">
       {% approve_url student as url_approve %}
-      <a href={{ url_approve }}>Aprobar</a>
+      <a style="color: #fff;" href={{ url_approve }}>Aprobar</a>
     </button>
   </div>
 </div>

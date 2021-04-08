@@ -21,7 +21,7 @@ class FinalExamStudentViewSet(BaseViewSet):
 
     @action(detail=False, methods=['POST'])
     def take_exam(self, request):
-        final = get_object_or_404(Final.objects, qrid=request.data['final'])
+        final = get_object_or_404(Final.objects, qrid=request.data['final'], status=Final.Status.OPEN)
 
         validate_face(request, request.user.student)
 
