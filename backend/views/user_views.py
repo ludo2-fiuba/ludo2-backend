@@ -9,7 +9,7 @@ from rest_framework_simplejwt.authentication import AUTH_HEADER_TYPES
 from backend.serializers.user_serializer import UserCustomCreateSerializer, CustomTokenObtainPairSerializer, \
     UserCustomGetSerializer
 from backend.services.image_validator_service import ImageValidatorService
-from ..api_exceptions import InvalidToken
+from ..api_exceptions import InvalidToken, InvalidFaceError
 from ..models import User
 
 
@@ -27,6 +27,9 @@ class UserCustomViewSet(UserViewSet):
 
     @action(detail=False, methods=['POST'])
     def is_me(self, request):
+        if not request.data.get('image'):
+            raise InvalidFaceError()
+
         result = ImageValidatorService(request.data['image']).validate_identity(request.user.student)
         return Response({"match": result}, status=status.HTTP_200_OK)
 

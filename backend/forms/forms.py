@@ -21,17 +21,6 @@ class StaffCreateForm(UserCreationForm):
 
 
 class RegisterForm(forms.Form):
-    name = forms.CharField(label='Your name')
+    # name = forms.CharField(label='Your name')
+    pass
 
-    def save(self, student):
-        try:
-            if not student.inscripto:
-                raise Exception("adasd")
-            student.inscripto = True
-            student.save()
-        except Exception as e:
-            error_message = str(e)
-            self.add_error(None, error_message)
-            raise
-
-        return student
