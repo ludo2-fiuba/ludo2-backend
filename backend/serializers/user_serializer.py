@@ -2,7 +2,7 @@ from djoser.serializers import UserCreateSerializer, User, UserSerializer
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from backend.api_exceptions import InvalidImageError
+from backend.api_exceptions import InvalidImageError, StudentNotApprovedYetError
 from backend.models import User
 from backend.services.auth_fiuba_service import AuthFiubaService
 from backend.services.image_validator_service import ImageValidatorService
@@ -73,6 +73,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         user.last_name = auth_user_info['family_name']
 
         if user.is_student:
+            if not user.student.inscripto:
+                raise StudentNotApprovedYetError()
             user.student.padron = siu_user_info['file']
         else:
             user.teacher.legajo = siu_user_info['file']
