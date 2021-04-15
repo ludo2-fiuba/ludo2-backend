@@ -52,7 +52,7 @@ class FinalExamStudentViewSet(BaseViewSet):
             raise InvalidSubjectCodeError()
 
         result = SiuService().correlative_subjects(response[0])
-        return Response(self._paginate(self.get_queryset().filter(final__subject_siu_id__in=[subject['id'] for subject in result], student=request.user.id)))
+        return Response(self._paginate(self.get_queryset().filter(final__subject_siu_id__in=[subject['id'] for subject in result], student=request.user.id, final__status=Final.Status.ACT_SENT)))
 
     def _filter_params(self):
         return dict({key: value for key, value in self.request.query_params.items()})
