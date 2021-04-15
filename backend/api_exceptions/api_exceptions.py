@@ -41,3 +41,8 @@ class InvalidToken(APIException):
 class StudentNotApprovedYetError(APIException):
     status_code = status.HTTP_401_UNAUTHORIZED
     default_code = 'user_not_approved'
+
+
+class InvalidSubjectCodeError(APIException):
+    status_code = status.HTTP_404_NOT_FOUND
+    default_code = 'invalid_subject_code'

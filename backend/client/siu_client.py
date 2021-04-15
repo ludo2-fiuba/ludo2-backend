@@ -15,19 +15,18 @@ class SiuClient:
         data = {"finalId": final_siu_id, "notas": grades}
         return self._post(f"docentes/{teacher_siu_id}/actas", data=data) # TODO: fix no grades only padrones
 
-    def list_subjects(self, filters):
-        query = "?" + "&".join(f"{k}={v}" for k, v in filters.items()) if filters else ""
+    def list_subjects(self, filters=None, query=""):
+        query = "?" + "&".join(f"{k}={v}" for k, v in filters.items()) if filters else query
         return self._get(f"materias/{query}")
 
     def get_subject(self, subject_siu_id):
         return self._get(f"materias/{subject_siu_id}")
 
-    def list_correlatives(self, subject_siu_id):
-        subject = self.get_subject(subject_siu_id)
-        if not subject['correlativas']:
+    def list_correlatives(self, subject):
+        if not subject['correlatives']:
             return []
-        query = "?codigo[]=" + "&codigo[]=".join(subject['correlativas'])
-        return self.list_subjects(query)
+        query = "?codigo[]=" + "&codigo[]=".join(subject['correlatives'])
+        return self.list_subjects(None, query)
 
     def create_final(self, teacher_siu_id, subject_siu_id, timestamp):
         data = {'materia_id': subject_siu_id, 'timestamp': timestamp}

@@ -17,8 +17,8 @@ class SiuService:
     def get_subject(self, subject_siu_id):
         return ExternalMapper().map(self.client.get_subject(subject_siu_id))
 
-    def correlative_subjects(self, subject_siu_id):
-        return ExternalMapper().map(self.client.list_correlatives(subject_siu_id))
+    def correlative_subjects(self, subject):
+        return ExternalMapper().map(self.client.list_correlatives(subject))
 
     def create_final(self, teacher_siu_id, subject_siu_id, timestamp):
         return self.client.create_final(teacher_siu_id, subject_siu_id, timestamp)

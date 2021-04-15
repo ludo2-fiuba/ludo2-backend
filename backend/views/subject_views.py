@@ -12,8 +12,3 @@ class SubjectViewSet(viewsets.ModelViewSet):
     def list(self, request):
         result = SiuService().list_subjects()
         return respond_plain(result)
-
-    @action(detail=True, methods=["GET"])
-    def correlatives(self, request, pk):
-        result = SiuService().correlative_subjects(pk)
-        return respond_plain(result)

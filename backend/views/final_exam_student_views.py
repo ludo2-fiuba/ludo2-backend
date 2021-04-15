@@ -5,6 +5,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from backend.api_exceptions import InvalidSubjectCodeError
 from backend.model_validators import FinalExamValidator
 from backend.models import FinalExam, Final
 from backend.permissions import *
@@ -41,12 +42,17 @@ class FinalExamStudentViewSet(BaseViewSet):
         subjects_passed = [x.subject for x in self.get_queryset().annotate(subject=F('final__subject_name')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id, final__status=Final.Status.ACT_SENT)]
         return Response(self._group_by(self._paginate(self.get_queryset().exclude(final__subject_name__in=subjects_passed), FinalExamStudentSerializer), 'subject'))
 
-    @action(detail=True, methods=["GET"])
-    def correlatives(self, request, pk):
+    @action(detail=False, methods=["GET"])
+    def correlatives(self, request):
         self.extra = {}
-        fe = get_object_or_404(FinalExam.objects, id=pk, student=request.user.student)
-        result = SiuService().correlative_subjects(fe.final.subject_siu_id)
-        return Response(self._paginate(self.get_queryset().filter(final__subject_name__in=[subject['name'] for subject in result], student=request.user.id)))
+        subject_code = self.request.query_params.get('code')
+        response = SiuService().list_subjects({'codigo': subject_code})
+
+        if not response:
+            raise InvalidSubjectCodeError()
+
+        result = SiuService().correlative_subjects(response[0])
+        return Response(self._paginate(self.get_queryset().filter(final__subject_siu_id__in=[subject['id'] for subject in result], student=request.user.id)))
 
     def _filter_params(self):
         return dict({key: value for key, value in self.request.query_params.items()})
