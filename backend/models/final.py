@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from backend.models import Teacher
 from backend.services.siu_service import SiuService
+from backend.utils import memoized
 
 
 class Final(models.Model):
@@ -18,7 +19,6 @@ class Final(models.Model):
 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='finals', verbose_name="Docente")
     date = models.DateTimeField(db_index=True, null=False, editable=False, verbose_name="Fecha")
-    subject_name = models.CharField(max_length=100, db_index=True, null=False, editable=False, verbose_name="Nombre de Materia") # Deprecated
     subject_siu_id = models.IntegerField(db_index=True, default=0, null=False, editable=False, verbose_name="SIU ID de Materia")
     qrid = models.UUIDField(default=uuid.uuid4, editable=False)
     siu_id = models.IntegerField(db_index=True, null=True, editable=True)
@@ -45,8 +45,9 @@ class Final(models.Model):
         verbose_name = "Final"
         verbose_name_plural = "Finales"
 
+    @memoized
     def subject(self):
         return SiuService().get_subject(self.subject_siu_id)
 
     def __str__(self):
-        return f"{self.siu_id} - {self.subject_name} - {self.teacher} - {self.date.date()}"
+        return f"{self.siu_id} - {self.subject()['name']} - {self.teacher} - {self.date.date()}"

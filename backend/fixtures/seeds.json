@@ -267,7 +267,6 @@
     "fields": {
       "siu_id": 1,
       "teacher": 6,
-      "subject_name": "Física I",
       "subject_siu_id": 1,
       "date": "2019-07-15T19:00:00-03:00"
     }
@@ -278,7 +277,6 @@
     "fields": {
       "siu_id": 2,
       "teacher": 6,
-      "subject_name": "Física I",
       "subject_siu_id": 1,
       "date": "2019-07-22T19:00:00-03:00"
     }
@@ -289,7 +287,6 @@
     "fields": {
       "siu_id": 3,
       "teacher": 7,
-      "subject_name": "Álgebra II",
       "subject_siu_id": 4,
       "date": "2019-07-15T19:00:00-03:00"
     }
@@ -300,7 +297,6 @@
     "fields": {
       "siu_id": 4,
       "teacher": 7,
-      "subject_name": "Álgebra II",
       "subject_siu_id": 4,
       "date": "2019-07-22T19:00:00-03:00"
     }
@@ -311,7 +307,6 @@
     "fields": {
       "siu_id": 5,
       "teacher": 8,
-      "subject_name": "Algoritmos y Programación I",
       "subject_siu_id": 5,
       "date": "2019-07-15T19:00:00-03:00"
     }
@@ -322,7 +317,6 @@
     "fields": {
       "siu_id": 6,
       "teacher": 8,
-      "subject_name": "Algoritmos y Programación I",
       "subject_siu_id": 5,
       "date": "2019-07-22T19:00:00-03:00"
     }
@@ -333,7 +327,6 @@
     "fields": {
       "siu_id": 7,
       "teacher": 8,
-      "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
       "date": "2019-12-15T19:00:00-03:00"
     }
@@ -344,7 +337,6 @@
     "fields": {
       "siu_id": 8,
       "teacher": 8,
-      "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
       "date": "2020-02-03T19:00:00-03:00"
     }
@@ -355,7 +347,6 @@
     "fields": {
       "siu_id": 9,
       "teacher": 8,
-      "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
       "date": "2019-12-19T19:00:00-03:00"
     }
@@ -366,7 +357,6 @@
     "fields": {
       "siu_id": 10,
       "teacher": 8,
-      "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
       "date": "2020-02-03T19:00:00-03:00"
     }
@@ -377,7 +367,6 @@
     "fields": {
       "siu_id": 11,
       "teacher": 9,
-      "subject_name": "Física I",
       "subject_siu_id": 1,
       "date": "2019-12-15T19:00:00-03:00"
     }
@@ -388,7 +377,6 @@
     "fields": {
       "siu_id": 12,
       "teacher": 9,
-      "subject_name": "Física I",
       "subject_siu_id": 1,
       "date": "2020-02-03T19:00:00-03:00"
     }
@@ -399,7 +387,6 @@
     "fields": {
       "siu_id": 13,
       "teacher": 9,
-      "subject_name": "Física I",
       "subject_siu_id": 1,
       "date": "2020-07-05T19:00:00-03:00"
     }
@@ -410,7 +397,6 @@
     "fields": {
       "siu_id": 14,
       "teacher": 9,
-      "subject_name": "Física I",
       "subject_siu_id": 1,
       "date": "2020-07-12T19:00:00-03:00"
     }
@@ -421,7 +407,6 @@
     "fields": {
       "siu_id": 15,
       "teacher": 5,
-      "subject_name": "Química I",
        "subject_siu_id": 8,
       "date": "2020-07-05T19:00:00-03:00"
     }
@@ -432,7 +417,6 @@
     "fields": {
       "siu_id": 16,
       "teacher": 5,
-      "subject_name": "Química I",
        "subject_siu_id": 8,
       "date": "2020-07-12T19:00:00-03:00"
     }
@@ -443,7 +427,6 @@
     "fields": {
       "siu_id": 17,
       "teacher": 5,
-      "subject_name": "Química I",
       "subject_siu_id": 8,
       "date": "2020-01-11T19:00:00-03:00"
     }
@@ -454,7 +437,6 @@
     "fields": {
       "siu_id": 18,
       "teacher": 5,
-      "subject_name": "Matemática Discreta",
       "subject_siu_id": 9,
       "date": "2020-07-11T19:00:00-03:00"
     }
@@ -465,7 +447,6 @@
     "fields": {
       "siu_id": 19,
       "teacher": 5,
-      "subject_name": "Matemática Discreta",
       "subject_siu_id": 9,
       "date": "2020-07-18T19:00:00-03:00"
     }

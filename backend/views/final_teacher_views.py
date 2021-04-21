@@ -26,7 +26,6 @@ class FinalTeacherViewSet(BaseViewSet):
 
     def create(self, request):
         final = Final(
-            subject_name=request.data['subject_name'],
             subject_siu_id=request.data['subject_siu_id'],
             date=datetime.utcfromtimestamp(request.data['timestamp']),
             teacher=request.user.teacher,
