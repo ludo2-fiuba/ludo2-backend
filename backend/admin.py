@@ -6,7 +6,7 @@ from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.html import format_html
 
-from .forms import RegisterForm, StaffCreateForm
+from .forms import StaffCreateForm
 from .models import *
 from .services.siu_service import SiuService
 from .utils import memoized
@@ -166,11 +166,9 @@ class StudentPreRegistered(StudentCommonAdmin):
 
     def revisar(self, request, student_id):
         student = self.get_object(request, student_id)
-        form = RegisterForm(request.POST)
 
         context = self.admin_site.each_context(request)
         context['opts'] = self.model._meta
-        context['form'] = form
         context['student'] = student
         context['title'] = "Revisar"
 

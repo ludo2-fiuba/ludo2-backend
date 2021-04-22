@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
 from backend.models import User
@@ -19,8 +18,4 @@ class StaffCreateForm(UserCreationForm):
             user.save()
         return user
 
-
-class RegisterForm(forms.Form):
-    # name = forms.CharField(label='Your name')
-    pass
 

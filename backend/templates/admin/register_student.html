@@ -4,29 +4,7 @@
 
 {% block content %}
 <div id="content-main">
-  <form action="aprobar/" method="POST">
-    {% csrf_token %}
-    {% if form.non_field_errors|length > 0 %}
-      <p class="errornote">
-          "Please correct the errors below."
-      </p>
-      {{ form.non_field_errors }}
-    {% endif %}
-    <fieldset class="module aligned">
-      {% for field in form %}
-        <div class="form-row">
-          {{ field.errors }}
-          {{ field.label_tag }}
-          {{ field }}
-          {% if field.field.help_text %}
-          <p class="help">
-            {{ field.field.help_text|safe }}
-          </p>
-          {% endif %}
-        </div>
-      {% endfor %}
-    </fieldset>
-  </form>
+  <img src={{student.image}} alt="Foto alumno" style="height:900px;">
   <div style="display: flex; justify-content: center">
     <button style="font-weight: 400; padding: 10px 15px; border-radius: 4px; cursor: pointer; color: #fff; background-color: #c4082e; border: none; margin-right: 20px">
       {% reject_url student as url_reject %}
