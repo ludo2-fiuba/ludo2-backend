@@ -28,17 +28,13 @@ def api_exception_handler(exception, context):
     return exception_handler(exception, context)
 
 
-def decode_image(b64_image):
-    b64_image = b64_image.replace("data:image/jpeg;base64,", "")
-    return base64.b64decode(b64_image + "========")
+def decode_image(b64_string):
+    b64_string = b64_string.replace("data:image/jpeg;base64,", "")
+    return base64.b64decode(b64_string + "========")
 
 
 def encode_image(io_object):
     return base64.b64encode(io_object.tobytes())
-
-
-def user_image_path(dni):
-    return f"{dni}.{IMAGE_EXTENSION}"
 
 
 def response_error_msg(message, code="invalid"):

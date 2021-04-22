@@ -1,6 +1,7 @@
+from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MinLengthValidator
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+
 from .user import User
 
 
@@ -9,6 +10,7 @@ class Student(models.Model):
     padron = models.CharField(max_length=6, validators=[MinLengthValidator(5)], blank=True, verbose_name="Padrón")
     inscripto = models.BooleanField(default=False, blank=False)
     face_encodings = ArrayField(base_field=models.FloatField(null=False), blank=False, default=list)
+    image = models.CharField(max_length=120, null=True)
 
     REQUIRED_FIELDS = ['padron']
 

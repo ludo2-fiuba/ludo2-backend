@@ -1,9 +1,12 @@
+import uuid
+
 from djoser.serializers import UserCreateSerializer, User, UserSerializer
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from backend.api_exceptions import InvalidImageError, StudentNotApprovedYetError
 from backend.models import User
+from backend.services import AwsS3Service
 from backend.services.auth_fiuba_service import AuthFiubaService
 from backend.services.image_validator_service import ImageValidatorService
 from backend.services.siu_service import SiuService
@@ -17,14 +20,19 @@ class UserCustomCreateSerializer(UserCreateSerializer):
     def create(self, validated_data):
         b64_string = self.context['request'].data['image']
         try:
-            face_encodings = ImageValidatorService(b64_string).validate_image()
+            face_encodings, image = ImageValidatorService(b64_string).validate_image()
         except InvalidImageError as e:
             raise serializers.ValidationError(e.detail)
         validated_data['face_encodings'] = face_encodings
+        validated_data['image'] = self._upload_image(b64_string, f"{uuid.uuid4()}.{image.format}")
+
         return super().create(validated_data)
 
     def validate(self, attrs):
         return attrs
+
+    def _upload_image(self, image_b64, image_name):
+        return AwsS3Service().upload_b64_image(image_b64, image_name)
 
 
 class UserCustomGetSerializer(UserSerializer):

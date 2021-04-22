@@ -20,6 +20,7 @@ class CustomUserManager(UserManager):
         from .student import Student
         from .teacher import Teacher
         face_encodings = extra_fields.pop("face_encodings")
+        image = extra_fields.pop("image")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
 
@@ -34,7 +35,7 @@ class CustomUserManager(UserManager):
         if extra_fields.get('is_teacher', False):
             Teacher(user=user, face_encodings=face_encodings).save()
         elif extra_fields.get('is_student', False):
-            Student(user=user, face_encodings=face_encodings).save()
+            Student(user=user, image=image, face_encodings=face_encodings).save()
         else:
             raise ValidationError('Either is_student or is_teacher is needed')
         return user
@@ -61,6 +62,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50, blank=True, verbose_name="Apellido")
     username = models.CharField(max_length=30, unique=False, blank=True, default='')
     dni = models.CharField(validators=[validate_dni], max_length=9, unique=True, blank=False, verbose_name="DNI")
+
 
     created_at = models.DateTimeField(default=timezone.now, editable=False, verbose_name="Creado en")
     updated_at = models.DateTimeField(default=timezone.now, verbose_name="Última actualización")

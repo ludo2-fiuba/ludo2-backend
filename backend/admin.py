@@ -130,8 +130,8 @@ class PreRegisteredStudent(Student):
 class StudentPreRegistered(StudentCommonAdmin):
     title = "Student to Register"
 
-    list_display = ('dni', 'first_name', 'last_name', 'revisar_boton')
-    readonly_fields = ('dni', 'first_name', 'last_name', 'revisar_boton')
+    list_display = ('dni', 'revisar_boton')
+    readonly_fields = ('dni', 'revisar_boton')
 
     def get_queryset(self, request):
         """

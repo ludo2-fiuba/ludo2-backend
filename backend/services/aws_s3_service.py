@@ -1,4 +1,5 @@
 import os
+import io
 
 import boto3
 
@@ -15,10 +16,11 @@ class AwsS3Service:
         self.bucket = os.environ["AWS_BUCKET_NAME"]
 
     def upload_b64_image(self, b64_string, file_name):
-        self.upload_object(decode_image(b64_string), file_name)
+        return self.upload_object(io.BytesIO(decode_image(b64_string)), file_name)
 
     def upload_object(self, generic_object, file_name):
-        self.client.put_object(Body=generic_object, Bucket=self.bucket, Key=file_name)
+        self.client.upload_fileobj(generic_object, self.bucket, file_name, ExtraArgs={'ACL': 'public-read'})
+        return f"https://{self.bucket}.s3.amazonaws.com/{file_name}"
 
     def download_object(self, file_name):
         return self.client.get_object(Bucket=self.bucket, Key=file_name)['Body']

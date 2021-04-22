@@ -3,6 +3,7 @@ import io
 import face_recognition
 import numpy as np
 from PIL import UnidentifiedImageError
+from PIL import Image
 
 from backend.api_exceptions import InvalidImageError
 from backend.utils import decode_image
@@ -21,11 +22,13 @@ class ImageValidatorService:
         self._validate_encoding()
         self._resize_image()
         self._detect_face()
-        return self.face_encodings[0].tolist()
+        return self.face_encodings[0].tolist(), self.image
 
     def _validate_encoding(self):
         try:
-            self.encoded_image = face_recognition.load_image_file(io.BytesIO(decode_image(self.b64_string)))
+            image_bytes = io.BytesIO(decode_image(self.b64_string))
+            self.encoded_image = face_recognition.load_image_file(image_bytes)
+            self.image = Image.open(image_bytes)
         except UnidentifiedImageError:
             raise InvalidImageError(detail="Invalid base64 string, not an image")
 
