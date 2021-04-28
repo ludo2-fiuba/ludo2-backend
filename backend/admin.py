@@ -274,7 +274,7 @@ class FinalToApproveAdmin(admin.ModelAdmin):
     exclude = ('updated_at',)
     readonly_fields = ('subject_name', 'department', 'teacher', 'date')
     list_display = ('subject_name', 'department', 'teacher', 'date', 'approve', 'reject')
-    ordering = ('teacher', 'date')
+    ordering = ('subject_name', 'teacher', 'date')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -302,10 +302,6 @@ class FinalToApproveAdmin(admin.ModelAdmin):
                     if department['id'] == subject['department_id']:
                         return department['name']
     department.short_description = "Departamento"
-
-    def subject_name(self, obj):
-        return obj.subject()['name']
-    subject_name.short_description = "Materia"
 
     def approve(self, obj):
         return format_html(
@@ -361,7 +357,7 @@ class FinalAdmin(admin.ModelAdmin):
     fields = ('subject_name', 'teacher', 'date', 'qrid')
     exclude = ('updated_at',)
     readonly_fields = ('subject_name', 'subject_siu_id', 'date', 'qrid')
-    ordering = ('teacher', 'date')
+    ordering = ('subject_name', 'teacher', 'date')
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -389,10 +385,6 @@ class FinalAdmin(admin.ModelAdmin):
                     if department['id'] == subject['department_id']:
                         return department['name']
     department.short_description = "Departamento"
-
-    def subject_name(self, obj):
-        return obj.subject()['name']
-    subject_name.short_description = "Materia"
 
     def download_qr(self, obj):
         return format_html(
