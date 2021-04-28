@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 
 from . import Final, Student
+from ..services.siu_service import SiuService
+from ..utils import memoized
 
 
 class FinalExam(models.Model):
@@ -26,7 +28,7 @@ class FinalExam(models.Model):
     def date(self):
         return self.final.date
 
-    def subject_name(self): # Deprecated
+    def subject_name(self):
         return self.final.subject_name
 
     def subject(self):
@@ -37,6 +39,13 @@ class FinalExam(models.Model):
 
     def teacher_name(self):
         return f"{self.final.teacher.user.first_name} {self.final.teacher.user.last_name}"
+
+    @memoized
+    def correlatives_approved(self):
+        siu_subject = SiuService().get_subject(self.final.subject_siu_id)
+        correlatives = SiuService().correlative_subjects(siu_subject)
+        final_exams = FinalExam.objects.filter(final__subject_siu_id__in=[subject['id'] for subject in correlatives], grade__gte=self.PASSING_GRADE, student=self.student)
+        return len(final_exams) == len(correlatives)
 
     def __str__(self):
         return f"{self.student} - {self.final.date} - {self.grade}"

@@ -49,20 +49,9 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         fields = ('code',)
 
     def validate(self, attrs):
-        # token_response = self._fiuba_service().get_token(self.context['request'].data['code'], self.context['request'].data['redirect_uri'])
+        token_response = self._fiuba_service().get_token(self.context['request'].data['code'], self.context['request'].data['redirect_uri'])
 
-        # auth_user_info = self._fiuba_service().userinfo(token_response['access_token'])
-
-        auth_user_info = {
-            "sub": "38157957",
-            "name": "FEDERICO MARTÍN",
-            "preferred_username": "38157957",
-            "given_name": "FEDERICO MARTÍN",
-            "family_name": "ESTEBAN",
-            "email": "federicoesteban@live.com",
-            "email_verified": True,
-            "roles": "usuario,admin"
-        }
+        auth_user_info = self._fiuba_service().userinfo(token_response['access_token'])
 
         user = User.objects.get(dni=auth_user_info['sub'])
 
@@ -86,8 +75,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return AuthFiubaService()
 
     def _update_user(self, user, auth_user_info):
-        # siu_user_info = self._get_siu_user(user.is_student, user.dni)
-        siu_user_info = { 'file': '328123' }
+        siu_user_info = self._get_siu_user(user.is_student, user.dni)
+        # siu_user_info = { 'file': '328123' }
 
         user.first_name = auth_user_info['name']
         user.last_name = auth_user_info['family_name']
