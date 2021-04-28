@@ -19,6 +19,7 @@ class FinalService:
                     fe.save()
             except IntegrityError:
                 raise InvalidDataError(detail="Some grade is invalid")
+        SiuService().save_final_grades(final)
 
     def close(self, final):
         final.status = Final.Status.PENDING_ACT

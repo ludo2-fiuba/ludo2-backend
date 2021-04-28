@@ -11,10 +11,6 @@ class SiuClient:
     def __init__(self, handler=ClientHandler()):
         self.handler = handler
 
-    def create_act(self, final_siu_id, teacher_siu_id, grades):
-        data = {"finalId": final_siu_id, "notas": grades}
-        return self._post(f"docentes/{teacher_siu_id}/actas", data=data) # TODO: fix no grades only padrones
-
     def list_subjects(self, filters=None, query=""):
         query = "?" + "&".join(f"{k}={v}" for k, v in filters.items()) if filters else query
         return self._get(f"materias/{query}")
@@ -34,6 +30,13 @@ class SiuClient:
 
     def get_final(self, final_siu_id, teacher_siu_id):
         return self._get(f"docentes/{teacher_siu_id}/finales/{final_siu_id}")
+
+    def save_final_grades(self, final_siu_id, teacher_siu_id, grades):
+        return self._post(f"docentes/{teacher_siu_id}/finales/{final_siu_id}/cargar_notas", data=grades)
+
+    def create_act(self, final_siu_id, teacher_siu_id, grades): # TODO: fix no grades only padrones
+        data = {"finalId": final_siu_id, "notas": grades}
+        return self._post(f"docentes/{teacher_siu_id}/finales/{final_siu_id}/subir_acta", data=data)
 
     def list_comissions(self, teacher_siu_id):
         return self._get(f"docentes/{teacher_siu_id}/comisiones?_expand=materia")

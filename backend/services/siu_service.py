@@ -8,9 +8,6 @@ class SiuService:
     def __init__(self):
         self.client = SiuClient()
 
-    def create_final_act(self, final):
-        return ExternalMapper().map(self.client.create_act(final.siu_id, final.teacher.siu_id, self._build_act(final.final_exams.all())))
-
     def list_subjects(self, filters=None):
         return ExternalMapper().map(self.client.list_subjects(filters))
 
@@ -27,6 +24,12 @@ class SiuService:
         response = self.client.get_final(final_siu_id, teacher_siu_id)
         return Result(data=response)
 
+    def create_final_act(self, final):
+        return ExternalMapper().map(self.client.create_act(final.siu_id, final.teacher.siu_id, self._build_grades(final.final_exams.all())))
+
+    def save_final_grades(self, final):
+        return ExternalMapper().map(self.client.save_final_grades(final.siu_id, final.teacher.siu_id, self._build_grades(final.final_exams.all())))
+
     def list_comissions(self, teacher_siu_id):
         return ExternalMapper().map(self.client.list_comissions(teacher_siu_id))
 
@@ -39,5 +42,5 @@ class SiuService:
     def get_teacher(self, dni):
         return UserExternalMapper().map(self.client.get_teacher(dni))
 
-    def _build_act(self, final_exams):
+    def _build_grades(self, final_exams):
         return {fe.student.padron: fe.grade for fe in final_exams}
