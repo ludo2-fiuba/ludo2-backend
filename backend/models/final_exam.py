@@ -16,7 +16,7 @@ class FinalExam(models.Model):
     ALLOWED_FILTERS = {
         "year": "final__date__year",
         "grade_gte": "grade__gte",
-        "subject": "final__subject_name__contains",
+        "subject": "final__subject_name__icontains",
         "student": "student",
         "status": "final__status"
     }
