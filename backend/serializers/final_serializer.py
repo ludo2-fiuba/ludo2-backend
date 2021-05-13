@@ -24,5 +24,5 @@ class FinalTeacherSerializer(serializers.ModelSerializer):
 class FinalTeacherListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Final
-        fields = ('id', 'subject', 'date', 'status', 'siu_id')
+        fields = ('id', 'subject', 'date', 'status', 'siu_id', 'act')
 

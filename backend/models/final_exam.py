@@ -40,6 +40,9 @@ class FinalExam(models.Model):
     def teacher_name(self):
         return f"{self.final.teacher.user.first_name} {self.final.teacher.user.last_name}"
 
+    def act(self):
+        return self.final.act
+
     @memoized
     def correlatives_approved(self):
         siu_subject = SiuService().get_subject(self.final.subject_siu_id)
