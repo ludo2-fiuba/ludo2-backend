@@ -8,6 +8,7 @@ djangorestframework==3.12.1
 djangorestframework-simplejwt
 django_reverse_admin
 django-environ
+django-push-notifications
 djoser
 dj-database-url
 drf-nested-routers

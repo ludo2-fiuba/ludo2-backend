@@ -30,11 +30,6 @@ class FinalExamTeacherDetailsSerializer(serializers.ModelSerializer):
 
 
 class FinalExamStudentSerializer(FinalExamSerializer):
-    grade = serializers.SerializerMethodField()
-
-    def get_grade(self, obj):
-        return None if obj.final.status != Final.Status.ACT_SENT else obj.grade
-
     class Meta:
         model = FinalExam
         fields = ('id', 'subject', 'teacher_name', 'student', 'grade', 'date', 'final')

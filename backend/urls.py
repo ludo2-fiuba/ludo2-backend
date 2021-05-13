@@ -2,6 +2,7 @@ from django.urls import path, include, re_path
 from rest_framework_nested import routers
 
 from . import views
+from .views import CustomGCMDeviceViewSet
 from .views.user_views import UserCustomViewSet
 
 router = routers.SimpleRouter()
@@ -9,6 +10,7 @@ router.register(r'final_exams', views.FinalExamStudentViewSet, 'final_exam')
 router.register(r'finals', views.FinalTeacherViewSet, 'final')
 router.register(r'subjects', views.SubjectViewSet, 'subject')
 router.register(r'comissions', views.ComissionViewSet, 'comission')
+router.register(r'device/gcm', CustomGCMDeviceViewSet)
 
 teacher_finals_router = routers.NestedSimpleRouter(router, r'finals', lookup='final')
 teacher_finals_router.register(r'final_exams', views.FinalExamTeacherViews, basename='final-final_exams')

@@ -62,7 +62,9 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+
+    'push_notifications',
 ]
 
 MIDDLEWARE = [
@@ -155,6 +157,10 @@ REST_FRAMEWORK = {
      'FORM_METHOD_OVERRIDE': None,
      'FORM_CONTENT_OVERRIDE': None,
     'FORM_CONTENTTYPE_OVERRIDE': None
+}
+
+PUSH_NOTIFICATIONS_SETTINGS = {
+    "FCM_API_KEY": os.environ.get("FCM_API_KEY", "FCM_API_KEY_NOT_SET")
 }
 
 # Internationalization
