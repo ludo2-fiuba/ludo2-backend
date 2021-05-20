@@ -160,7 +160,8 @@ REST_FRAMEWORK = {
 }
 
 PUSH_NOTIFICATIONS_SETTINGS = {
-    "FCM_API_KEY": os.environ.get("FCM_API_KEY", "FCM_API_KEY_NOT_SET")
+    "FCM_API_KEY": os.environ.get("FCM_API_KEY", "FCM_API_KEY_NOT_SET"),
+    "UPDATE_ON_DUPLICATE_REG_ID": True
 }
 
 # Internationalization
