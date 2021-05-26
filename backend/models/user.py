@@ -19,8 +19,6 @@ class CustomUserManager(UserManager):
         """
         from .student import Student
         from .teacher import Teacher
-        face_encodings = extra_fields.pop("face_encodings")
-        image = extra_fields.pop("image")
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
 
@@ -28,6 +26,9 @@ class CustomUserManager(UserManager):
             user.set_password(password)
             user.save(using=self._db)
             return user
+
+        image = extra_fields.pop("image")
+        face_encodings = extra_fields.pop("face_encodings")
 
         user.set_unusable_password()
         user.save(using=self._db)
