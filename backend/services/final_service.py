@@ -1,8 +1,8 @@
 from django.db import transaction, IntegrityError
-from push_notifications.models import GCMDevice
 
 from backend.api_exceptions import InvalidDataError
 from backend.models import Final
+from backend.services.notification_service import NotificationService
 from backend.services.siu_service import SiuService
 
 
@@ -31,19 +31,7 @@ class FinalService:
         final.act = response['id']
         final.status = Final.Status.ACT_SENT
         final.save()
-        self.notify_devices(final.final_exams, f"Ya está cargada en el SIU el acta con tu nota de {final.subject_name} del día {final.date.date()}")
-        # Trigger notifications and such
+        NotificationService().notify_act(final)
 
     def notify_grades(self, final):
-        self.notify_devices(final.final_exams.filter(grade__isnull=False), f"El docente ya subió tu nota para tu final de {final.subject_name} del día {final.date.date()}")
-
-    def notify_date_approved(self, final):
-        device = GCMDevice.objects.filter(user=final.teacher.user).first()
-        if device:
-            device.send_message(f"La fecha de final de {final.subject_name} para el día {final.date.date()} fue aprobada")
-
-    def notify_devices(self, final_exams, message):
-        for fe in final_exams:
-            device = GCMDevice.objects.filter(user=fe.student.user).first()
-            if device:
-                device.send_message(message)
+        NotificationService().notify_grade(final)

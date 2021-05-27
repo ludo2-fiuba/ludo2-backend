@@ -8,7 +8,7 @@ from django.utils.html import format_html
 
 from .forms import StaffCreateForm
 from .models import *
-from .services.final_service import FinalService
+from .services.notification_service import NotificationService
 from .services.siu_service import SiuService
 from .utils import memoized
 
@@ -330,7 +330,7 @@ class FinalToApproveAdmin(admin.ModelAdmin):
         final.status = Final.Status.OPEN
         final.save()
 
-        FinalService().notify_date_approved(final)
+        NotificationService().notify_date_approved(final)
 
         self.message_user(request, "Final date approved")
         url = reverse(
