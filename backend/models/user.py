@@ -20,15 +20,16 @@ class CustomUserManager(UserManager):
         from .student import Student
         from .teacher import Teacher
         email = self.normalize_email(email)
+
+        image = extra_fields.pop("image", None)
+        face_encodings = extra_fields.pop("face_encodings", None)
+
         user = self.model(email=email, **extra_fields)
 
         if extra_fields['is_staff']:
             user.set_password(password)
             user.save(using=self._db)
             return user
-
-        image = extra_fields.pop("image")
-        face_encodings = extra_fields.pop("face_encodings")
 
         user.set_unusable_password()
         user.save(using=self._db)
