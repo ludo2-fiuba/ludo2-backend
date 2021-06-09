@@ -183,7 +183,7 @@ class StudentPreRegistered(StudentCommonAdmin):
         student = self.get_object(request, student_id)
         student.inscripto = True
         student.save()
-        self.message_user(request, f"El estudiante {student} ha sido registrado")
+        self.message_user(request, f"El estudiante {student.user.email} ha sido registrado")
         url = reverse(
             'admin:backend_preregisteredstudent_changelist',
             current_app=self.admin_site.name,
@@ -193,7 +193,7 @@ class StudentPreRegistered(StudentCommonAdmin):
     def rechazar(self, request, student_id):
         student = self.get_object(request, student_id)
         student.delete()
-        self.message_user(request, f"El estudiante {student} ha sido reseteado")
+        self.message_user(request, f"El estudiante {student.user.email} ha sido reseteado")
         url = reverse(
             'admin:backend_preregisteredstudent_changelist',
             current_app=self.admin_site.name,
