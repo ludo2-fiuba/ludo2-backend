@@ -19,4 +19,7 @@ class CustomGCMDeviceSerializer(GCMDeviceSerializer):
         """
         if 'user' not in validated_data:
             validated_data['user'] = self.context['request'].user
+        if GCMDevice.objects.exists(user=self.context['request'].user):
+            device = GCMDevice.objects.filter(user=self.context['request'].user).last()
+            return super(GCMDeviceSerializer, self).update(device, validated_data)
         return super(GCMDeviceSerializer, self).create(validated_data)

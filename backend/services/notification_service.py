@@ -3,7 +3,7 @@ from push_notifications.models import GCMDevice
 
 class NotificationService:
     def notify_date_approved(self, final):
-        device = GCMDevice.objects.filter(user=final.teacher.user).first()
+        device = GCMDevice.objects.filter(user=final.teacher.user).last()
         if device:
             device.send_message(
                 f"La fecha de final de {final.subject_name} para el día {final.date.date()} fue aprobada")

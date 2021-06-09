@@ -279,7 +279,7 @@ class FinalToApproveAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
-        if not request.user.is_superuser:
+        if not request.user.is_superuser and request.user.staff.department_siu_id:
             owning_subjects = SiuService().list_subjects({"departamentoId": request.user.staff.department_siu_id})
             qs = qs.filter(subject_siu_id__in=[s["id"] for s in owning_subjects])
         return qs.filter(status=Final.Status.DRAFT)
