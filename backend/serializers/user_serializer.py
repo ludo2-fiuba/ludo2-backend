@@ -85,8 +85,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             if not user.student.inscripto:
                 raise StudentNotApprovedYetError()
             user.student.padron = siu_user_info['file']
+            user.student.save()
         else:
             user.teacher.legajo = siu_user_info['file']
+            user.teacher.save()
         user.save()
 
     def _get_siu_user(self, is_student, dni):

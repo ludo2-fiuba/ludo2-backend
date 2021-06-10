@@ -16,7 +16,7 @@ class FinalTeacherViewsTests(APITestCase):
         self.subject_siu_id = Faker().numerify(text='###')
         self.subject_name = Faker().word()
 
-    def test_success(self):
+    def test_list_success(self):
         """
         Should fetch all finals belonging to authenticated teacher and which have the subject_siu_id
         passed by parameter
@@ -27,16 +27,26 @@ class FinalTeacherViewsTests(APITestCase):
         finals = FinalFactory.create_batch(size=3, teacher=self.teacher, subject_siu_id=self.subject_siu_id)
         other_finals = FinalFactory.create_batch(size=3, teacher=self.teacher, subject_siu_id=self.subject_siu_id + "2")
 
-        response = self.client.get(list_url, data={"subject_siu_id": self.subject_siu_id}, format='json')
+        mock_subject = [{
+            "id": 1,
+            "codigo": "62.01",
+            "nombre": "Física I",
+            "departamentoId": 2,
+            "correlativas": []
+        }]
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), len(finals))
-        self.assertEqual(
-            sorted([final['id'] for final in response.data]),
-            sorted([final.id for final in finals])
-        )
+        with mock.patch.object(SiuService, "__init__", lambda x: None):
+            with mock.patch.object(SiuService, "get_subject", lambda x, y: mock_subject):
+                response = self.client.get(list_url, {"subject_siu_id": self.subject_siu_id}, format='json')
 
-    def test_not_logged_in(self):
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
+                self.assertEqual(len(response.data), len(finals))
+                self.assertEqual(
+                    sorted([final['id'] for final in response.data]),
+                    sorted([final.id for final in finals])
+                )
+
+    def test_list_not_logged_in(self):
         """
         Should fail if unauthorized
         """
@@ -45,7 +55,7 @@ class FinalTeacherViewsTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_detail(self):
+    def test_detail_success(self):
         """
         Should fetch a final with all its final exams an students data
         """
@@ -56,12 +66,31 @@ class FinalTeacherViewsTests(APITestCase):
 
         url = f"/api/finals/{final.id}/"
 
-        response = self.client.get(url, format='json')
+        mock_subject = [{
+            "id": 1,
+            "codigo": "62.01",
+            "nombre": "Física I",
+            "departamentoId": 2,
+            "correlativas": []
+        }]
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['id'], final.pk)
-        self.assertEqual(response.data['date'], serializers.DateTimeField().to_representation(final.date))
-        self.assertEqual(len(response.data['final_exams']), len(final_exams))
+        mock_correlatives = [{
+            "id": 1,
+            "codigo": "62.01",
+            "nombre": "Física I",
+            "departamentoId": 2,
+            "correlativas": []
+        }]
+
+        with mock.patch.object(SiuService, "__init__", lambda x: None):
+            with mock.patch.object(SiuService, "get_subject", lambda x, y: mock_subject):
+                with mock.patch.object(SiuService, "correlative_subjects", lambda x, y: mock_correlatives):
+                    response = self.client.get(url, format='json')
+
+                    self.assertEqual(response.status_code, status.HTTP_200_OK)
+                    self.assertEqual(response.data['id'], final.pk)
+                    self.assertEqual(response.data['date'], serializers.DateTimeField().to_representation(final.date))
+                    self.assertEqual(len(response.data['final_exams']), len(final_exams))
 
     def test_detail_not_logged_in(self):
         """
@@ -72,7 +101,7 @@ class FinalTeacherViewsTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_create(self):
+    def test_create_success(self):
         """
         Should create a final with the passed parameters
         """
@@ -109,7 +138,7 @@ class FinalTeacherViewsTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_close(self):
+    def test_close_success(self):
         """
         Should close final, passing it's status to Pending Act
         :return:
@@ -133,7 +162,7 @@ class FinalTeacherViewsTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_grade(self):
+    def test_grade_success(self):
         """
         Should add a grade to a final
         """
@@ -162,7 +191,7 @@ class FinalTeacherViewsTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-    def test_send_act(self):
+    def test_send_act_success(self):
         """
         Should pass the status to Act Sent
         """
