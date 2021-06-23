@@ -38,9 +38,9 @@ class FinalExamStudentViewSet(BaseViewSet):
 
     @action(detail=False, methods=["GET"])
     def pending(self, request):
-        self.extra = {"student": request.user.id}
-        subjects_passed = [x.subject for x in self.get_queryset().annotate(subject=F('final__subject_name')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id, final__status=Final.Status.ACT_SENT)]
-        return Response(self._group_by(self._paginate(self.get_queryset().exclude(final__subject_name__in=subjects_passed), FinalExamStudentSerializer), 'subject'))
+        self.extra = {"student": request.user.id, }
+        subjects_passed = [x.subject for x in self.get_queryset().annotate(subject=F('final__subject_name')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
+        return Response(self._paginate(self.get_queryset().exclude(final__subject_name__in=subjects_passed), FinalExamStudentSerializer))
 
     @action(detail=False, methods=["GET"])
     def correlatives(self, request):
