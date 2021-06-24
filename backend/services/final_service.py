@@ -10,13 +10,16 @@ class FinalService:
     def grade(self, final, grades): # TODO fix validation of grade
         if final.status != Final.Status.PENDING_ACT:
             raise InvalidDataError("Final is not in the correct status to grade")
-        final_exams = final.final_exams.filter(id__in=grades.keys())
+        final_exams = final.final_exams.filter(id__in=[grade['final_exam_id'] for grade in grades])
         if len(final_exams) != len(grades):
             raise InvalidDataError(detail="Some final exam id is invalid")
         with transaction.atomic():
             try:
                 for fe in final_exams:
-                    fe.grade = grades[str(fe.id)]
+                    grade = self._get_grade(fe.id, grades)
+                    if not grade:
+                        continue
+                    fe.grade = grade
                     fe.save()
             except IntegrityError:
                 raise InvalidDataError(detail="Some grade is invalid")
@@ -35,3 +38,8 @@ class FinalService:
 
     def notify_grades(self, final):
         NotificationService().notify_grade(final)
+
+    def _get_grade(self, fe_id, grades):
+        for grade in grades:
+            if grade['final_exam_id'] == fe_id:
+                return grade['grade']
