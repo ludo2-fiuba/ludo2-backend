@@ -5,8 +5,10 @@ from faker import Faker
 from rest_framework import status, serializers
 from rest_framework.test import APITestCase
 
+from backend.client.siu_client import SiuClient
 from backend.models import Final
-from backend.services.siu_service import SiuService
+from backend.services.image_validator_service import ImageValidatorService
+from backend.services.notification_service import NotificationService
 from ..factories import TeacherFactory, FinalFactory, FinalExamFactory
 
 
@@ -25,7 +27,7 @@ class FinalTeacherViewsTests(APITestCase):
         self.client.force_authenticate(user=self.teacher.user)
 
         finals = FinalFactory.create_batch(size=3, teacher=self.teacher, subject_siu_id=self.subject_siu_id)
-        other_finals = FinalFactory.create_batch(size=3, teacher=self.teacher, subject_siu_id=self.subject_siu_id + "2")
+        FinalFactory.create_batch(size=3, teacher=self.teacher, subject_siu_id=self.subject_siu_id + "2")
 
         mock_subject = [{
             "id": 1,
@@ -35,16 +37,15 @@ class FinalTeacherViewsTests(APITestCase):
             "correlativas": []
         }]
 
-        with mock.patch.object(SiuService, "__init__", lambda x: None):
-            with mock.patch.object(SiuService, "get_subject", lambda x, y: mock_subject):
-                response = self.client.get(list_url, {"subject_siu_id": self.subject_siu_id}, format='json')
+        with mock.patch.object(SiuClient, "get_subject", return_value=mock_subject):
+            response = self.client.get(list_url, {"subject_siu_id": self.subject_siu_id}, format='json')
 
-                self.assertEqual(response.status_code, status.HTTP_200_OK)
-                self.assertEqual(len(response.data), len(finals))
-                self.assertEqual(
-                    sorted([final['id'] for final in response.data]),
-                    sorted([final.id for final in finals])
-                )
+            self.assertEqual(response.status_code, status.HTTP_200_OK)
+            self.assertEqual(len(response.data), len(finals))
+            self.assertEqual(
+                sorted([final['id'] for final in response.data]),
+                sorted([final.id for final in finals])
+            )
 
     def test_list_not_logged_in(self):
         """
@@ -66,13 +67,13 @@ class FinalTeacherViewsTests(APITestCase):
 
         url = f"/api/finals/{final.id}/"
 
-        mock_subject = [{
-            "id": 1,
-            "codigo": "62.01",
-            "nombre": "Física I",
+        mock_subject = {
+            "id": 2,
+            "codigo": "62.02",
+            "nombre": "Física II",
             "departamentoId": 2,
-            "correlativas": []
-        }]
+            "correlativas": ["62.01"]
+        }
 
         mock_correlatives = [{
             "id": 1,
@@ -82,15 +83,14 @@ class FinalTeacherViewsTests(APITestCase):
             "correlativas": []
         }]
 
-        with mock.patch.object(SiuService, "__init__", lambda x: None):
-            with mock.patch.object(SiuService, "get_subject", lambda x, y: mock_subject):
-                with mock.patch.object(SiuService, "correlative_subjects", lambda x, y: mock_correlatives):
-                    response = self.client.get(url, format='json')
+        with mock.patch.object(SiuClient, "get_subject", return_value=mock_subject):
+            with mock.patch.object(SiuClient, "list_subjects", return_value=mock_correlatives):
+                response = self.client.get(url, format='json')
 
-                    self.assertEqual(response.status_code, status.HTTP_200_OK)
-                    self.assertEqual(response.data['id'], final.pk)
-                    self.assertEqual(response.data['date'], serializers.DateTimeField().to_representation(final.date))
-                    self.assertEqual(len(response.data['final_exams']), len(final_exams))
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
+                self.assertEqual(response.data['id'], final.pk)
+                self.assertEqual(response.data['date'], serializers.DateTimeField().to_representation(final.date))
+                self.assertEqual(len(response.data['final_exams']), len(final_exams))
 
     def test_detail_not_logged_in(self):
         """
@@ -105,29 +105,29 @@ class FinalTeacherViewsTests(APITestCase):
         """
         Should create a final with the passed parameters
         """
-        mock_final = {
-            "id": 12345678,
-            "docente_id": 123456,
-            "comision_id": 123,
-            "timestamp": 1605652352
+
+        self.client.force_authenticate(user=self.teacher.user)
+        final_fields = {
+            'subject_name': self.subject_name,
+            'subject_siu_id': self.subject_siu_id,
+            'timestamp': Faker().unix_time()
         }
-        with mock.patch.object(SiuService, "__init__", lambda x: None):
-            with mock.patch.object(SiuService, "create_final", lambda a, b, c, d: mock_final):
+        url = f"/api/finals/"
 
-                final_fields = {
-                    'subject_name': self.subject_name,
-                    'subject_siu_id': self.subject_siu_id,
-                    'timestamp': Faker().unix_time()
-                }
-                url = f"/api/finals/"
+        mock_subject = [{
+            "id": 1,
+            "codigo": "62.01",
+            "nombre": "Física I",
+            "departamentoId": 2,
+            "correlativas": []
+        }]
 
-                self.client.force_authenticate(user=self.teacher.user)
-                response = self.client.post(url, data=final_fields, format='json')
+        with mock.patch.object(SiuClient, "get_subject", return_value=mock_subject):
+            response = self.client.post(url, data=final_fields, format='json')
 
-                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-                self.assertEqual(response.data['subject_name'], final_fields['subject_name'])
-                self.assertEqual(response.data['date'], serializers.DateTimeField().to_representation(datetime.utcfromtimestamp(final_fields['timestamp'])))
-                self.assertEqual(response.data['status'], Final.Status.OPEN)
+            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+            self.assertEqual(response.data['date'], serializers.DateTimeField().to_representation(datetime.utcfromtimestamp(final_fields['timestamp'])))
+            self.assertEqual(response.data['status'], Final.Status.DRAFT)
 
     def test_create_not_logged_in(self):
         """
@@ -141,7 +141,6 @@ class FinalTeacherViewsTests(APITestCase):
     def test_close_success(self):
         """
         Should close final, passing it's status to Pending Act
-        :return:
         """
         self.client.force_authenticate(user=self.teacher.user)
 
@@ -149,9 +148,20 @@ class FinalTeacherViewsTests(APITestCase):
 
         url = f"/api/finals/{final.id}/close/"
 
-        response = self.client.post(url, format='json')
+        mock_subject = {
+            "id": 1,
+            "codigo": "62.01",
+            "nombre": "Física I",
+            "departamentoId": 2,
+            "correlatives": []
+        }
 
-        self.assertEqual(response.data['status'], Final.Status.PENDING_ACT)
+        with mock.patch.object(SiuClient, "get_subject", return_value=mock_subject):
+            response = self.client.post(url, format='json')
+
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.data['status'], Final.Status.PENDING_ACT)
+
 
     def test_close_not_logged_in(self):
         """
@@ -171,16 +181,26 @@ class FinalTeacherViewsTests(APITestCase):
         final = FinalFactory(teacher=self.teacher, status=Final.Status.PENDING_ACT)
         final_exams = FinalExamFactory.create_batch(size=2, final=final, grade=None)
 
-        grades = {fe.id: Faker().random_int(1, 10) for fe in final_exams}
+        grades = [{"final_exam_id": fe.id, "grade": Faker().random_int(1, 10)} for fe in final_exams]
 
         url = f"/api/finals/{final.id}/grade/"
 
-        response = self.client.put(url, format='json', data={'grades': grades})
+        mock_subject = {
+            "id": 1,
+            "codigo": "62.01",
+            "nombre": "Física I",
+            "departamentoId": 2,
+            "correlatives": []
+        }
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['id'], final.id)
-        for fe in response.data['final_exams']:
-            self.assertEqual(fe['grade'], grades[fe['id']])
+        with mock.patch.object(SiuClient, "get_subject", return_value=mock_subject):
+            with mock.patch.object(SiuClient, "save_final_grades", return_value={}):
+                response = self.client.put(url, format='json', data=grades)
+
+                self.assertEqual(response.status_code, status.HTTP_200_OK)
+                self.assertEqual(response.data['id'], final.id)
+                for idx, fe in enumerate(response.data['final_exams']):
+                    self.assertEqual(fe['grade'], grades[idx]["grade"])
 
     def test_grade_not_logged_in(self):
         """
@@ -197,17 +217,28 @@ class FinalTeacherViewsTests(APITestCase):
         """
         self.client.force_authenticate(user=self.teacher.user)
 
-        with mock.patch.object(SiuService, "__init__", lambda x: None):
-            with mock.patch.object(SiuService, "create_final_act", lambda x, y: {'result': 'ok'}) as siu_mock:
+        final = FinalFactory(teacher=self.teacher, status=Final.Status.PENDING_ACT)
 
-                final = FinalFactory(teacher=self.teacher, status=Final.Status.PENDING_ACT)
+        url = f"/api/finals/{final.id}/send_act/"
 
-                url = f"/api/finals/{final.id}/send_act/"
+        mock_subject = {
+            "id": 1,
+            "codigo": "62.01",
+            "nombre": "Física I",
+            "departamentoId": 2,
+            "correlatives": []
+        }
 
-                response = self.client.post(url, format='json')
+        with mock.patch.object(ImageValidatorService, "validate_identity", return_value=True):
+            with mock.patch.object(SiuClient, "create_act", return_value={'id': '123AB00'}):
+                with mock.patch.object(NotificationService, "notify_act", return_value=None):
+                    with mock.patch.object(SiuClient, "get_subject", return_value=mock_subject):
 
-                self.assertEqual(response.status_code, status.HTTP_200_OK)
-                self.assertEqual(response.data['status'], Final.Status.ACT_SENT)
+                        response = self.client.post(url, format='json', data={'image': 'fake_image'})
+
+                        self.assertEqual(response.status_code, status.HTTP_200_OK)
+                        self.assertEqual(response.data['status'], Final.Status.ACT_SENT)
+                        self.assertEqual(response.data['act'], '123AB00')
 
     def test_send_act_not_logged_in(self):
         """
