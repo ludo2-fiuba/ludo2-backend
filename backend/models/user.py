@@ -75,5 +75,5 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['email', 'is_student', 'is_teacher']
 
     def file(self):
-        return self.student.padron if self.student else self.teacher.legajo
+        return self.student.padron if self.is_student else self.teacher.legajo
 

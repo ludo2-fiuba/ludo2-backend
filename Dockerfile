@@ -18,8 +18,6 @@ RUN apt-get update \
     && mkdir -p /usr/share/man/man7 \
     && apt-get install -y --fix-missing build-essential postgresql musl libpq-dev
 
-
-
 # install dependencies
 RUN pip install --upgrade pip
 RUN pip install --upgrade pip setuptools wheel
