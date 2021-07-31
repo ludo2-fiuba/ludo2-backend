@@ -192,8 +192,9 @@ class StudentPreRegistered(StudentCommonAdmin):
 
     def rechazar(self, request, student_id):
         student = self.get_object(request, student_id)
-        student.delete()
-        self.message_user(request, f"El estudiante {student.user.email} ha sido reseteado")
+        email = student.user.email
+        user.delete()
+        self.message_user(request, f"El estudiante {email} ha sido reseteado")
         url = reverse(
             'admin:backend_preregisteredstudent_changelist',
             current_app=self.admin_site.name,
