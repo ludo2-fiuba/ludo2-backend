@@ -165,6 +165,7 @@ class StudentPreRegistered(StudentCommonAdmin):
 
     actions = ['revisar', 'aprobar', 'rechazar']
 
+
     def revisar(self, request, student_id):
         student = self.get_object(request, student_id)
 
