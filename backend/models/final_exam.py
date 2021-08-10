@@ -43,7 +43,6 @@ class FinalExam(models.Model):
     def act(self):
         return self.final.act
 
-    @memoized
     def correlatives_approved(self):
         siu_subject = SiuService().get_subject(self.final.subject_siu_id)
         correlatives = SiuService().correlative_subjects(siu_subject)
