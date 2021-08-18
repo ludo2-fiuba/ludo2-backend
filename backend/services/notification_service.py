@@ -16,6 +16,6 @@ class NotificationService:
 
     def notify_devices(self, final_exams, message):
         for fe in final_exams:
-            device = GCMDevice.objects.filter(user=fe.student.user).first()
-            if device:
+            devices = GCMDevice.objects.filter(user=fe.student.user, active=True)
+            for device in devices:
                 device.send_message(message)
