@@ -9,7 +9,7 @@ services:
     ports:
       - 8007:8007
     env_file:
-      - .env
+      - .env.compose
     depends_on:
       - db
   db:

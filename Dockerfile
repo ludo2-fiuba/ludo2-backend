@@ -13,7 +13,7 @@ ENV SIU_URL $SIU_URL
 
 # install psycopg2 dependencies
 # https://stackoverflow.com/a/52655008/3663124
-RUN apt-get update \
+RUN apt-get update --allow-releaseinfo-change \
     && mkdir -p /usr/share/man/man1 \
     && mkdir -p /usr/share/man/man7 \
     && apt-get install -y --fix-missing build-essential postgresql musl libpq-dev
