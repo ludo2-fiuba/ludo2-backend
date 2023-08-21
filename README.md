@@ -46,9 +46,17 @@ The server will start by default on the port 8000
 ### Run server
 Run
 ```
-docker-compose up --build
+docker compose up --build
 ```
-The server will start by default on the port 8007
+The server will start by default on the port 8007. Admin dashboard URL is http://localhost:8007/admin
+
+#### Populate the Database
+
+For the first time, you'll need to run a migration and seed the DB. For this run:
+```bash
+docker exec -it ludo2-backend-web-1 python3 manage.py migrate
+docker exec -it ludo2-backend-web-1 python3 manage.py initdata
+```
 
 ## API Specification
 The endpoints of the API are exemplified in Postman in the following collection: https://www.getpostman.com/collections/d34849a7f0ccdae5831f
