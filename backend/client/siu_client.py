@@ -38,7 +38,7 @@ class SiuClient:
         data = {"finalId": final_siu_id, "notas": grades}
         return self._post(f"docentes/{teacher_siu_id}/finales/{final_siu_id}/subir_acta", data=data)
 
-    def list_comissions(self, teacher_siu_id):
+    def list_commissions(self, teacher_siu_id):
         return self._get(f"docentes/{teacher_siu_id}/comisiones?_expand=materia")
 
     def list_departments(self):

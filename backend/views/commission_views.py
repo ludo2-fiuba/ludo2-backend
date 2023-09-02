@@ -6,9 +6,9 @@ from backend.views.base_view import BaseViewSet
 from backend.views.utils import respond_plain
 
 
-class ComissionViewSet(BaseViewSet):
+class CommissionViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsTeacher]
 
     def list(self, request, *args, **kwargs):
-        result = SiuService().list_comissions(request.user.teacher.siu_id)
+        result = SiuService().list_commissions(request.user.teacher.siu_id)
         return respond_plain(result)
