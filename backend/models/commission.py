@@ -34,4 +34,4 @@ class Commission(models.Model):
         return SiuService().get_subject(self.subject_siu_id)
 
     def __str__(self):
-        return f"{self.siu_id} - {self.subject_name} - {self.teacher}"
+        return f"{self.siu_id} - {self.subject_name} - {self.chief_teacher}"
