@@ -21,6 +21,10 @@ services:
       - POSTGRES_USER=ludo
       - POSTGRES_PASSWORD=ludo
       - POSTGRES_DB=ludo_dev
+  fake-siu:
+    build: fake-siu
+    ports:
+      - 3000:3000
 
 volumes:
   postgres_data:
