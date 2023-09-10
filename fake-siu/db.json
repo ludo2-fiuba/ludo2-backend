@@ -1,0 +1,361 @@
+{
+  "departamentos": [
+    {
+      "id": 1,
+      "nombre": "Matemática",
+      "codigos": [
+        61,
+        81
+      ]
+    },
+    {
+      "id": 2,
+      "nombre": "Física",
+      "codigos": [
+        62,
+        82
+      ]
+    },
+    {
+      "id": 3,
+      "nombre": "Computación",
+      "codigos": [
+        75,
+        95
+      ]
+    },
+    {
+      "id": 4,
+      "nombre": "Química",
+      "codigos": [
+        63,
+        83
+      ]
+    },
+    {
+      "id": 5,
+      "nombre": "Electrónica",
+      "codigos": [
+        66,
+        86
+      ]
+    }
+  ],
+  "materias": [
+    {
+      "id": 1,
+      "codigo": "62.01",
+      "nombre": "Física I A",
+      "departamentoId": 2,
+      "correlativas": []
+    },
+    {
+      "id": 2,
+      "codigo": "62.02",
+      "nombre": "Física II A",
+      "departamentoId": 2,
+      "correlativas": [
+        "62.01",
+        "61.03"
+      ]
+    },
+    {
+      "id": 3,
+      "codigo": "61.03",
+      "nombre": "Análisis Matemático II A",
+      "departamentoId": 1,
+      "correlativas": []
+    },
+    {
+      "id": 4,
+      "codigo": "61.08",
+      "nombre": "Álgebra II A",
+      "departamentoId": 1,
+      "correlativas": []
+    },
+    {
+      "id": 5,
+      "codigo": "75.40",
+      "nombre": "Algoritmos y Programación I",
+      "departamentoId": 3,
+      "correlativas": []
+    },
+    {
+      "id": 6,
+      "codigo": "75.41",
+      "nombre": "Algoritmos y Programación II",
+      "departamentoId": 3,
+      "correlativas": [
+        "75.40"
+      ]
+    },
+    {
+      "id": 7,
+      "codigo": "75.07",
+      "nombre": "Algoritmos y Programación III",
+      "departamentoId": 3,
+      "correlativas": [
+        "75.41"
+      ]
+    },
+    {
+      "id": 8,
+      "codigo": "63.01",
+      "nombre": "Química I",
+      "departamentoId": 4,
+      "correlativas": []
+    },
+    {
+      "id": 9,
+      "codigo": "61.07",
+      "nombre": "Matemática Discreta",
+      "departamentoId": 1,
+      "correlativas": [
+        "62.01"
+      ]
+    },
+    {
+      "id": 10,
+      "codigo": "62.15",
+      "nombre": "Física III D",
+      "departamentoId": 2,
+      "correlativas": [
+        "61.08",
+        "62.02",
+        "63.01"
+      ]
+    },
+    {
+      "id": 11,
+      "codigo": "66.02",
+      "nombre": "Laboratorio",
+      "departamentoId": 5,
+      "correlativas": [
+        "62.02"
+      ]
+    },
+    {
+      "id": 12,
+      "codigo": "66.70",
+      "nombre": "Estructura del Computador",
+      "departamentoId": 5,
+      "correlativas": [
+        "62.02",
+        "61.08",
+        "75.41"
+      ]
+    },
+    {
+      "id": 13,
+      "codigo": "75.12",
+      "nombre": "Análisis Numérico",
+      "departamentoId": 1,
+      "correlativas": [
+        "61.03",
+        "61.08",
+        "75.41"
+      ]
+    },
+    {
+      "id": 14,
+      "codigo": "75.09",
+      "nombre": "Análisis de la Información",
+      "departamentoId": 1,
+      "correlativas": [
+        "75.07",
+        "75.42"
+      ]
+    },
+    {
+      "id": 15,
+      "codigo": "61.09",
+      "nombre": "Probabilidad y Estadística B",
+      "departamentoId": 1,
+      "correlativas": [
+        "61.03",
+        "61.08"
+      ]
+    },
+    {
+      "id": 16,
+      "codigo": "61.10",
+      "nombre": "Análisis Matemático III A",
+      "departamentoId": 1,
+      "correlativas": [
+        "61.03",
+        "61.08"
+      ]
+    },
+    {
+      "id": 17,
+      "codigo": "66.20",
+      "nombre": "Organización de Computadoras",
+      "departamentoId": 5,
+      "correlativas": [
+        "66.02",
+        "66.70"
+      ]
+    },
+    {
+      "id": 18,
+      "codigo": "75.06",
+      "nombre": "Organización de Datos",
+      "departamentoId": 3,
+      "correlativas": [
+        "66.70",
+        "75.41"
+      ]
+    },
+    {
+      "id": 19,
+      "codigo": "75.42",
+      "nombre": "Taller de Programación I",
+      "departamentoId": 3,
+      "correlativas": [
+        "66.70",
+        "75.12",
+        "75.41"
+      ]
+    },
+    {
+      "id": 20,
+      "codigo": "75.08",
+      "nombre": "Sistemas Operativos",
+      "departamentoId": 3,
+      "correlativas": [
+        "75.06"
+      ]
+    },
+    {
+      "id": 21,
+      "codigo": "75.71",
+      "nombre": "Seminario de Ingeniería en Informática I",
+      "departamentoId": 3,
+      "correlativas": [
+        "75.07"
+      ]
+    },
+    {
+      "id": 22,
+      "codigo": "75.99",
+      "nombre": "Trabajo Profesional",
+      "departamentoId": 3,
+      "correlativas": [
+      ]
+    }
+  ],
+  "alumnos": [
+    {
+      "id": 1,
+      "padron": 94557,
+      "dni": 37247189,
+      "email": "fede.est@gmail.com"
+    },
+    {
+      "id": 2,
+      "padron": 95557,
+      "dni": 38157957,
+      "email": "danielap.riesgo@gmail.com"
+    },
+    {
+      "id": 3,
+      "padron": 100687,
+      "dni": 41222510,
+      "email": "fede.est@gmail.com"
+    },
+    {
+      "id": 4,
+      "padron": 101055,
+      "dni": 41262850,
+      "email": "fede.est@gmail.com"
+    }
+  ],
+  "docentes": [
+    {
+      "id": 3,
+      "legajo": 94557,
+      "dni": 37247189,
+      "email": "fede.est@gmail.com"
+    },
+    {
+      "id": 4,
+      "legajo": 100536,
+      "dni": 11776919,
+      "email": "pcosso@fi.ubar.ar"
+    }
+  ],
+  "finales": [
+    {
+      "id": 1,
+      "docenteId": 3,
+      "materiaId": 1
+    },
+    {
+      "id": 2,
+      "docenteId": 3,
+      "materiaId": 3
+    },
+    {
+      "id": 3,
+      "docenteId": 3,
+      "materiaId": 5
+    },
+    {
+      "id": 4,
+      "docenteId": 3,
+      "materiaId": 2
+    },
+    {
+      "id": 5,
+      "docenteId": 3,
+      "materiaId": 4
+    },
+    {
+      "id": 6,
+      "docenteId": 3,
+      "materiaId": 6
+    },
+    {
+      "id": 7,
+      "docenteId": 4,
+      "materiaId": 22
+    }
+  ],
+  "comisiones": [
+    {
+      "id": 1,
+      "materiaId": 5,
+      "docenteId": 3
+    },
+    {
+      "id": 2,
+      "materiaId": 6,
+      "docenteId": 3
+    },
+    {
+      "id": 3,
+      "materiaId": 22,
+      "docenteId": 4
+    }
+  ],
+  "actas": [
+    {
+      "id": 1,
+      "notas": "95557",
+      "docenteId": "3",
+      "finalId": 3
+    },
+    {
+      "id": 2,
+      "notas": "95557",
+      "docenteId": "3",
+      "finalId": 1
+    },
+    {
+      "id": 3,
+      "notas": "95557",
+      "docenteId": "3",
+      "finalId": 2
+    }
+  ]
+}
