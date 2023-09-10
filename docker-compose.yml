@@ -23,6 +23,7 @@ services:
       - POSTGRES_DB=ludo_dev
   fake-siu:
     build: fake-siu
+    stop_grace_period: 1s
     ports:
       - 3000:3000
 
