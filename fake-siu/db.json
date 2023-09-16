@@ -282,6 +282,12 @@
       "legajo": 100536,
       "dni": 11776919,
       "email": "pcosso@fi.ubar.ar"
+    },
+    {
+      "id": 6,
+      "legajo": 100812,
+      "dni": 41099526,
+      "email": "macohen@fi.ubar.ar"
     }
   ],
   "finales": [
@@ -336,6 +342,11 @@
       "id": 3,
       "materiaId": 22,
       "docenteId": 4
+    },
+    {
+      "id": 4,
+      "materiaId": 22,
+      "docenteId": 6
     }
   ],
   "actas": [
