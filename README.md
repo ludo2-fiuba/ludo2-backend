@@ -40,11 +40,10 @@ The server will start by default on the port 8000
 
 ## Run with Docker
 
-### Requirements
-- Docker
-
 ### Run server
-Run
+Duplicate `.env.template` and rename to `.env`. Complete the secrets with the correct values.
+
+Then, run
 ```
 docker compose up --build
 ```
