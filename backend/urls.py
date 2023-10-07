@@ -1,4 +1,7 @@
 from django.urls import include, path, re_path
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 from rest_framework_nested import routers
 
 from . import views
@@ -18,6 +21,14 @@ teacher_finals_router.register(r'final_exams', views.FinalExamTeacherViews, base
 auth_router = routers.DefaultRouter()
 auth_router.register(r'auth/users', UserCustomViewSet)
 
+schema_view = get_schema_view(
+    openapi.Info(
+        title="LUDO API",
+        default_version='v1',),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
+
 urlpatterns = [
     # app own routes
     path('api/', include(router.urls)),
@@ -28,4 +39,6 @@ urlpatterns = [
 
     path('', include(auth_router.urls)),
     re_path(r'^auth/oauth/$', views.user_views.token_obtain_pair, name='api-oauth'),
+    
+    path('docs/', schema_view.with_ui('swagger', cache_timeout=0),name='schema-swagger-ui')
 ]

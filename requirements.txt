@@ -22,3 +22,5 @@ requests
 rest_condition
 qrcode
 whitenoise
+django-rest-swagger
+drf-yasg

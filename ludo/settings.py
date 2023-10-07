@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os
-import django_heroku
 import logging
+import os
+
+import django_heroku
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -54,6 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'rest_framework_swagger',
+    'drf_yasg',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     'django_extensions',
@@ -121,6 +124,7 @@ DATABASES = {
 }
 
 import dj_database_url
+
 # DATABASES['default'] = dj_database_url.config(conn_max_age=500)
 
 # DATABASE_URL = os.environ.get('DATABASE_URL')
