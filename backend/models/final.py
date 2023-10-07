@@ -3,9 +3,10 @@ import uuid
 from django.db import models
 from django.utils import timezone
 
-from backend.models import Teacher
 from backend.services.siu_service import SiuService
 from backend.utils import memoized
+
+from .teacher import Teacher
 
 
 class Final(models.Model):
