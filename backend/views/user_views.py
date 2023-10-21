@@ -6,10 +6,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import AUTH_HEADER_TYPES
 
-from backend.serializers.user_serializer import UserCustomCreateSerializer, CustomTokenObtainPairSerializer, \
-    UserCustomGetSerializer
+from backend.serializers.user_serializer import (
+    CustomTokenObtainPairSerializer, UserCustomCreateSerializer,
+    UserCustomGetSerializer)
 from backend.services.image_validator_service import ImageValidatorService
-from ..api_exceptions import InvalidToken, InvalidFaceError
+
+from ..api_exceptions import InvalidFaceError, InvalidToken
 from ..models import User
 
 

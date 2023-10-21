@@ -8,6 +8,7 @@ from backend.services.siu_service import SiuService
 from backend.utils import memoized
 
 from .commission import Commission
+from .student import Student
 
 
 class Semester(models.Model):
@@ -26,6 +27,7 @@ class Semester(models.Model):
       verbose_name="Momento del año"
     )
     start_date = models.DateTimeField(db_index=True, verbose_name="Fecha de inicio")
+    students =  models.ManyToManyField(Student, through='CommissionInscription', verbose_name="Alumnos Inscriptos")
 
     # REQUIRED_FIELDS = ['date']
 
