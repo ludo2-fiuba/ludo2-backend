@@ -18,7 +18,7 @@ class Commission(models.Model):
     created_at = models.DateTimeField(default=timezone.now, editable=False, verbose_name="Creado en")
     updated_at = models.DateTimeField(default=timezone.now, verbose_name="Última Actualización")
 
-    REQUIRED_FIELDS = ['date']
+    # REQUIRED_FIELDS = ['date']
 
     # ALLOWED_FILTERS = {
     #     "year": "date__year",

@@ -13,6 +13,7 @@ router.register(r'final_exams', views.FinalExamStudentViewSet, 'final_exam')
 router.register(r'finals', views.FinalTeacherViewSet, 'final')
 router.register(r'subjects', views.SubjectViewSet, 'subject')
 router.register(r'commissions', views.CommissionViewSet, 'commission')
+router.register(r'semesters', views.SemesterViewSet, 'semester')
 router.register(r'device/gcm', CustomGCMDeviceViewSet)
 
 teacher_finals_router = routers.NestedSimpleRouter(router, r'finals', lookup='final')

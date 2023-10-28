@@ -1,6 +1,7 @@
 from django.contrib.auth.models import Group
 
-from backend.models import Final, FinalExam, Student, Teacher, User
+from backend.models import (Commission, Final, FinalExam, Semester, Student,
+                            Teacher, User)
 
 
 def seed():
@@ -556,3 +557,47 @@ def seed():
         grade=4
     )
     fe8.save()
+
+    commission1 = Commission(
+        chief_teacher=teacher1,
+        subject_siu_id=1,
+        subject_name="Física I - Catedra 1",
+        siu_id=1
+    )
+    commission1.save()
+
+    commission2 = Commission(
+        chief_teacher=teacher2,
+        subject_siu_id=1,
+        subject_name="Física I - Catedra 2",
+        siu_id=2
+    )
+    commission2.save()
+
+    semester1 = Semester(
+        commission=commission1,
+        year_moment='FS',
+        start_date="2023-03-10T19:00:00-03:00"
+    )
+    semester1.save()
+
+    semester2 = Semester(
+        commission=commission1,
+        year_moment='SS',
+        start_date="2023-07-10T19:00:00-03:00"
+    )
+    semester2.save()
+
+    semester3 = Semester(
+        commission=commission2,
+        year_moment='SS',
+        start_date="2023-07-10T19:00:00-03:00"
+    )
+    semester3.save()
+
+    semester4 = Semester(
+        commission=commission2,
+        year_moment='SS',
+        start_date="2022-07-10T19:00:00-03:00"
+    )
+    semester4.save()
