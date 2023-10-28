@@ -7,9 +7,10 @@ from rest_framework.response import Response
 
 from backend.api_exceptions import InvalidSubjectCodeError
 from backend.model_validators import FinalExamValidator
-from backend.models import FinalExam, Final
+from backend.models import Final, FinalExam
 from backend.permissions import *
-from backend.serializers.final_exam_serializer import FinalExamSerializer, FinalExamStudentSerializer
+from backend.serializers.final_exam_serializer import (
+    FinalExamSerializer, FinalExamStudentSerializer)
 from backend.services.siu_service import SiuService
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import validate_face
@@ -19,6 +20,7 @@ class FinalExamStudentViewSet(BaseViewSet):
     queryset = FinalExam.objects.all()
     serializer_class = FinalExamSerializer
     permission_classes = [IsAuthenticated, IsStudent]
+    extra = {}
 
     @action(detail=False, methods=['POST'])
     def take_exam(self, request):

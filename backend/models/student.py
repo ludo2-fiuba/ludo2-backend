@@ -12,6 +12,7 @@ class Student(models.Model):
     face_encodings = ArrayField(base_field=models.FloatField(null=False), blank=False, default=list)
     image = models.CharField(max_length=120, null=True)
 
+
     REQUIRED_FIELDS = ['padron']
 
     def __str__(self):

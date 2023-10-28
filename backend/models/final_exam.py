@@ -1,10 +1,11 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils import timezone
 
-from . import Final, Student
 from ..services.siu_service import SiuService
 from ..utils import memoized
+from .final import Final
+from .student import Student
 
 
 class FinalExam(models.Model):

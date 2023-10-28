@@ -30,8 +30,8 @@ class SiuService:
     def save_final_grades(self, final):
         return ExternalMapper().map(self.client.save_final_grades(final.siu_id, final.teacher.siu_id, self._build_grades(final.final_exams.all())))
 
-    def list_comissions(self, teacher_siu_id):
-        return ExternalMapper().map(self.client.list_comissions(teacher_siu_id))
+    def list_commissions(self, teacher_siu_id):
+        return ExternalMapper().map(self.client.list_commissions(teacher_siu_id))
 
     def list_departments(self):
         return ExternalMapper().map(self.client.list_departments())

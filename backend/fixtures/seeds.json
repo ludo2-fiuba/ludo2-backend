@@ -673,5 +673,61 @@
       "student": 2,
       "grade": null
     }
+  },
+  {
+    "model": "backend.commission",
+    "pk": 1,
+    "fields": {
+      "chief_teacher": 5,
+      "subject_siu_id": 1,
+      "subject_name": "Física I - Catedra 1",
+      "siu_id": 1
+    }
+  },
+  {
+    "model": "backend.commission",
+    "pk": 2,
+    "fields": {
+      "chief_teacher": 6,
+      "subject_siu_id": 1,
+      "subject_name": "Física I - Catedra 2",
+      "siu_id": 2
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 1,
+    "fields": {
+      "commission": 1,
+      "year_moment": "FS",
+      "start_date": "2023-03-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 2,
+    "fields": {
+      "commission": 1,
+      "year_moment": "SS",
+      "start_date": "2023-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 3,
+    "fields": {
+      "commission": 2,
+      "year_moment": "SS",
+      "start_date": "2023-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 4,
+    "fields": {
+      "commission": 2,
+      "year_moment": "SS",
+      "start_date": "2022-07-10T19:00:00-03:00"
+    }
   }
 ]
