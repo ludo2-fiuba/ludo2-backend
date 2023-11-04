@@ -15,12 +15,11 @@ class CommissionViewSet(BaseViewSet):
     queryset = Commission.objects.all()
     serializer_class = CommissionSerializer
 
+    #def list(self, request, *args, **kwargs):
+    #    result = SiuService().list_commissions(request.user.teacher.siu_id)
+    #    return respond_plain(result)
+
     def list(self, request, *args, **kwargs):
-        result = SiuService().list_commissions(request.user.teacher.siu_id)
-        return respond_plain(result)
-    
-    @action(detail=False, methods=["GET"])
-    def list_commissions(self, request):
         result = self.get_queryset()
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
     

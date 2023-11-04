@@ -705,6 +705,16 @@
     }
   },
   {
+    "model": "backend.commission",
+    "pk": 4,
+    "fields": {
+      "chief_teacher": 13,
+      "subject_siu_id": 3,
+      "subject_name": "Análisis Matemático II - Catedra 1",
+      "siu_id": 4
+    }
+  },
+  {
     "model": "backend.semester",
     "pk": 1,
     "fields": {
@@ -738,6 +748,33 @@
       "commission": 2,
       "year_moment": "SS",
       "start_date": "2022-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 5,
+    "fields": {
+      "commission": 3,
+      "year_moment": "FS",
+      "start_date": "2023-03-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 6,
+    "fields": {
+      "commission": 3,
+      "year_moment": "SS",
+      "start_date": "2023-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 7,
+    "fields": {
+      "commission": 4,
+      "year_moment": "SS",
+      "start_date": "2023-07-10T19:00:00-03:00"
     }
   },
   {

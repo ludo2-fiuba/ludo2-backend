@@ -591,6 +591,22 @@ def seed():
     )
     commission2.save()
 
+    commission3 = Commission(
+        chief_teacher=teacher8,
+        subject_siu_id=1,
+        subject_name="Física I - Catedra 3",
+        siu_id=3
+    )
+    commission3.save()
+
+    commission4 = Commission(
+        chief_teacher=teacher8,
+        subject_siu_id=3,
+        subject_name="Análisis Matemático II - Catedra 1",
+        siu_id=4
+    )
+    commission4.save()
+
     semester1 = Semester(
         commission=commission1,
         year_moment='FS',
@@ -618,6 +634,27 @@ def seed():
         start_date="2022-07-10T19:00:00-03:00"
     )
     semester4.save()
+
+    semester5 = Semester(
+        commission=commission3,
+        year_moment='FS',
+        start_date="2023-03-10T19:00:00-03:00"
+    )
+    semester5.save()
+
+    semester6 = Semester(
+        commission=commission3,
+        year_moment='SS',
+        start_date="2023-07-10T19:00:00-03:00"
+    )
+    semester6.save()
+
+    semester7 = Semester(
+        commission=commission4,
+        year_moment='SS',
+        start_date="2023-07-10T19:00:00-03:00"
+    )
+    semester7.save()
 
     commissionInscription1 = CommissionInscription(
         status="A",
