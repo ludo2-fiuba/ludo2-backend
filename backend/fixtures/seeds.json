@@ -709,5 +709,59 @@
       "year_moment": "SS",
       "start_date": "2022-07-10T19:00:00-03:00"
     }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 1,
+    "fields": {
+      "status": "A",
+      "semester": 1,
+      "student": 14
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 2,
+    "fields": {
+      "status": "A",
+      "semester": 2,
+      "student": 14
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 3,
+    "fields": {
+      "status": "A",
+      "semester": 1,
+      "student": 12
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 4,
+    "fields": {
+      "status": "A",
+      "semester": 2,
+      "student": 12
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 5,
+    "fields": {
+      "status": "A",
+      "semester": 1,
+      "student": 13
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 6,
+    "fields": {
+      "status": "A",
+      "semester": 2,
+      "student": 13
+    }
   }
 ]
