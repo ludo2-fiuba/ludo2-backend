@@ -300,6 +300,18 @@
       "legajo": 100812,
       "dni": 41099526,
       "email": "macohen@fi.ubar.ar"
+    },
+    {
+      "id": 7,
+      "legajo": 101049,
+      "dni": 41318038,
+      "email": "airibarren@fi.uba.ar"
+    },
+    {
+      "id": 8,
+      "legajo": 100608,
+      "dni": 41107811,
+      "email": "fgiordano@fi.uba.ar"
     }
   ],
   "finales": [
@@ -359,6 +371,46 @@
       "id": 4,
       "materiaId": 22,
       "docenteId": 6
+    },
+    {
+      "id": 5,
+      "materiaId": 19,
+      "docenteId": 7
+    },
+    {
+      "id": 6,
+      "materiaId": 20,
+      "docenteId": 7
+    },
+    {
+      "id": 7,
+      "materiaId": 21,
+      "docenteId": 7
+    },
+    {
+      "id": 8,
+      "materiaId": 22,
+      "docenteId": 7
+    },
+    {
+      "id": 9,
+      "materiaId": 19,
+      "docenteId": 8
+    },
+    {
+      "id": 10,
+      "materiaId": 20,
+      "docenteId": 8
+    },
+    {
+      "id": 11,
+      "materiaId": 21,
+      "docenteId": 8
+    },
+    {
+      "id": 12,
+      "materiaId": 22,
+      "docenteId": 8
     }
   ],
   "actas": [
