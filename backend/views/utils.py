@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -31,3 +33,13 @@ def validate_face(request, model):
 
     if not is_match:
         return InvalidFaceError()
+
+def get_current_semester():
+    mes = datetime.now().month
+    # TODO: hacerlo configurable
+    if (mes >= 8) or (mes <= 2):
+        return 'SS'
+    return 'FS'
+
+def get_current_year():
+    return datetime.now().year
