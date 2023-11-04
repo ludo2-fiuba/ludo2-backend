@@ -643,3 +643,10 @@ def seed():
         student=student8
     )
     commissionInscription6.save()
+
+    commissionInscription7 = CommissionInscription(
+        status="R",
+        semester=semester3,
+        student=student9
+    )
+    commissionInscription7.save()
