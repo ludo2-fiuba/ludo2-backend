@@ -1,4 +1,5 @@
 from .base_view import BaseViewSet
+from .commission_teacher_views import CommissionTeacherViewSet
 from .commission_views import CommissionViewSet
 from .commissionInscription_views import CommissionInscriptionViewSet
 from .custom_gcm_device_viewset import CustomGCMDeviceViewSet
