@@ -3,6 +3,7 @@ from .commission_teacher_views import CommissionTeacherViewSet
 from .commission_views import CommissionViewSet
 from .commissionInscription_views import CommissionInscriptionViewSet
 from .custom_gcm_device_viewset import CustomGCMDeviceViewSet
+from .evaluation_views import EvaluationViewSet
 from .final_exam_student_views import FinalExamStudentViewSet
 from .final_exam_teacher_views import FinalExamTeacherViews
 from .final_teacher_views import FinalTeacherViewSet

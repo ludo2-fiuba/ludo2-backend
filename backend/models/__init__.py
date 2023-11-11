@@ -1,5 +1,6 @@
 from .commission import Commission
 from .commissionInscription import CommissionInscription
+from .evaluation import Evaluation
 from .final import Final
 from .final_exam import FinalExam
 from .semester import Semester

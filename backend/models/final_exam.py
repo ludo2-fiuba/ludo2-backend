@@ -3,7 +3,6 @@ from django.db import models
 from django.utils import timezone
 
 from ..services.siu_service import SiuService
-from ..utils import memoized
 from .final import Final
 from .student import Student
 

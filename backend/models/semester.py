@@ -1,11 +1,4 @@
-
-import uuid
-
 from django.db import models
-from django.utils import timezone
-
-from backend.services.siu_service import SiuService
-from backend.utils import memoized
 
 from .commission import Commission
 from .student import Student

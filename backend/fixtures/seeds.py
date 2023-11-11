@@ -1,7 +1,7 @@
 from django.contrib.auth.models import Group
 
-from backend.models import (Commission, CommissionInscription, Final,
-                            FinalExam, Semester, Student, Teacher, User)
+from backend.models import (Commission, CommissionInscription, Evaluation,
+                            Final, FinalExam, Semester, Student, Teacher, User)
 
 
 def seed():
@@ -702,5 +702,14 @@ def seed():
         status="R",
         semester=semester3,
         student=student9
+    )
+    commissionInscription7.save()
+
+    commissionInscription7 = Evaluation(
+        semester=semester2,
+        evaluation_name="Parcial",
+        is_graded=True,
+        passing_grade=4,
+        end_date="2023-11-13T19:00:00-03:00"
     )
     commissionInscription7.save()
