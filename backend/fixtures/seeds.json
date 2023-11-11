@@ -839,5 +839,16 @@
       "semester": 3,
       "student": 14
     }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 1,
+    "fields": {
+      "semester": 2,
+      "evaluation_name": "Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "end_date": "2023-11-13T19:00:00-03:00"
+    }
   }
 ]

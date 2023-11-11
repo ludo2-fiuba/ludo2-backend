@@ -7,10 +7,10 @@ class Evaluation(models.Model):
     semester = models.ForeignKey(Semester, on_delete=models.CASCADE, related_name='evaluations', verbose_name="Evaluaciones")
     evaluation_name = models.CharField(max_length=100, db_index=True, editable=False, verbose_name="Nombre de Evaluacion")
     is_graded = models.BooleanField(default=True)
-    passing_grade = models.IntegerField(db_index=True, blank=True,verbose_name="Nota de Aprobacion")
+    passing_grade = models.IntegerField(db_index=True, null=True, blank=True, verbose_name="Nota de Aprobacion")
 
 
-    start_date = models.DateTimeField(db_index=True, blank=True, verbose_name="Fecha de inicio")
+    start_date = models.DateTimeField(db_index=True, null=True, blank=True, verbose_name="Fecha de inicio")
     end_date = models.DateTimeField(db_index=True, verbose_name="Fecha de entrega")
 
 
