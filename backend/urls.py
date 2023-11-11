@@ -16,6 +16,7 @@ router.register(r'commissions', views.CommissionViewSet, 'commission')
 router.register(r'teacher/commissions', views.CommissionTeacherViewSet, 'commission')
 router.register(r'semesters', views.SemesterViewSet, 'semester')
 router.register(r'evaluations', views.EvaluationViewSet, 'evaluation')
+router.register(r'teacher/evaluations', views.EvaluationTeacherViewSet, 'evaluation')
 router.register(r'commission_inscription', views.CommissionInscriptionViewSet, 'commission_inscription')
 router.register(r'device/gcm', CustomGCMDeviceViewSet)
 

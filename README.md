@@ -246,6 +246,22 @@ ludo_dev=# \d backend_user
 
 </details>
 
+<details>
+ <summary><code>POST</code> <code><b>/api/teacher/evaluations/add_evaluation/</b></code> <code>(add evaluation for semester)</code></summary>
+
+##### Parameters
+
+> | name      |  type     |  data type     | description                                                           |
+> |-----------|-----------|----------------|-----------------------------------------------------------------------|
+> | semester_id |  required |  integer | Id of the semester you want the evaluations from |
+> | evaluation_name |  required |  string | Name of the evaluation |
+> | is_graded |  required |  boolean | If the evaluation should be graded or not |
+> | passing_grade | not required |  integer | Minimum grade in wich the evaluation is considered passed |
+> | start_date | not required |  datetime | Start date of the evaluation in case it is take home |
+> | end_date |  required |  datetime | Date in which the evaluation is handed in |
+
+</details>
+
 ------------------------------------------------------------------------------------------
 
 
