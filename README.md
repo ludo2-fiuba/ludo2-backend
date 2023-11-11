@@ -159,6 +159,17 @@ ludo_dev=# \d backend_user
 
 </details>
 
+<details>
+ <summary><code>GET</code> <code><b>/api/teacher/commissions/my_commissions/</b></code> <code>(lists commissions you are a teacher on)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | None      |  required | N/A  |
+
+</details>
+
 ------------------------------------------------------------------------------------------
 
 #### Semesters
@@ -219,6 +230,21 @@ ludo_dev=# \d backend_user
 > | name      |  type     | description                                                           |
 > |-----------|-----------|-----------------------------------------------------------------------|
 > | subject_siu_id |  required | Subject id in siu service |
+
+------------------------------------------------------------------------------------------
+
+#### Evaluation
+
+<details>
+ <summary><code>GET</code> <code><b>/api/evaluations/</b></code> <code>(lists evaluations for semester)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | semester_id |  required | Id of the semester you want the evaluations from |
+
+</details>
 
 ------------------------------------------------------------------------------------------
 
