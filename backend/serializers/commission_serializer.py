@@ -12,4 +12,4 @@ class CommissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Commission
-        fields = ('subject_siu_id', 'subject_name', 'chief_teacher')
+        fields = ('id', 'subject_siu_id', 'subject_name', 'chief_teacher')
