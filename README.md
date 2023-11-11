@@ -132,7 +132,95 @@ ludo_dev=# \d backend_user
 ```
 
 ## API Specification
-The endpoints of the API are exemplified in Postman in the following collection: https://www.getpostman.com/collections/d34849a7f0ccdae5831f
+
+------------------------------------------------------------------------------------------
+
+#### Commissions
+
+<details>
+ <summary><code>GET</code> <code><b>/api/commissions/</b></code> <code>(lists commissions)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | None      |  required | N/A  |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/api/commissions/subject_commissions</b></code> <code>(lists subject commissions)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | subject_siu_id |  required | Subject id in siu service |
+
+</details>
+
+------------------------------------------------------------------------------------------
+
+#### Semesters
+
+<details>
+ <summary><code>GET</code> <code><b>/api/semesters/subject_semesters</b></code> <code>(lists subject semesters)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | subject_siu_id |  required | Subject id in siu service |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/api/semesters/present_subject_semesters</b></code> <code>(lists current subject semesters)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | subject_siu_id |  required | Subject id in siu service |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/api/semesters/commission_present_semester</b></code> <code>(gets current semester for a commission)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | commission_id |  required | Id of the commission you want to get the semester from |
+
+</details>
+
+------------------------------------------------------------------------------------------
+
+#### Commission Inscription
+
+<details>
+ <summary><code>GET</code> <code><b>/api/commission_inscription/</b></code> <code>(lists commission inscriptions for student)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | None      |  required | N/A  |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/api/commission_inscription/current_inscriptions/</b></code> <code>(lists current commission inscriptions for student)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | subject_siu_id |  required | Subject id in siu service |
+
+------------------------------------------------------------------------------------------
 
 
 ## Deployed application

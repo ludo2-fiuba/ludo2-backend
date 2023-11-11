@@ -24,7 +24,7 @@ class CommissionViewSet(BaseViewSet):
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
     
     @action(detail=False, methods=["GET"])
-    def list_subject_commissions(self, request):
+    def subject_commissions(self, request):
         result = self.get_queryset().filter(subject_siu_id=request.query_params['subject_siu_id'])
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
 

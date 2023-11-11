@@ -15,12 +15,12 @@ class SemesterViewSet(BaseViewSet):
     serializer_class = SemesterSerializer
     
     @action(detail=False, methods=["GET"])
-    def list_subject_semesters(self, request):
+    def subject_semesters(self, request):
         result = self.get_queryset().filter(commission__subject_siu_id=request.query_params['subject_siu_id'])
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
     
     @action(detail=False, methods=["GET"])
-    def list_present_subject_semesters(self, request):
+    def present_subject_semesters(self, request):
         result = self.get_queryset().filter(commission__subject_siu_id=request.query_params['subject_siu_id'], 
                                             start_date__year__gte=get_current_year(), year_moment=get_current_semester())
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
