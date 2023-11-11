@@ -830,5 +830,14 @@
       "semester": 2,
       "student": 13
     }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 7,
+    "fields": {
+      "status": "R",
+      "semester": 3,
+      "student": 14
+    }
   }
 ]
