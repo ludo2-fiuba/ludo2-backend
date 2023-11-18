@@ -231,6 +231,8 @@ ludo_dev=# \d backend_user
 > |-----------|-----------|-----------------------------------------------------------------------|
 > | subject_siu_id |  required | Subject id in siu service |
 
+</details>
+
 ------------------------------------------------------------------------------------------
 
 #### Evaluation
@@ -243,6 +245,17 @@ ludo_dev=# \d backend_user
 > | name      |  type     | description                                                           |
 > |-----------|-----------|-----------------------------------------------------------------------|
 > | semester_id |  required | Id of the semester you want the evaluations from |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/api/evaluations/mis_examenes</b></code> <code>(lists evaluations for student)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | None      |  required | N/A  |
 
 </details>
 
