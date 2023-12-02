@@ -931,5 +931,23 @@
       "evaluation": 2,
       "student": 14
     }
+  },
+  {
+    "model": "backend.teacherRole",
+    "pk": 1,
+    "fields": {
+      "commission": 4,
+      "teacher": 14,
+      "role": "T"
+    }
+  },
+  {
+    "model": "backend.teacherRole",
+    "pk": 2,
+    "fields": {
+      "commission": 5,
+      "teacher": 13,
+      "role": "T"
+    }
   }
 ]

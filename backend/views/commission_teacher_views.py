@@ -16,6 +16,6 @@ class CommissionTeacherViewSet(BaseViewSet):
     
     @action(detail=False, methods=["GET"])
     def my_commissions(self, request):
-        result = self.get_queryset().filter(chief_teacher=request.user.teacher)
+        result = self.get_queryset().filter(chief_teacher=request.user.teacher).union(self.get_queryset().filter(teachers__teacher=request.user.teacher))
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
 
