@@ -160,6 +160,17 @@ ludo_dev=# \d backend_user
 </details>
 
 <details>
+ <summary><code>GET</code> <code><b>/api/commissions/teachers</b></code> <code>(lists commission teachers)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | commission_id |  required | Id of commission to get teachers from |
+
+</details>
+
+<details>
  <summary><code>GET</code> <code><b>/api/teacher/commissions/my_commissions/</b></code> <code>(lists commissions you are a teacher on)</code></summary>
 
 ##### Parameters
