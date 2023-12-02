@@ -7,4 +7,5 @@ from .semester import Semester
 from .staff import Staff
 from .student import Student
 from .teacher import Teacher
+from .teacher_role import TeacherRole
 from .user import User

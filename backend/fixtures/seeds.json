@@ -869,5 +869,23 @@
       "passing_grade": 4,
       "end_date": "2023-11-13T19:00:00-03:00"
     }
+  },
+  {
+    "model": "backend.teacherRole",
+    "pk": 1,
+    "fields": {
+      "commission": 4,
+      "teacher": 14,
+      "role": "T"
+    }
+  },
+  {
+    "model": "backend.teacherRole",
+    "pk": 2,
+    "fields": {
+      "commission": 5,
+      "teacher": 13,
+      "role": "T"
+    }
   }
 ]
