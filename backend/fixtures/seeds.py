@@ -1,7 +1,8 @@
 from django.contrib.auth.models import Group
 
 from backend.models import (Commission, CommissionInscription, Evaluation,
-                            Final, FinalExam, Semester, Student, Teacher, User)
+                            EvaluationSubmission, Final, FinalExam, Semester,
+                            Student, Teacher, User)
 
 
 def seed():
@@ -607,6 +608,14 @@ def seed():
     )
     commission4.save()
 
+    commission5 = Commission(
+        chief_teacher=teacher6,
+        subject_siu_id=3,
+        subject_name="Análisis Matemático II - Catedra 2",
+        siu_id=5
+    )
+    commission5.save()
+
     semester1 = Semester(
         commission=commission1,
         year_moment='FS',
@@ -655,6 +664,13 @@ def seed():
         start_date="2023-07-10T19:00:00-03:00"
     )
     semester7.save()
+
+    semester8 = Semester(
+        commission=commission5,
+        year_moment='SS',
+        start_date="2023-07-10T19:00:00-03:00"
+    )
+    semester8.save()
 
     commissionInscription1 = CommissionInscription(
         status="A",
@@ -705,11 +721,59 @@ def seed():
     )
     commissionInscription7.save()
 
-    commissionInscription7 = Evaluation(
+    commissionInscription8 = CommissionInscription(
+        status="A",
+        semester=semester8,
+        student=student7
+    )
+    commissionInscription5.save()
+
+    commissionInscription9 = CommissionInscription(
+        status="A",
+        semester=semester8,
+        student=student8
+    )
+    commissionInscription6.save()
+
+    commissionInscription10 = CommissionInscription(
+        status="A",
+        semester=semester8,
+        student=student9
+    )
+    commissionInscription7.save()
+
+    evaluation1 = Evaluation(
         semester=semester2,
         evaluation_name="Parcial",
         is_graded=True,
         passing_grade=4,
         end_date="2023-11-13T19:00:00-03:00"
     )
-    commissionInscription7.save()
+    evaluation1.save()
+
+    evaluation2 = Evaluation(
+        semester=semester8,
+        evaluation_name="Parcial",
+        is_graded=True,
+        passing_grade=4,
+        end_date="2023-11-13T19:00:00-03:00"
+    )
+    evaluation2.save()
+
+    evaluationSubmission1 = EvaluationSubmission(
+        evaluation=evaluation2,
+        student=student7
+    )
+    evaluationSubmission1.save()
+
+    evaluationSubmission2 = EvaluationSubmission(
+        evaluation=evaluation2,
+        student=student8
+    )
+    evaluationSubmission2.save()
+
+    evaluationSubmission3 = EvaluationSubmission(
+        evaluation=evaluation2,
+        student=student9
+    )
+    evaluationSubmission3.save()
