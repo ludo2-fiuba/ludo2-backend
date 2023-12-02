@@ -860,6 +860,33 @@
     }
   },
   {
+    "model": "backend.commissioninscription",
+    "pk": 8,
+    "fields": {
+      "status": "A",
+      "semester": 8,
+      "student": 12
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 9,
+    "fields": {
+      "status": "A",
+      "semester": 8,
+      "student": 13
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 10,
+    "fields": {
+      "status": "A",
+      "semester": 3,
+      "student": 14
+    }
+  },
+  {
     "model": "backend.evaluation",
     "pk": 1,
     "fields": {
@@ -868,6 +895,41 @@
       "is_graded": true,
       "passing_grade": 4,
       "end_date": "2023-11-13T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 2,
+    "fields": {
+      "semester": 8,
+      "evaluation_name": "Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "end_date": "2023-11-13T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluationsubmission",
+    "pk": 1,
+    "fields": {
+      "evaluation": 2,
+      "student": 12
+    }
+  },
+  {
+    "model": "backend.evaluationsubmission",
+    "pk": 2,
+    "fields": {
+      "evaluation": 2,
+      "student": 13
+    }
+  },
+  {
+    "model": "backend.evaluationsubmission",
+    "pk": 3,
+    "fields": {
+      "evaluation": 2,
+      "student": 14
     }
   }
 ]
