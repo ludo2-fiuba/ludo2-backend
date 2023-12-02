@@ -288,6 +288,44 @@ ludo_dev=# \d backend_user
 
 ------------------------------------------------------------------------------------------
 
+#### Evaluation Submission
+
+<details>
+ <summary><code>POST</code> <code><b>/api/evaluations/submissions/submit_evaluation/</b></code> <code>(post evaluation submission)</code></summary>
+
+##### Parameters
+
+> | name      |  type     |  data type     | description                                                           |
+> |-----------|-----------|----------------|-----------------------------------------------------------------------|
+> | evaluation |  required |  integer | Id of the evaluation |
+> | student |  required |  integer | Id of the student |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/api/evaluations/submissions/my_evaluations/</b></code> <code>(lists evaluation submissions for student)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | None      |  required | N/A  |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/api/teacher/evaluations/submissions/get_submissions</b></code> <code>(get submissions for an evaluation)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | evaluation |  required | Id of the evaluation  |
+
+</details>
+
+------------------------------------------------------------------------------------------
+
 
 ## Deployed application
 The application is running at `https://ludo-backend.herokuapp.com`
