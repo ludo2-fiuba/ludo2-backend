@@ -11,7 +11,7 @@ class EvaluationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Evaluation
-        fields = ('evaluation_name', 'passing_grade', 'start_date', 'end_date')
+        fields = ('id', 'evaluation_name', 'passing_grade', 'start_date', 'end_date')
 
 
 class EvaluationPostSerializer(serializers.ModelSerializer):
