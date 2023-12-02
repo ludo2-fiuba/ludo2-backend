@@ -25,3 +25,12 @@ class EvaludationSubmissionPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = EvaluationSubmission
         fields = ('evaluation', 'student')
+
+
+class EvaludationSubmissionCorrectionSerializer(serializers.ModelSerializer):
+    student = StudentSerializer()
+    grade = serializers.IntegerField()
+
+    class Meta:
+        model = EvaluationSubmission
+        fields = ('student', 'grade')

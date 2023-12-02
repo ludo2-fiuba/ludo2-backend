@@ -15,6 +15,8 @@ class Commission(models.Model):
     subject_name = models.CharField(max_length=100, db_index=True, null=False, editable=False, verbose_name="Nombre de Materia")
     siu_id = models.IntegerField(db_index=True, null=False, editable=False)
 
+    teachers =  models.ManyToManyField(Teacher, through='TeacherRole', verbose_name="Cuerpo Docente")
+
     created_at = models.DateTimeField(default=timezone.now, editable=False, verbose_name="Creado en")
     updated_at = models.DateTimeField(default=timezone.now, verbose_name="Última Actualización")
 

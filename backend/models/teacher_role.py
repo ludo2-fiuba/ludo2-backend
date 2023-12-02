@@ -5,8 +5,8 @@ from .teacher import Teacher
 
 
 class TeacherRole(models.Model):
-    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, related_name='teachers', verbose_name="Profesores")
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='semesters', verbose_name="Semestres")
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, verbose_name="Profesores")
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="Semestres")
 
     class Role(models.TextChoices):
         TEACHER = 'T', 'Teacher'

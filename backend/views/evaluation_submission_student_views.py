@@ -33,3 +33,9 @@ class EvaluationSubmissionViewSet(BaseViewSet):
         EvaluationSubmissionValidator(submission).validate()
         submission.save()
         return Response(EvaludationSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED)
+        
+    @action(detail=False, methods=['GET'])
+    def my_evaluations(self, request):
+
+        result = self.queryset.filter(student=request.user.student).all()
+        return Response(EvaludationSubmissionSerializer(result, many=True).data, status.HTTP_200_OK)
