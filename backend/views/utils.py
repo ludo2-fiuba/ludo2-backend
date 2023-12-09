@@ -43,3 +43,6 @@ def get_current_semester():
 
 def get_current_year():
     return datetime.now().year
+
+def get_current_datetime():
+    return datetime.now()

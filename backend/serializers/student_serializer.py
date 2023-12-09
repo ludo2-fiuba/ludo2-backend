@@ -4,6 +4,7 @@ from backend.models import Student
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='user.id')
     first_name = serializers.CharField(source='user.first_name')
     last_name = serializers.CharField(source='user.last_name')
     dni = serializers.CharField(source='user.dni')
@@ -11,4 +12,4 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('first_name', 'last_name', 'dni', 'email', 'padron')
+        fields = ('id', 'first_name', 'last_name', 'dni', 'email', 'padron')
