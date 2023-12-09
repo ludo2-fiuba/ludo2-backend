@@ -1,6 +1,8 @@
 from rest_framework import serializers
 
-from backend.models import Evaluation
+from backend.models import Evaluation, Semester
+
+from .commission_serializer import CommissionSerializer
 
 
 class EvaluationSerializer(serializers.ModelSerializer):
@@ -12,6 +14,29 @@ class EvaluationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evaluation
         fields = ('id', 'evaluation_name', 'passing_grade', 'start_date', 'end_date')
+
+
+class SemesterEvaluationsSerializer(serializers.ModelSerializer):
+    year_moment = serializers.CharField()
+    start_date = serializers.DateTimeField()
+    commission = CommissionSerializer()
+
+    class Meta:
+        model = Semester
+        fields = ('id', 'year_moment', 'start_date', 'commission')
+
+
+class EvaluationSemesterSerializer(serializers.ModelSerializer):
+    evaluation_name = serializers.CharField()
+    passing_grade = serializers.IntegerField()
+    start_date = serializers.DateTimeField()
+    end_date = serializers.DateTimeField()
+    semester = SemesterEvaluationsSerializer()
+
+
+    class Meta:
+        model = Evaluation
+        fields = ('id', 'evaluation_name', 'passing_grade', 'start_date', 'end_date', 'semester')
 
 
 class EvaluationPostSerializer(serializers.ModelSerializer):

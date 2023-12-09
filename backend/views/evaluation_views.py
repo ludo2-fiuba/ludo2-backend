@@ -5,7 +5,8 @@ from rest_framework.response import Response
 
 from backend.models import Evaluation
 from backend.permissions import *
-from backend.serializers.evaluation_serializer import EvaluationSerializer
+from backend.serializers.evaluation_serializer import (
+    EvaluationSemesterSerializer, EvaluationSerializer)
 from backend.views.base_view import BaseViewSet
 
 
@@ -22,4 +23,4 @@ class EvaluationViewSet(BaseViewSet):
     @action(detail=False, methods=["GET"])
     def mis_examenes(self, request):
         result = self.queryset.filter(semester__students=request.user.student).all()
-        return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
+        return Response(EvaluationSemesterSerializer(result, many=True).data, status.HTTP_200_OK)
