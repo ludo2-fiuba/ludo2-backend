@@ -9,22 +9,43 @@ from backend.model_validators.EvaluationSubmissionValidator import \
 from backend.models import Evaluation, EvaluationSubmission
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
-    EvaludationSubmissionCorrectionSerializer, EvaludationSubmissionSerializer)
+    EvaludationSubmissionCorrectionSerializer,
+    EvaludationSubmissionPutSerializer, EvaludationSubmissionSerializer)
 from backend.views.base_view import BaseViewSet
+from backend.views.utils import get_current_datetime
 
 
 class EvaluationSubmissionTeacherViewSet(BaseViewSet):
-    permission_classes = [IsAuthenticated, IsStudent]
+    permission_classes = [IsAuthenticated, IsTeacher]
     queryset = EvaluationSubmission.objects.all()
-    serializer_class = EvaludationSubmissionSerializer
+    serializer_class = EvaludationSubmissionPutSerializer
         
     @action(detail=False, methods=['GET'])
     def get_submissions(self, request):
 
         evaluation = get_object_or_404(Evaluation.objects, id=request.query_params["evaluation"])
 
-        if(request.user.teacher not in evaluation.semester.commission.teachers.all()) and (evaluation.semester.commission.chief_teacher != request.user.teacher):
+        commission = evaluation.semester.commission
+        if(request.user.teacher not in commission.teachers.all()) and (commission.chief_teacher != request.user.teacher):
             return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
         result = self.queryset.filter(evaluation=request.query_params['evaluation']).all()
         return Response(EvaludationSubmissionCorrectionSerializer(result, many=True).data, status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['PUT'])
+    def grade(self, request):
+        grade = request.data['grade']
+        submission = self.queryset.filter(student__user__id=request.data['student'], evaluation__id=request.data['evaluation']).first()
+
+        if not submission:
+            return Response("Submission not found", status=status.HTTP_404_NOT_FOUND)
+        
+        commission = submission.evaluation.semester.commission
+        if(request.user.teacher not in commission.teachers.all()) and (commission.chief_teacher != request.user.teacher):
+            return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
+
+        submission.grade = grade
+        submission.corrector = request.user.teacher
+        submission.updated_at = get_current_datetime()
+        submission.save()
+        return Response(EvaludationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
