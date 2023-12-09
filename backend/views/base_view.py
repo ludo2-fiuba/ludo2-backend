@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
 
-class BaseViewSet(viewsets.ModelViewSet):
+class BaseViewSet(viewsets.GenericViewSet):
     def _paginate(self, relation, serializer=None):
         if not serializer:
             serializer = self.get_serializer
