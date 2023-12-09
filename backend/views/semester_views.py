@@ -1,3 +1,5 @@
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -15,17 +17,38 @@ class SemesterViewSet(BaseViewSet):
     serializer_class = SemesterSerializer
     
     @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Semesters"],
+        operation_summary="Get semesters for a subject",
+        manual_parameters=[
+            openapi.Parameter('subject_siu_id', openapi.IN_QUERY, description="Id of subject to get semester from", type=openapi.FORMAT_INT64)
+        ]
+    )
     def subject_semesters(self, request):
         result = self.get_queryset().filter(commission__subject_siu_id=request.query_params['subject_siu_id'])
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
     
     @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Semesters"],
+        operation_summary="Get present semester for a subject",
+        manual_parameters=[
+            openapi.Parameter('subject_siu_id', openapi.IN_QUERY, description="Id of subject to get semester from", type=openapi.FORMAT_INT64)
+        ]
+    )
     def present_subject_semesters(self, request):
         result = self.get_queryset().filter(commission__subject_siu_id=request.query_params['subject_siu_id'], 
                                             start_date__year__gte=get_current_year(), year_moment=get_current_semester())
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
     
     @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Semesters"],
+        operation_summary="Get semesters for a commission",
+        manual_parameters=[
+            openapi.Parameter('commission_id', openapi.IN_QUERY, description="Id of commission to get semester from", type=openapi.FORMAT_INT64)
+        ]
+    )
     def commission_present_semester(self, request):
         result = self.get_queryset().filter(commission=request.query_params['commission_id'], 
                                             start_date__year__gte=get_current_year(), year_moment=get_current_semester()).first()

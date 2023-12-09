@@ -1,3 +1,5 @@
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -17,11 +19,25 @@ class SubjectViewSet(viewsets.ModelViewSet):
     queryset = FinalExam.objects.all()
 
     @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Subjects"],
+        operation_summary="Get subject history",
+        manual_parameters=[
+            openapi.Parameter('subject_siu_id', openapi.IN_QUERY, description="Id of subject", type=openapi.FORMAT_INT64)
+        ]
+    )
     def history(self, request):
         result = self.get_queryset().filter(final__subject_siu_id=request.query_params['subject_siu_id'], student=request.user.id).order_by('final__date')
         return Response(FinalExamSerializer(result, many=True).data, status.HTTP_200_OK)
 
     @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Subjects"],
+        operation_summary="Get subject correlatives",
+        manual_parameters=[
+            openapi.Parameter('id', openapi.IN_QUERY, description="Id of subject", type=openapi.FORMAT_INT64)
+        ]
+    )
     def correlatives(self, request):
         self.extra = {}
         id = request.query_params.get('id')
@@ -33,6 +49,10 @@ class SubjectViewSet(viewsets.ModelViewSet):
         result = SiuService().correlative_subjects(response[0])
         return respond_plain(result)
 
+    @swagger_auto_schema(
+        tags=["Subjects"],
+        operation_summary="Get all subjects"
+    )
     def list(self, request):
         result = SiuService().list_subjects()
         return respond_plain(result)

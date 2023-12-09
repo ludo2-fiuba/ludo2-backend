@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -19,6 +20,10 @@ class EvaluationSubmissionViewSet(BaseViewSet):
     serializer_class = EvaludationSubmissionPostSerializer
         
     @action(detail=False, methods=['POST'])
+    @swagger_auto_schema(
+        tags=["Evaluation Submissions"],
+        operation_summary="Submit an evaluation"
+    )
     def submit_evaluation(self, request):
         
         evaluation = get_object_or_404(Evaluation.objects, id=request.data["evaluation"])
@@ -35,6 +40,10 @@ class EvaluationSubmissionViewSet(BaseViewSet):
         return Response(EvaludationSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED)
         
     @action(detail=False, methods=['GET'])
+    @swagger_auto_schema(
+        tags=["Evaluation Submissions"],
+        operation_summary="Gets the logged in student's evaluation submissions"
+    )
     def my_evaluations(self, request):
 
         result = self.queryset.filter(student=request.user.student).all()

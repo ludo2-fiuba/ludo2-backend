@@ -1,11 +1,11 @@
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.model_validators.EvaluationSubmissionValidator import \
-    EvaluationSubmissionValidator
 from backend.models import Evaluation, EvaluationSubmission
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
@@ -21,6 +21,13 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
     serializer_class = EvaludationSubmissionPutSerializer
         
     @action(detail=False, methods=['GET'])
+    @swagger_auto_schema(
+        tags=["Evaluation Submissions"],
+        operation_summary="Gets submissions for an evaluation",
+        manual_parameters=[
+            openapi.Parameter('evaluation', openapi.IN_QUERY, description="Id of evaluation to get submissions from", type=openapi.FORMAT_INT64)
+        ]
+    )
     def get_submissions(self, request):
 
         evaluation = get_object_or_404(Evaluation.objects, id=request.query_params["evaluation"])
@@ -33,6 +40,10 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         return Response(EvaludationSubmissionCorrectionSerializer(result, many=True).data, status.HTTP_200_OK)
     
     @action(detail=False, methods=['PUT'])
+    @swagger_auto_schema(
+        tags=["Evaluation Submissions"],
+        operation_summary="Grades an evaluation submission"
+    )
     def grade(self, request):
         grade = request.data['grade']
         submission = self.queryset.filter(student__user__id=request.data['student'], evaluation__id=request.data['evaluation']).first()

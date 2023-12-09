@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -15,6 +16,10 @@ class EvaluationTeacherViewSet(BaseViewSet):
     serializer_class = EvaluationPostSerializer
     
     @action(detail=False, methods=['POST'])
+    @swagger_auto_schema(
+        tags=["Evaluations"],
+        operation_summary="Adds an evaluation for a semester"
+    )
     def add_evaluation(self, request):
         evaluation_data = request.data
         evaluation_serializer = EvaluationPostSerializer(data=evaluation_data)

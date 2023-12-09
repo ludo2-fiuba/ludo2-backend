@@ -1,4 +1,5 @@
 from django.db.models import F
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
@@ -23,6 +24,9 @@ class FinalExamStudentViewSet(BaseViewSet):
     extra = {}
 
     @action(detail=False, methods=['POST'])
+    @swagger_auto_schema(
+        tags=["Final Exams"]
+    )
     def take_exam(self, request):
         final = get_object_or_404(Final.objects, qrid=request.data['final'], status=Final.Status.OPEN)
 
@@ -34,17 +38,26 @@ class FinalExamStudentViewSet(BaseViewSet):
         return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Final Exams"]
+    )
     def history(self, request):
         self.extra = {"grade_gte": FinalExam.PASSING_GRADE, "student": request.user.id, "status__in": [Final.Status.ACT_SENT, Final.Status.PENDING_ACT]}
         return Response(self._paginate(self.get_queryset()))
 
     @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Final Exams"]
+    )
     def pending(self, request):
         self.extra = {"student": request.user.id, }
         subjects_passed = [x.subject for x in self.get_queryset().annotate(subject=F('final__subject_name')).filter(grade__gte=FinalExam.PASSING_GRADE, student=request.user.id)]
         return Response(self._paginate(self.get_queryset().exclude(final__subject_name__in=subjects_passed), FinalExamStudentSerializer))
 
     @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Final Exams"]
+    )
     def correlatives(self, request):
         self.extra = {}
         subject_code = self.request.query_params.get('code')

@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -15,10 +16,18 @@ class CommissionInscriptionViewSet(BaseViewSet):
     queryset = CommissionInscription.objects.all()
     serializer_class = CommissionInscriptionSerializer
 
+    @swagger_auto_schema(
+        tags=["Inscriptions"],
+        operation_summary="Gets all semesters the logged in student was inscripted in"
+    )
     def list(self, request, *args, **kwargs):
         result = self.get_queryset().filter(student=request.user.student)
         return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
     
+    @swagger_auto_schema(
+        tags=["Inscriptions"],
+        operation_summary="Gets current semesters the logged in student is inscripted in"
+    )
     @action(detail=False, methods=["GET"])
     def current_inscriptions(self, request):
         allStatus = self.get_queryset().filter(student=request.user.student,
