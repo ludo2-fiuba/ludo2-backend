@@ -7,7 +7,7 @@ from .student_serializer import StudentSerializer
 from .teacher_serializer import TeacherSerializer
 
 
-class EvaludationSubmissionSerializer(serializers.ModelSerializer):
+class EvaluationSubmissionSerializer(serializers.ModelSerializer):
     evaluation = EvaluationSerializer()
     student = StudentSerializer()
     grade = serializers.IntegerField()
@@ -20,7 +20,7 @@ class EvaludationSubmissionSerializer(serializers.ModelSerializer):
         fields = ('evaluation', 'student', 'grade', 'corrector', 'created_at', 'updated_at')
 
 
-class EvaludationSubmissionPutSerializer(serializers.ModelSerializer):
+class EvaluationSubmissionPutSerializer(serializers.ModelSerializer):
 
     evaluation = serializers.IntegerField()
     student = serializers.IntegerField()
@@ -32,7 +32,7 @@ class EvaludationSubmissionPutSerializer(serializers.ModelSerializer):
 
 
 
-class EvaludationSubmissionPostSerializer(serializers.ModelSerializer):
+class EvaluationSubmissionPostSerializer(serializers.ModelSerializer):
 
     evaluation = serializers.IntegerField()
     student = serializers.IntegerField()
@@ -42,7 +42,7 @@ class EvaludationSubmissionPostSerializer(serializers.ModelSerializer):
         fields = ('evaluation', 'student')
 
 
-class EvaludationSubmissionCorrectionSerializer(serializers.ModelSerializer):
+class EvaluationSubmissionCorrectionSerializer(serializers.ModelSerializer):
     student = StudentSerializer()
     grade = serializers.IntegerField()
 

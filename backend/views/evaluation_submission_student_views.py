@@ -10,14 +10,14 @@ from backend.model_validators.EvaluationSubmissionValidator import \
 from backend.models import Evaluation, EvaluationSubmission
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
-    EvaludationSubmissionPostSerializer, EvaludationSubmissionSerializer)
+    EvaluationSubmissionPostSerializer, EvaluationSubmissionSerializer)
 from backend.views.base_view import BaseViewSet
 
 
 class EvaluationSubmissionViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsStudent]
     queryset = EvaluationSubmission.objects.all()
-    serializer_class = EvaludationSubmissionPostSerializer
+    serializer_class = EvaluationSubmissionPostSerializer
         
     @action(detail=False, methods=['POST'])
     @swagger_auto_schema(
@@ -37,7 +37,7 @@ class EvaluationSubmissionViewSet(BaseViewSet):
         submission = EvaluationSubmission(student=request.user.student, evaluation=evaluation)
         EvaluationSubmissionValidator(submission).validate()
         submission.save()
-        return Response(EvaludationSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED)
+        return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED)
         
     @action(detail=False, methods=['GET'])
     @swagger_auto_schema(
@@ -47,4 +47,4 @@ class EvaluationSubmissionViewSet(BaseViewSet):
     def my_evaluations(self, request):
 
         result = self.queryset.filter(student=request.user.student).all()
-        return Response(EvaludationSubmissionSerializer(result, many=True).data, status.HTTP_200_OK)
+        return Response(EvaluationSubmissionSerializer(result, many=True).data, status.HTTP_200_OK)

@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from backend.models import Evaluation, EvaluationSubmission
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
-    EvaludationSubmissionCorrectionSerializer,
-    EvaludationSubmissionPutSerializer, EvaludationSubmissionSerializer)
+    EvaluationSubmissionCorrectionSerializer,
+    EvaluationSubmissionPutSerializer, EvaluationSubmissionSerializer)
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import get_current_datetime
 
@@ -18,7 +18,7 @@ from backend.views.utils import get_current_datetime
 class EvaluationSubmissionTeacherViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsTeacher]
     queryset = EvaluationSubmission.objects.all()
-    serializer_class = EvaludationSubmissionPutSerializer
+    serializer_class = EvaluationSubmissionPutSerializer
         
     @action(detail=False, methods=['GET'])
     @swagger_auto_schema(
@@ -37,7 +37,7 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
             return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
         result = self.queryset.filter(evaluation=request.query_params['evaluation']).all()
-        return Response(EvaludationSubmissionCorrectionSerializer(result, many=True).data, status.HTTP_200_OK)
+        return Response(EvaluationSubmissionCorrectionSerializer(result, many=True).data, status.HTTP_200_OK)
     
     @action(detail=False, methods=['PUT'])
     @swagger_auto_schema(
@@ -59,4 +59,4 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         submission.corrector = request.user.teacher
         submission.updated_at = get_current_datetime()
         submission.save()
-        return Response(EvaludationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
+        return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
