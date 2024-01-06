@@ -42,7 +42,7 @@ def get_current_semester():
     return 'FS'
 
 def get_current_year():
-    return datetime.now().year
+    return 2023
 
 def get_current_datetime():
     return datetime.now()
