@@ -6,7 +6,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.models import Evaluation, EvaluationSubmission
+from backend.models import Evaluation, EvaluationSubmission, Semester
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
     EvaluationSubmissionCorrectionSerializer,
@@ -60,3 +60,23 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         submission.updated_at = get_current_datetime()
         submission.save()
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
+        
+    @action(detail=False, methods=['GET'])
+    @swagger_auto_schema(
+        tags=["Evaluation Submissions"],
+        operation_summary="Gets submissions for an evaluation",
+        manual_parameters=[
+            openapi.Parameter('student', openapi.IN_QUERY, description="Id of student to get submissions from", type=openapi.FORMAT_INT64),
+            openapi.Parameter('semester', openapi.IN_QUERY, description="Id of semester to get submissions from", type=openapi.FORMAT_INT64)
+        ]
+    )
+    def get_submissions_from_student(self, request):
+
+        semester = get_object_or_404(Semester.objects, id=request.query_params["semester"])
+
+        commission = semester.commission
+        if(request.user.teacher not in commission.teachers.all()) and (commission.chief_teacher != request.user.teacher):
+            return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
+
+        result = self.queryset.filter(evaluation__semester=semester).filter(student__user__id=request.query_params["student"]).all()
+        return Response(EvaluationSubmissionCorrectionSerializer(result, many=True).data, status.HTTP_200_OK)
