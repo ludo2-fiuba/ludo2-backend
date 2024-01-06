@@ -14,3 +14,13 @@ class TeacherRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeacherRole
         fields = ('commission', 'teacher', 'role')
+
+
+class TeacherRolePostSerializer(serializers.ModelSerializer):
+    commission = serializers.IntegerField()
+    teacher = serializers.IntegerField()
+    role = serializers.CharField()
+
+    class Meta:
+        model = TeacherRole
+        fields = ('commission', 'teacher', 'role')
