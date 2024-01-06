@@ -15,3 +15,4 @@ from .semester_views import SemesterViewSet
 from .student_views import StudentViews
 from .subject_views import SubjectViewSet
 from .teacher_role_views import TeacherRoleViewSet
+from .teacher_views import TeacherViews
