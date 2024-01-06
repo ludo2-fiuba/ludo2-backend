@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -45,4 +45,8 @@ def get_current_year():
     return 2023
 
 def get_current_datetime():
-    return datetime.now()
+    return datetime.now(timezone.utc)
+
+def get_hours_from_current_time(past_datetime):
+    SECONDS_IN_ONE_HOUR = 3600
+    return (get_current_datetime() - past_datetime).total_seconds() / SECONDS_IN_ONE_HOUR

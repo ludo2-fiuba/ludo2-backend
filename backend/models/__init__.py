@@ -10,3 +10,4 @@ from .student import Student
 from .teacher import Teacher
 from .teacher_role import TeacherRole
 from .user import User
+from .attendance import Attendance
