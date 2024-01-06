@@ -28,12 +28,6 @@ class AttendanceViewSet(BaseViewSet):
         qr_generated_at_datetime = parse_datetime(request.data["qr_generated_at"])
         current_datetime = get_current_datetime()
 
-        # TODO: chequear
-        #  que no puede subir mas de 1 attendance en este dia (o ultimas X horas), 
-        #  que el QR que escaneo fue generado este dia,
-        #  que el student esta inscripto en el curso,
-        #  
-
         if request.user.student not in semester.students.all():
             return Response("Student not in commission", status=status.HTTP_403_FORBIDDEN)
 
