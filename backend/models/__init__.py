@@ -11,3 +11,4 @@ from .teacher import Teacher
 from .teacher_role import TeacherRole
 from .user import User
 from .attendance import Attendance
+from .attendance_qr_code import AttendanceQRCode
