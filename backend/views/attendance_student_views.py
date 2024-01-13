@@ -23,8 +23,8 @@ class AttendanceViewSet(BaseViewSet):
         operation_summary="Submit an attendance"
     )
     def create(self, request):
-        semester = get_object_or_404(Semester.objects, id=request.data['semester'])
         attendance_qr_code = get_object_or_404(AttendanceQRCode.objects, qrid=request.data['qrid'])
+        semester = attendance_qr_code.semester
 
         current_datetime = get_current_datetime()
 

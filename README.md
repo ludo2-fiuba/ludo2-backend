@@ -326,6 +326,35 @@ ludo_dev=# \d backend_user
 
 ------------------------------------------------------------------------------------------
 
+#### Attendance
+
+<details>
+ <summary><code>POST</code> <code><b>/api/semesters/attendance</b></code> <code>(as a student, mark attendance for a specific QR code)</code></summary>
+
+##### Parameters
+
+> | name      |  type     |  data type     | description                                                           |
+> |-----------|-----------|----------------|-----------------------------------------------------------------------|
+> | qr_id |  required |  string | UUID of the QR code you want to mark as scanned |
+
+</details>
+
+------------------------------------------------------------------------------------------
+
+#### Attendance QRs
+
+<details>
+ <summary><code>POST</code> <code><b>/api/teacher/semesters/attendance</b></code> <code>(as a teacher, create a new QR code to track attendance)</code></summary>
+
+##### Parameters
+
+> | name      |  type     |  data type     | description                                                           |
+> |-----------|-----------|----------------|-----------------------------------------------------------------------|
+> | semester |  required |  integer | Id of the semester you want to create a QR for |
+
+</details>
+
+------------------------------------------------------------------------------------------
 
 ## Deployed application
 The application is running at `https://ludo-backend.herokuapp.com`
