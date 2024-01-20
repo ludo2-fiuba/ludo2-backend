@@ -325,6 +325,17 @@ ludo_dev=# \d backend_user
 </details>
 
 <details>
+ <summary><code>GET</code> <code><b>/api/evaluations/:id/my_submissions</b></code> <code>(lists evaluation submissions for student in particular evaluation)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | id |  required | Id of the evaluation  |
+
+</details>
+
+<details>
  <summary><code>GET</code> <code><b>/api/teacher/evaluations/submissions/get_submissions</b></code> <code>(get submissions for an evaluation)</code></summary>
 
 ##### Parameters
