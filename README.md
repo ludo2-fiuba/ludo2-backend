@@ -309,7 +309,6 @@ ludo_dev=# \d backend_user
 > | name      |  type     |  data type     | description                                                           |
 > |-----------|-----------|----------------|-----------------------------------------------------------------------|
 > | evaluation |  required |  integer | Id of the evaluation |
-> | student |  required |  integer | Id of the student |
 
 </details>
 

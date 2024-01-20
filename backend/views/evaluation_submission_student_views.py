@@ -28,9 +28,6 @@ class EvaluationSubmissionViewSet(BaseViewSet):
         
         evaluation = get_object_or_404(Evaluation.objects, id=request.data["evaluation"])
 
-        if(request.user.id != request.data["student"]):
-            return Response("Cannot post evaluation for another student", status=status.HTTP_403_FORBIDDEN)
-
         if(request.user.student not in evaluation.semester.students.all()):
             return Response("Student not in commission", status=status.HTTP_403_FORBIDDEN)
 
