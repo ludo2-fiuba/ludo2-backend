@@ -49,5 +49,5 @@ class EvaluationViewSet(BaseViewSet):
         operation_summary="Gets current student's submissions for a given evaluation"
     )
     def my_submissions(self, request, pk=None):
-        result = get_list_or_404(EvaluationSubmission.objects, evaluation=pk, student=request.user.student)
+        result = EvaluationSubmission.objects.filter(evaluation=pk, student=request.user.student).all()
         return Response(EvaluationSubmissionSerializer(result, many=True).data, status.HTTP_200_OK)
