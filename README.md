@@ -218,6 +218,17 @@ ludo_dev=# \d backend_user
 
 </details>
 
+<details>
+ <summary><code>GET</code> <code><b>/api/teacher/semesters/:id/students</b></code> <code>(list students enrolled in the provided semester)</code></summary>
+
+##### Parameters
+
+> | name      |  type     | description                                                           |
+> |-----------|-----------|-----------------------------------------------------------------------|
+> | id |  required | Id of the semester you want to list from |
+
+</details>
+
 ------------------------------------------------------------------------------------------
 
 #### Commission Inscription
