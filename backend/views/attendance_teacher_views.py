@@ -27,7 +27,6 @@ class AttendanceTeacherViewSet(BaseViewSet):
         owner_teacher = request.user.teacher
 
         commission = semester.commission
-        print(commission.teachers.all(), request.user.teacher)
         if request.user.teacher not in commission.teachers.all() and commission.chief_teacher != request.user.teacher:
             return Response("Teacher not a member of this semester commission", status=status.HTTP_403_FORBIDDEN)
 

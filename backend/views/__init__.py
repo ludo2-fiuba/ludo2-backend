@@ -18,3 +18,4 @@ from .teacher_role_views import TeacherRoleViewSet
 from .teacher_views import TeacherViews
 from .attendance_student_views import AttendanceViewSet
 from .attendance_teacher_views import AttendanceTeacherViewSet
+from .semester_detail_teacher_views import SemesterDetailTeacherViews
