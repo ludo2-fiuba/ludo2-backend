@@ -5,8 +5,14 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.models import Semester
+from backend.models import AttendanceQRCode, EvaluationSubmission, Semester
+from backend.serializers.attendance_serializer import \
+    AttendanceQRCodeStudentsSerializer
+from backend.serializers.evaluation_submission_serializer import \
+    EvaluationSubmissionSerializer
 from backend.serializers.semester_serializer import SemesterSerializer
+from backend.serializers.student_serializer import StudentSerializer
+from backend.services.rule_engine_service import RuleEngineService
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import get_current_semester, get_current_year
 
@@ -53,4 +59,28 @@ class SemesterViewSet(BaseViewSet):
         result = self.get_queryset().filter(commission=request.query_params['commission_id'], 
                                             start_date__year__gte=get_current_year(), year_moment=get_current_semester()).first()
         return Response(self.get_serializer(result).data, status.HTTP_200_OK)
+    
+    @action(detail=False, methods=["GET"])
+    @swagger_auto_schema(
+        tags=["Semesters"],
+        operation_summary="Return if the student is passing the semester",
+        manual_parameters=[
+            openapi.Parameter('commission_id', openapi.IN_QUERY, description="Id of commission to get semester from", type=openapi.FORMAT_INT64)
+        ]
+    )
+    def is_passing(self, request):
+        semester = self.get_queryset().filter(commission=request.query_params['commission_id'], 
+                                            start_date__year__gte=get_current_year(), year_moment=get_current_semester()).first()
+        
+        rule_engine_service = RuleEngineService()
+        rule_engine_service.generate_passing_rules(self.get_serializer(semester).data)
+
+        attendance_qrs = AttendanceQRCode.objects.all().filter(semester=semester)
+        evaluation_submissions = EvaluationSubmission.objects.all().filter(evaluation__semester=semester, student=request.user.student)
+
+        rule_engine_service.is_student_passing(AttendanceQRCodeStudentsSerializer(attendance_qrs, many=True).data, 
+                                               EvaluationSubmissionSerializer(evaluation_submissions, many=True).data,
+                                               StudentSerializer(request.user.student))
+
+        return Response(self.get_serializer(semester).data, status.HTTP_200_OK)
 

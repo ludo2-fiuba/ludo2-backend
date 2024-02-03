@@ -18,6 +18,15 @@ class AttendanceSerializer(serializers.ModelSerializer):
         fields = ('semester', 'student', 'qrid', 'submitted_at')
 
 
+class AttendanceNoSemesterNoQridSerializer(serializers.ModelSerializer):
+    student = StudentSerializer()
+    submitted_at = serializers.DateTimeField()
+
+    class Meta:
+        model = Attendance
+        fields = ('student', 'submitted_at')
+
+
 class AttendancePostSerializer(serializers.ModelSerializer):
     qrid = serializers.UUIDField()
 
@@ -35,6 +44,18 @@ class AttendanceQRCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = AttendanceQRCode
         fields = ('semester', 'owner_teacher', 'created_at', 'qrid')
+
+
+class AttendanceQRCodeStudentsSerializer(serializers.ModelSerializer):
+    semester = SemesterSerializer()
+    owner_teacher = TeacherSerializer()
+    created_at = serializers.DateTimeField()
+    qrid = serializers.UUIDField()
+    attendances = AttendanceNoSemesterNoQridSerializer()
+
+    class Meta:
+        model = AttendanceQRCode
+        fields = ('semester', 'owner_teacher', 'created_at', 'qrid', 'attendances')
 
 
 class AttendanceQRCodePostSerializer(serializers.ModelSerializer):

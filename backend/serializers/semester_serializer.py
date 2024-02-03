@@ -13,7 +13,9 @@ class SemesterSerializer(serializers.ModelSerializer):
     commission = CommissionSerializer()
     evaluations = EvaluationSerializer(many=True)
     students = StudentSerializer(many=True)
+    classes_amount = serializers.IntegerField()
+    minimum_attendance = serializers.FloatField()
 
     class Meta:
         model = Semester
-        fields = ('id', 'year_moment', 'start_date', 'commission', 'evaluations', 'students')
+        fields = ('id', 'year_moment', 'start_date', 'commission', 'evaluations', 'students', 'classes_amount', 'minimum_attendance')
