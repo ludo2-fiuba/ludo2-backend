@@ -1,6 +1,6 @@
 import rule_engine
 
-#from backend.views.utils import is_before_current_datetime
+from backend.views.utils import is_before_current_datetime
 
 
 class RuleEngineService:
@@ -35,14 +35,18 @@ class RuleEngineService:
         model_for_rules = {}
         model_for_rules['absences'] = self.get_absences(attendances, student)
         is_passing = True
+
         for rule in self.rules:
             is_passing = is_passing and rule.evaluate(model_for_rules)
+
         for rule in self.evaluation_rules:
             passing_evaluations = rule.filter(evaluation_submissions)
             is_empty = True
             for evaluation in passing_evaluations:
                 is_empty = False
             is_passing = is_passing and not is_empty
+        
+        return is_passing
         
 
     
@@ -59,12 +63,15 @@ class RuleEngineService:
 
 
 
-rule = rule_engine.Rule(f'average.exam >= 7 and average.name == "Examen 1"')
+""" rule = rule_engine.Rule(f'average.exam >= 7 and average.name == "Examen 1"')
 isValid = rule.is_valid(f'average.exam >= 7 and average.name == "Examen 1"')
 evaluateReturn = rule.evaluate({'average': {'exam': 7, 'name': 'Examen 1'}})
 matchesReturn = rule.matches({'average': {'exam': 6}})
 filterReturn = rule.filter([{'average': {'exam': 7, 'name': 'Examen 1'}}, {'average': {'exam': 7, 'name': 'Examen 2'}}])
-isEmpty = filterReturn
-for result in filterReturn:
-    currentResult = result
 isValid = True
+isEmpty = True
+for result in filterReturn:
+    isEmpty = False
+    currentResult = result
+isTrue = isValid and not isEmpty
+isValid = True """
