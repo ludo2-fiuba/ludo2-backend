@@ -30,7 +30,7 @@ class EvaluationViewSet(BaseViewSet):
     )
     def list(self, request):
         result = self.get_queryset().filter(semester=request.query_params['semester_id'])
-        return Response(self.get_serializer(result, many=True).data, status.HTTP_200_OK)
+        return Response(EvaluationSemesterSerializer(result, many=True).data, status.HTTP_200_OK)
     
 
     @action(detail=False, methods=["GET"])
