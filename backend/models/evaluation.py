@@ -9,6 +9,8 @@ class Evaluation(models.Model):
     is_graded = models.BooleanField(default=True)
     passing_grade = models.IntegerField(db_index=True, null=True, blank=True, verbose_name="Nota de Aprobacion")
 
+    parent_evaluation = models.OneToOneField('self', on_delete=models.CASCADE, null=True, blank=True, verbose_name="Evaluacion a recuperar", related_name='make_up_evaluation')
+    """Apunta a evaluacion 'padre'. Si esta definido, entonces esta Evaluation es un recuperatorio."""
 
     start_date = models.DateTimeField(db_index=True, null=True, blank=True, verbose_name="Fecha de inicio")
     end_date = models.DateTimeField(db_index=True, verbose_name="Fecha de entrega")
