@@ -365,7 +365,18 @@ ludo_dev=# \d backend_user
 #### Attendance QRs
 
 <details>
- <summary><code>POST</code> <code><b>/api/teacher/semesters/attendance</b></code> <code>(as a teacher, create a new QR code to track attendance)</code></summary>
+ <summary><code>POST</code> <code><b>/api/teacher/semesters/attendance/latest_qr</b></code> <code>(as a teacher, retrieve the latest valid QR code idempotently or create a new one to track attendance)</code></summary>
+
+##### Parameters
+
+> | name      |  type     |  data type     | description                                                           |
+> |-----------|-----------|----------------|-----------------------------------------------------------------------|
+> | semester |  required |  integer | Id of the semester you want to get or create a QR for |
+
+</details>
+
+<details>
+ <summary><code>POST</code> <code><b>/api/teacher/semesters/attendance/qr</b></code> <code>(as a teacher, create a new QR code to track attendance)</code></summary>
 
 ##### Parameters
 

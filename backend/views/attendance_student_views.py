@@ -1,17 +1,14 @@
-from django.utils.dateparse import parse_datetime
-
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.models import Attendance, Semester, AttendanceQRCode
+from backend.models import Attendance, AttendanceQRCode
 from backend.permissions import *
 from backend.views.base_view import BaseViewSet
 from backend.serializers.attendance_serializer import AttendancePostSerializer, AttendanceSerializer
-from backend.views.utils import get_current_datetime, get_hours_from_current_time
+from backend.views.utils import is_before_current_datetime
 
 class AttendanceViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsStudent]
@@ -26,13 +23,11 @@ class AttendanceViewSet(BaseViewSet):
         attendance_qr_code = get_object_or_404(AttendanceQRCode.objects, qrid=request.data['qrid'])
         semester = attendance_qr_code.semester
 
-        current_datetime = get_current_datetime()
-
         if request.user.student not in semester.students.all():
             return Response("Student not in commission", status=status.HTTP_403_FORBIDDEN)
 
-        if get_hours_from_current_time(attendance_qr_code.created_at) > 6:
-            return Response("QR code was generated more than six hours ago", status=status.HTTP_403_FORBIDDEN)
+        if is_before_current_datetime(attendance_qr_code.expires_at):
+            return Response("QR code has expired", status=status.HTTP_403_FORBIDDEN)
 
         if self.get_queryset().filter(student=request.user.student, qr_code=attendance_qr_code, semester=semester).first():
             return Response("This QR code has already been scanned", status=status.HTTP_403_FORBIDDEN)

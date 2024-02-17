@@ -51,6 +51,9 @@ def get_hours_from_current_time(past_datetime):
     SECONDS_IN_ONE_HOUR = 3600
     return (get_current_datetime() - past_datetime).total_seconds() / SECONDS_IN_ONE_HOUR
 
-def is_before_current_datetime(date_string):
-    datetime_object = datetime.fromisoformat(date_string)
+def is_before_current_datetime(date):
+    datetime_object = date
+    if isinstance(date, str):
+        datetime_object = datetime.fromisoformat(date)
+
     return datetime_object < get_current_datetime()
