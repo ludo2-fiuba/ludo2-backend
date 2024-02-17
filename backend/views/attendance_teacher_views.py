@@ -11,6 +11,7 @@ from backend.models import Attendance, Semester, AttendanceQRCode
 from backend.permissions import *
 from backend.views.base_view import BaseViewSet
 from backend.serializers.attendance_serializer import AttendanceQRCodePostSerializer, AttendanceQRCodeSerializer
+from backend.views.utils import teacher_not_in_commission_staff
 
 class AttendanceTeacherViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsTeacher]
@@ -27,13 +28,13 @@ class AttendanceTeacherViewSet(BaseViewSet):
         owner_teacher = request.user.teacher
 
         commission = semester.commission
-        if request.user.teacher not in commission.teachers.all() and commission.chief_teacher != request.user.teacher:
+        if teacher_not_in_commission_staff(request.user.teacher, commission):
             return Response("Teacher not a member of this semester commission", status=status.HTTP_403_FORBIDDEN)
 
         attendance_qr = AttendanceQRCode(semester=semester, owner_teacher=owner_teacher)
         attendance_qr.save()
         return Response(AttendanceQRCodeSerializer(attendance_qr).data, status=status.HTTP_201_CREATED)
-        
+    
     @action(detail=False, methods=['POST'])
     @swagger_auto_schema(
         tags=["Attendance QRs"],
@@ -44,7 +45,7 @@ class AttendanceTeacherViewSet(BaseViewSet):
         owner_teacher = request.user.teacher
 
         commission = semester.commission
-        if request.user.teacher not in commission.teachers.all() and commission.chief_teacher != request.user.teacher:
+        if teacher_not_in_commission_staff(request.user.teacher, commission):
             return Response("Teacher not a member of this semester commission", status=status.HTTP_403_FORBIDDEN)
 
         valid_qr = semester.attendance_qrs.filter(

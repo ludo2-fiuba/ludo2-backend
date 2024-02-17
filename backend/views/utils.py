@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from backend.api_exceptions import InvalidFaceError
+from backend.models.commission import Commission
+from backend.models.teacher import Teacher
 from backend.services.image_validator_service import ImageValidatorService
 
 
@@ -57,3 +59,6 @@ def is_before_current_datetime(date):
         datetime_object = datetime.fromisoformat(date)
 
     return datetime_object < get_current_datetime()
+
+def teacher_not_in_commission_staff(teacher: Teacher, commission: Commission) -> bool:
+    return teacher not in commission.teachers.all() and commission.chief_teacher != teacher

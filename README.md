@@ -345,6 +345,33 @@ ludo_dev=# \d backend_user
 
 </details>
 
+<details>
+ <summary><code>PUT</code> <code><b>/api/teacher/evaluations/submissions/assign_corrector</b></code> <code>(assigns a corrector to a submission without grading it)</code></summary>
+
+##### Parameters
+
+> | name      |  type     |  data type     | description                                                           |
+> |-----------|-----------|----------------|-----------------------------------------------------------------------|
+> | evaluation |  required |  integer | Id of the evaluation |
+> | student |  required |  integer | Id of the student that sent the submission |
+> | corrector_teacher |  required |  integer | Id of the teacher that should be assigned as corrector |
+
+</details>
+
+<details>
+ <summary><code>PUT</code> <code><b>/api/teacher/evaluations/submissions/grade</b></code> <code>(grades a submission, setting the logged-in teacher as corrector)</code></summary>
+
+##### Parameters
+
+> | name      |  type     |  data type     | description                                                           |
+> |-----------|-----------|----------------|-----------------------------------------------------------------------|
+> | evaluation |  required |  integer | Id of the evaluation |
+> | student |  required |  integer | Id of the student that sent the submission |
+> | grade |  required |  integer | Submission grade (from 0 to 10) |
+
+</details>
+
+
 ------------------------------------------------------------------------------------------
 
 #### Attendance

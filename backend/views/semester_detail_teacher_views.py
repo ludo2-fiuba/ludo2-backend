@@ -10,6 +10,7 @@ from backend.permissions import *
 from backend.serializers.semester_serializer import SemesterSerializer
 from backend.serializers.student_serializer import StudentSerializer
 from backend.views.base_view import BaseViewSet
+from backend.views.utils import teacher_not_in_commission_staff
 
 
 class SemesterDetailTeacherViews(BaseViewSet):
@@ -27,7 +28,7 @@ class SemesterDetailTeacherViews(BaseViewSet):
         teacher = request.user.teacher
 
         commission = semester.commission
-        if teacher not in commission.teachers.all() and commission.chief_teacher != teacher:
+        if teacher_not_in_commission_staff(teacher, commission):
             return Response("Teacher not a member of this semester commission", status=status.HTTP_403_FORBIDDEN)
 
         return Response(StudentSerializer(semester.students, many=True).data, status.HTTP_200_OK)

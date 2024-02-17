@@ -7,12 +7,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from backend.models import Evaluation, EvaluationSubmission, Semester
+from backend.models.teacher import Teacher
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
     EvaluationSubmissionCorrectionSerializer,
     EvaluationSubmissionPutSerializer, EvaluationSubmissionSerializer)
 from backend.views.base_view import BaseViewSet
-from backend.views.utils import get_current_datetime
+from backend.views.utils import get_current_datetime, teacher_not_in_commission_staff
 
 
 class EvaluationSubmissionTeacherViewSet(BaseViewSet):
@@ -33,7 +34,7 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         evaluation = get_object_or_404(Evaluation.objects, id=request.query_params["evaluation"])
 
         commission = evaluation.semester.commission
-        if(request.user.teacher not in commission.teachers.all()) and (commission.chief_teacher != request.user.teacher):
+        if teacher_not_in_commission_staff(request.user.teacher, commission):
             return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
         result = self.queryset.filter(evaluation=request.query_params['evaluation']).all()
@@ -52,7 +53,7 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
             return Response("Submission not found", status=status.HTTP_404_NOT_FOUND)
         
         commission = submission.evaluation.semester.commission
-        if(request.user.teacher not in commission.teachers.all()) and (commission.chief_teacher != request.user.teacher):
+        if teacher_not_in_commission_staff(request.user.teacher, commission):
             return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
         submission.grade = grade
@@ -60,7 +61,35 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         submission.updated_at = get_current_datetime()
         submission.save()
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['PUT'])
+    @swagger_auto_schema(
+        tags=["Evaluation Submissions"],
+        operation_summary="Assigns a corrector to an evaluation submission"
+    )
+    def assign_corrector(self, request):
+        corrector_teacher = get_object_or_404(Teacher.objects, user_id=request.data['corrector_teacher'])
+
+        submission = self.queryset.filter(student__user__id=request.data['student'], evaluation__id=request.data['evaluation']).first()
+
+        if not submission:
+            return Response("Submission not found", status=status.HTTP_404_NOT_FOUND)
         
+        if submission.grade:
+            return Response("Submission already graded", status=status.HTTP_403_FORBIDDEN)
+
+        commission = submission.evaluation.semester.commission
+        if teacher_not_in_commission_staff(request.user.teacher, commission):
+            return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
+
+        if teacher_not_in_commission_staff(corrector_teacher, commission):
+            return Response("Teacher not present in commission's staff", status=status.HTTP_403_FORBIDDEN)
+
+        submission.corrector = corrector_teacher
+        submission.updated_at = get_current_datetime()
+        submission.save()
+        return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
+
     @action(detail=False, methods=['GET'])
     @swagger_auto_schema(
         tags=["Evaluation Submissions"],
@@ -75,7 +104,7 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         semester = get_object_or_404(Semester.objects, id=request.query_params["semester"])
 
         commission = semester.commission
-        if(request.user.teacher not in commission.teachers.all()) and (commission.chief_teacher != request.user.teacher):
+        if teacher_not_in_commission_staff(request.user.teacher, commission):
             return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
         result = self.queryset.filter(evaluation__semester=semester).filter(student__user__id=request.query_params["student"]).all()
