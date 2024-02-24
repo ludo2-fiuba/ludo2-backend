@@ -5,8 +5,9 @@ from .teacher import Teacher
 
 
 class TeacherRole(models.Model):
-    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, verbose_name="Profesores")
+    commission = models.ForeignKey(Commission, on_delete=models.CASCADE, verbose_name="Profesores", related_name='teacher_roles')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="Semestres")
+    grader_weight = models.FloatField(default=1.0, verbose_name="Peso al asignar correctores")
 
     class Role(models.TextChoices):
         TEACHER = 'T', 'Teacher'

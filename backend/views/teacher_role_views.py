@@ -26,6 +26,7 @@ class TeacherRoleViewSet(BaseViewSet):
 
         teacher = get_object_or_404(Teacher.objects, user_id=request.data["teacher"])
         commission = get_object_or_404(Commission.objects, id=request.data["commission"])
+        grader_weight = request.data.get("grader_weight", 1)
 
         if(request.user.teacher != commission.chief_teacher):
             return Response("Cannot add teacher in a commission you are not chief in", status=status.HTTP_403_FORBIDDEN)
@@ -38,7 +39,7 @@ class TeacherRoleViewSet(BaseViewSet):
         if teacher_role:
             return Response("Teacher role already exist", status=status.HTTP_404_NOT_FOUND)
 
-        teacherRole = TeacherRole(teacher=teacher, commission=commission, role=request.data["role"])
+        teacherRole = TeacherRole(teacher=teacher, commission=commission, role=request.data["role"], grader_weight=grader_weight)
         teacherRole.save()
         return Response(TeacherRoleSerializer(teacherRole).data, status=status.HTTP_201_CREATED)
     
