@@ -9,7 +9,7 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('backend', '0027_evaluationsubmission_corrector'),
+        ('backend', '0027_evaluationsubmission_grader'),
     ]
 
     operations = [

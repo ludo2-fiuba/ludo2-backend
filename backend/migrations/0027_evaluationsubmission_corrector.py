@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='evaluationsubmission',
-            name='corrector',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='corrector', to='backend.teacher', verbose_name='Corrector'),
+            name='grader',
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='grader', to='backend.teacher', verbose_name='Grader'),
         ),
     ]

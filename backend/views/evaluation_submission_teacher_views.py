@@ -57,7 +57,7 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
             return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
         submission.grade = grade
-        submission.corrector = request.user.teacher
+        submission.grader = request.user.teacher
         submission.updated_at = get_current_datetime()
         submission.save()
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
@@ -65,10 +65,10 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
     @action(detail=False, methods=['PUT'])
     @swagger_auto_schema(
         tags=["Evaluation Submissions"],
-        operation_summary="Assigns a corrector to an evaluation submission"
+        operation_summary="Assigns a grader to an evaluation submission"
     )
-    def assign_corrector(self, request):
-        corrector_teacher = get_object_or_404(Teacher.objects, user_id=request.data['corrector_teacher'])
+    def assign_grader(self, request):
+        grader_teacher = get_object_or_404(Teacher.objects, user_id=request.data['grader_teacher'])
 
         submission = self.queryset.filter(student__user__id=request.data['student'], evaluation__id=request.data['evaluation']).first()
 
@@ -82,10 +82,10 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         if teacher_not_in_commission_staff(request.user.teacher, commission):
             return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
-        if teacher_not_in_commission_staff(corrector_teacher, commission):
+        if teacher_not_in_commission_staff(grader_teacher, commission):
             return Response("Teacher not present in commission's staff", status=status.HTTP_403_FORBIDDEN)
 
-        submission.corrector = corrector_teacher
+        submission.grader = grader_teacher
         submission.updated_at = get_current_datetime()
         submission.save()
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)

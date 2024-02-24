@@ -20,7 +20,7 @@ class RuleEngineService:
 
     def add_evaluation_rule(self, evaluation):
         if evaluation['is_graded'] and is_before_current_datetime(evaluation['end_date']):
-            rule = rule_engine.Rule(f'evaluation.evaluation_name == {evaluation["evaluation_name"]} and (grade >= {evaluation["passing_grade"]} or corrector == None)')
+            rule = rule_engine.Rule(f'evaluation.evaluation_name == {evaluation["evaluation_name"]} and (grade >= {evaluation["passing_grade"]} or grader == None)')
             self.evaluation_rules.append(rule)
     
 

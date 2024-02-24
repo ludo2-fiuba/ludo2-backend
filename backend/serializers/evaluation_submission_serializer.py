@@ -11,13 +11,13 @@ class EvaluationSubmissionSerializer(serializers.ModelSerializer):
     evaluation = EvaluationSerializer()
     student = StudentSerializer()
     grade = serializers.IntegerField()
-    corrector = TeacherSerializer()
+    grader = TeacherSerializer()
     created_at = serializers.DateTimeField()
     updated_at = serializers.DateTimeField()
 
     class Meta:
         model = EvaluationSubmission
-        fields = ('evaluation', 'student', 'grade', 'corrector', 'created_at', 'updated_at')
+        fields = ('evaluation', 'student', 'grade', 'grader', 'created_at', 'updated_at')
 
 
 class EvaluationSubmissionPutSerializer(serializers.ModelSerializer):
