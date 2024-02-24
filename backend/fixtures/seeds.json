@@ -439,10 +439,10 @@
     "pk": 8,
     "fields": {
       "siu_id": 8,
-      "teacher": 8,
+      "teacher": 13,
       "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
-      "date": "2020-02-03T19:00:00-03:00"
+      "date": "2024-02-03T19:00:00-03:00"
     }
   },
   {
@@ -450,10 +450,10 @@
     "pk": 9,
     "fields": {
       "siu_id": 9,
-      "teacher": 8,
+      "teacher": 13,
       "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
-      "date": "2019-12-19T19:00:00-03:00"
+      "date": "2024-03-06T19:00:00-03:00"
     }
   },
   {
