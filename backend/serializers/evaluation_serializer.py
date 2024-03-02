@@ -14,7 +14,12 @@ class EvaluationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Evaluation
-        fields = ('id', 'evaluation_name', 'is_graded', 'passing_grade', 'start_date', 'end_date')
+        fields = ('id', 'evaluation_name', 'is_graded', 'passing_grade', 'start_date', 'end_date', 'make_up_evaluation')
+    
+    def get_fields(self):
+        fields = super(EvaluationSerializer, self).get_fields()
+        fields['make_up_evaluation'] = EvaluationSerializer()
+        return fields
 
 
 class SemesterEvaluationsSerializer(serializers.ModelSerializer):

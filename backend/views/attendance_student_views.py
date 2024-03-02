@@ -1,14 +1,19 @@
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.models import Attendance, AttendanceQRCode
+from backend.models import Attendance, AttendanceQRCode, Semester
 from backend.permissions import *
+from backend.serializers.attendance_serializer import (
+    AttendancePostSerializer, AttendanceQRCodeStudentsSerializerNoSemester,
+    AttendanceSerializer)
 from backend.views.base_view import BaseViewSet
-from backend.serializers.attendance_serializer import AttendancePostSerializer, AttendanceSerializer
 from backend.views.utils import is_before_current_datetime
+
 
 class AttendanceViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsStudent]
@@ -36,12 +41,16 @@ class AttendanceViewSet(BaseViewSet):
         attendance.save()
         return Response(AttendanceSerializer(attendance).data, status=status.HTTP_201_CREATED)
         
-    # @action(detail=False, methods=['GET'])
-    # @swagger_auto_schema(
-    #     tags=["Evaluation Submissions"],
-    #     operation_summary="Gets the logged in student's evaluation submissions"
-    # )
-    # def my_evaluations(self, request):
+    @action(detail=False, methods=['GET'])
+    @swagger_auto_schema(
+        tags=["Attendances"],
+        operation_summary="Gets attendances for semester",
+        manual_parameters=[
+            openapi.Parameter('semester_id', openapi.IN_QUERY, description="Id of semester", type=openapi.FORMAT_INT64)
+        ]
+    )
+    def my_attendances(self, request):
 
-    #     result = self.queryset.filter(student=request.user.student).all()
-    #     return Response(EvaluationSubmissionSerializer(result, many=True).data, status.HTTP_200_OK)
+        attendanceQRCodes = AttendanceQRCode.objects.all().filter(semester__id=request.query_params['semester_id']).all()
+
+        return Response(AttendanceQRCodeStudentsSerializerNoSemester(attendanceQRCodes, many=True).data, status.HTTP_200_OK)

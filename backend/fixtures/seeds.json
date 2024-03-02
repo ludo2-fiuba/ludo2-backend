@@ -730,7 +730,9 @@
     "fields": {
       "commission": 1,
       "year_moment": "FS",
-      "start_date": "2023-03-10T19:00:00-03:00"
+      "start_date": "2023-03-10T19:00:00-03:00",
+      "classes_amount": 20,
+      "minimum_attendance": 0.8
     }
   },
   {
@@ -739,7 +741,9 @@
     "fields": {
       "commission": 1,
       "year_moment": "SS",
-      "start_date": "2023-07-10T19:00:00-03:00"
+      "start_date": "2023-07-10T19:00:00-03:00",
+      "classes_amount": 20,
+      "minimum_attendance": 0.8
     }
   },
   {
@@ -918,6 +922,18 @@
     }
   },
   {
+    "model": "backend.evaluation",
+    "pk": 3,
+    "fields": {
+      "semester": 2,
+      "evaluation_name": "Recuperatorio Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "parent_evaluation": 1,
+      "end_date": "2023-11-20T19:00:00-03:00"
+    }
+  },
+  {
     "model": "backend.evaluationsubmission",
     "pk": 1,
     "fields": {
@@ -942,6 +958,14 @@
     }
   },
   {
+    "model": "backend.evaluationsubmission",
+    "pk": 4,
+    "fields": {
+      "evaluation": 1,
+      "student": 14
+    }
+  },
+  {
     "model": "backend.teacherRole",
     "pk": 1,
     "fields": {
@@ -957,6 +981,81 @@
       "commission": 5,
       "teacher": 13,
       "role": "T"
+    }
+  },
+  {
+    "model": "backend.attendanceQRCode",
+    "pk": 1,
+    "fields": {
+      "semester": 2,
+      "owner_teacher": 5,
+      "created_at": "2023-11-13T19:00:00-03:00",
+      "expires_at": "2023-11-13T22:00:00-03:00",
+      "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+  },
+  {
+    "model": "backend.attendanceQRCode",
+    "pk": 2,
+    "fields": {
+      "semester": 2,
+      "owner_teacher": 5,
+      "created_at": "2023-11-14T19:00:00-03:00",
+      "expires_at": "2023-11-14T22:00:00-03:00",
+      "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+  },
+  {
+    "model": "backend.attendanceQRCode",
+    "pk": 3,
+    "fields": {
+      "semester": 2,
+      "owner_teacher": 5,
+      "created_at": "2023-11-15T19:00:00-03:00",
+      "expires_at": "2023-11-15T22:00:00-03:00",
+      "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+  },
+  {
+    "model": "backend.attendanceQRCode",
+    "pk": 4,
+    "fields": {
+      "semester": 2,
+      "owner_teacher": 5,
+      "created_at": "2023-11-16T19:00:00-03:00",
+      "expires_at": "2023-11-16T22:00:00-03:00",
+      "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+  },
+  {
+    "model": "backend.attendanceQRCode",
+    "pk": 5,
+    "fields": {
+      "semester": 2,
+      "owner_teacher": 5,
+      "created_at": "2023-11-17T19:00:00-03:00",
+      "expires_at": "2023-11-17T22:00:00-03:00",
+      "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 1,
+    "fields": {
+      "semester": 2,
+      "student": 14,
+      "qr_code": 1,
+      "submitted_at": "2023-11-13T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 2,
+    "fields": {
+      "semester": 2,
+      "student": 14,
+      "qr_code": 2,
+      "submitted_at": "2023-11-14T20:00:00-03:00"
     }
   }
 ]
