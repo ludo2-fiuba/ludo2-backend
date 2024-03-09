@@ -18,7 +18,7 @@ class GraderAssignmentServiceTests(APITestCase):
     def setUp(self) -> None:
         # Setup necessary objects for testing
         self.teacher = TeacherFactory()
-        self.commission = CommissionFactory()
+        self.commission = CommissionFactory(chief_teacher=self.teacher)
         self.semester = SemesterFactory(commission=self.commission)
         self.evaluation = EvaluationFactory(semester=self.semester)
         self.submissions = SubmissionFactory.create_batch(5, evaluation=self.evaluation)
@@ -33,7 +33,7 @@ class GraderAssignmentServiceTests(APITestCase):
 
         # Define the URI for the auto_assign_graders endpoint
         self.auto_assign_graders_uri = (
-            f"/api/teacher/evaluations/submissions/auto_assign_graders/"
+            "/api/teacher/evaluations/submissions/auto_assign_graders/"
         )
 
     def test_auto_assign_graders_success(self):

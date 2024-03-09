@@ -1,6 +1,7 @@
 from typing import List
 from backend.models.evaluation_submission import EvaluationSubmission
 from backend.models.teacher_role import TeacherRole
+from backend.services.evaluation_submission_service import EvaluationSubmissionService
 
 
 class GraderAssignmentService:
@@ -24,6 +25,7 @@ class GraderAssignmentService:
             - The `grader` attribute of the EvaluationSubmission objects gets updated to reflect the teacher assignment.
             - Assumes `teacher_roles` and `submissions` are populated and each teacher is uniquely identifiable.
         """
+        submissions_service = EvaluationSubmissionService()
         submissions_count = len(submissions)
         teacher_roles_count = len(teacher_roles)
 
@@ -45,7 +47,8 @@ class GraderAssignmentService:
         for submission, teacher_role in zip(
             submissions[:teacher_roles_count], sorted_teacher_roles
         ):
-            submission.grader = teacher_role.teacher
+            submissions_service.set_grader(submission, teacher_role.teacher)
+
         remaining_submissions = submissions[teacher_roles_count:]
 
         total_weight_sum = sum([role.grader_weight for role in sorted_teacher_roles])
@@ -63,11 +66,12 @@ class GraderAssignmentService:
             assigned_teacher_id = max(
                 ideal_assignment_map, key=lambda x: ideal_assignment_map[x]
             )
-            submission.grader = next(
+            teacher = next(
                 role.teacher
                 for role in sorted_teacher_roles
                 if role.teacher.user.id == assigned_teacher_id
             )
+            submissions_service.set_grader(submission, teacher)
             ideal_assignment_map[assigned_teacher_id] -= 1
 
         self._log(f"Final submissions", submissions)

@@ -14,6 +14,8 @@ from backend.serializers.evaluation_submission_serializer import (
     EvaluationSubmissionCorrectionSerializer,
     EvaluationSubmissionPutSerializer, EvaluationSubmissionSerializer)
 from backend.services.audit_log_service import AuditLogService
+from backend.services.evaluation_submission_service import \
+    EvaluationSubmissionService
 from backend.services.grader_assignment_service import GraderAssignmentService
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import (get_current_datetime,
@@ -61,11 +63,9 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         if teacher_not_in_commission_staff(request.user.teacher, commission):
             return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
-        submission.grade = grade
-        submission.grader = request.user.teacher
-        submission.updated_at = get_current_datetime()
-        submission.save()
-        
+        submissions_service = EvaluationSubmissionService()
+        submissions_service.set_grade(submission, request.user.teacher, grade)
+
         AuditLogService().log(request.user, submission.student.user, f"Teacher graded a submission {submission}")
 
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
@@ -93,9 +93,9 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         if teacher_not_in_commission_staff(grader_teacher, commission):
             return Response("Teacher not present in commission's staff", status=status.HTTP_403_FORBIDDEN)
 
-        submission.grader = grader_teacher
-        submission.updated_at = get_current_datetime()
-        submission.save()
+        submissions_service = EvaluationSubmissionService()
+        submissions_service.set_grader(submission, request.user.teacher)
+
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
 
 
