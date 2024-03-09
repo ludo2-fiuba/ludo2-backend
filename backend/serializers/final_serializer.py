@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from backend.models import Final
+
 from .filterable_model_list_serializer import FilterableModelListSerializer
 from .final_exam_serializer import FinalExamTeacherDetailsSerializer
 
@@ -24,5 +25,5 @@ class FinalTeacherSerializer(serializers.ModelSerializer):
 class FinalTeacherListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Final
-        fields = ('id', 'subject', 'date', 'status', 'siu_id', 'act')
+        fields = ('id', 'subject', 'date', 'qrid', 'status', 'siu_id', 'act')
 

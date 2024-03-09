@@ -44,7 +44,7 @@ class FinalTeacherViewSet(BaseViewSet):
     @swagger_auto_schema(
         tags=["Finals"]
     )
-    def detail(self, request, pk=None):
+    def retrieve(self, request, pk=None):
         return respond(self.get_serializer(get_object_or_404(Final.objects, teacher=request.user.teacher, id=pk)))
 
     @action(detail=True, methods=['POST'])
