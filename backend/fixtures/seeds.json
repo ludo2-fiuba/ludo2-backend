@@ -966,12 +966,53 @@
     }
   },
   {
+    "model": "backend.evaluationsubmission",
+    "pk": 6,
+    "fields": {
+      "evaluation": 2,
+      "student": 1
+    }
+  },
+  {
+    "model": "backend.evaluationsubmission",
+    "pk": 7,
+    "fields": {
+      "evaluation": 2,
+      "student": 2
+    }
+  },
+  {
+    "model": "backend.evaluationsubmission",
+    "pk": 8,
+    "fields": {
+      "evaluation": 2,
+      "student": 3
+    }
+  },
+  {
+    "model": "backend.evaluationsubmission",
+    "pk": 9,
+    "fields": {
+      "evaluation": 2,
+      "student": 4
+    }
+  },
+  {
+    "model": "backend.evaluationsubmission",
+    "pk": 10,
+    "fields": {
+      "evaluation": 2,
+      "student": 10
+    }
+  },
+  {
     "model": "backend.teacherRole",
     "pk": 1,
     "fields": {
       "commission": 4,
       "teacher": 14,
-      "role": "T"
+      "role": "T",
+      "grader_weight": 3.0
     }
   },
   {
@@ -980,7 +1021,8 @@
     "fields": {
       "commission": 5,
       "teacher": 13,
-      "role": "T"
+      "role": "T",
+      "grader_weight": 3.0
     }
   },
   {

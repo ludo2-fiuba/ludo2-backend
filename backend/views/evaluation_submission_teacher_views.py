@@ -8,12 +8,15 @@ from rest_framework.response import Response
 
 from backend.models import AuditLog, Evaluation, EvaluationSubmission, Semester
 from backend.models.teacher import Teacher
+from backend.models.teacher_role import TeacherRole
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
     EvaluationSubmissionCorrectionSerializer,
     EvaluationSubmissionPutSerializer, EvaluationSubmissionSerializer)
+from backend.services.grader_assignment_service import GraderAssignmentService
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import (get_current_datetime,
+                                 get_stub_chief_teacher_role,
                                  teacher_not_in_commission_staff)
 
 
@@ -94,6 +97,28 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         submission.updated_at = get_current_datetime()
         submission.save()
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
+
+
+    @action(detail=False, methods=['PUT'])
+    @swagger_auto_schema(
+        tags=["Evaluation Submissions"],
+        operation_summary="Automatically assigns grader teachers to an evaluation"
+    )
+    def auto_assign_graders(self, request):
+        evaluation: Evaluation = get_object_or_404(Evaluation.objects, id=request.data['evaluation'])
+
+        if teacher_not_in_commission_staff(request.user.teacher, evaluation.semester.commission):
+            return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
+
+        submissions = list(evaluation.submissions.all())
+        teacher_roles = list(evaluation.semester.commission.teacher_roles.all())
+        teacher_roles.append(get_stub_chief_teacher_role(evaluation.semester.commission))
+
+        grader_assignment_service = GraderAssignmentService()
+        new_submissions = grader_assignment_service.auto_assign(teacher_roles, submissions)
+
+        return Response(EvaluationSubmissionSerializer(new_submissions, many=True).data, status=status.HTTP_200_OK)
+
 
     @action(detail=False, methods=['GET'])
     @swagger_auto_schema(
