@@ -359,6 +359,17 @@ ludo_dev=# \d backend_user
 </details>
 
 <details>
+ <summary><code>PUT</code> <code><b>/api/teacher/evaluations/submissions/auto_assign_graders</b></code> <code>(auto-assigns graders to **ALL** submissions in an evaluation)</code></summary>
+
+##### Parameters
+
+> | name      |  type     |  data type     | description                                                           |
+> |-----------|-----------|----------------|-----------------------------------------------------------------------|
+> | evaluation |  required |  integer | Id of the evaluation |
+
+</details>
+
+<details>
  <summary><code>PUT</code> <code><b>/api/teacher/evaluations/submissions/grade</b></code> <code>(grades a submission, setting the logged-in teacher as grader)</code></summary>
 
 ##### Parameters

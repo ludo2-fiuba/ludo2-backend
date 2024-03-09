@@ -101,7 +101,8 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
     def auto_assign_graders(self, request):
         evaluation: Evaluation = get_object_or_404(Evaluation.objects, id=request.data['evaluation'])
 
-        # TODO: check que solo el jefe de catedra puede auto-asignar correctores?
+        if teacher_not_in_commission_staff(request.user.teacher, evaluation.semester.commission):
+            return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
 
         submissions = list(evaluation.submissions.all())
         teacher_roles = list(evaluation.semester.commission.teacher_roles.all())

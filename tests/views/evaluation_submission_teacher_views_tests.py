@@ -136,7 +136,6 @@ class GraderAssignmentServiceTests(APITestCase):
             TeacherRoleFactory(commission=self.commission, grader_weight=3.0),
         ]
         submissions = SubmissionFactory.create_batch(6, evaluation=self.evaluation)
-        print(teacher_roles)
 
         # Call the service directly without mocking
         service = GraderAssignmentService()

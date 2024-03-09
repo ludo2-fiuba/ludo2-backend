@@ -57,6 +57,8 @@ class GraderAssignmentService:
             for role in sorted_teacher_roles
         }
 
+        self._log(ideal_assignment_map)
+
         for submission in remaining_submissions:
             assigned_teacher_id = max(
                 ideal_assignment_map, key=lambda x: ideal_assignment_map[x]
@@ -68,4 +70,5 @@ class GraderAssignmentService:
             )
             ideal_assignment_map[assigned_teacher_id] -= 1
 
+        self._log(f"Final submissions", submissions)
         return submissions
