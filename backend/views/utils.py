@@ -62,3 +62,6 @@ def is_before_current_datetime(date):
 
 def teacher_not_in_commission_staff(teacher: Teacher, commission: Commission) -> bool:
     return teacher not in commission.teachers.all() and commission.chief_teacher != teacher
+
+def get_chief_teacher_grader_weight() -> float:
+    return 5.0
