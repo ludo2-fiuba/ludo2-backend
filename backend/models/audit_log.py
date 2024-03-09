@@ -6,7 +6,7 @@ from .user import User
 
 class AuditLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='logs', verbose_name="Usuario")
-    related_user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Usuario Relacionado")
+    related_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, verbose_name="Usuario Relacionado")
     log = models.TextField(verbose_name="Texto de evento")
     timestamp = models.DateTimeField(default=timezone.now, editable=False, verbose_name="Fecha de evento")
 

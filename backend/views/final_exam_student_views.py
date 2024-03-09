@@ -8,10 +8,11 @@ from rest_framework.response import Response
 
 from backend.api_exceptions import InvalidSubjectCodeError
 from backend.model_validators import FinalExamValidator
-from backend.models import AuditLog, Final, FinalExam
+from backend.models import Final, FinalExam
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import (
     FinalExamSerializer, FinalExamStudentSerializer)
+from backend.services.audit_log_service import AuditLogService
 from backend.services.siu_service import SiuService
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import validate_face
@@ -36,8 +37,7 @@ class FinalExamStudentViewSet(BaseViewSet):
         FinalExamValidator(fe).validate()
         fe.save()
 
-        print(f"Student took a final exam: {final}")
-        AuditLog(user=request.user, log=f"Student took a final exam: {final}")
+        AuditLogService().log(request.user, None, f"Student took a final exam: {final}")
 
         return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
 

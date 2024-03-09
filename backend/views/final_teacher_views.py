@@ -11,6 +11,7 @@ from backend.models import Final
 from backend.permissions import *
 from backend.serializers.final_serializer import (FinalTeacherListSerializer,
                                                   FinalTeacherSerializer)
+from backend.services.audit_log_service import AuditLogService
 from backend.services.final_service import FinalService
 from backend.views.base_view import BaseViewSet
 from backend.views.utils import respond, validate_face
@@ -39,6 +40,9 @@ class FinalTeacherViewSet(BaseViewSet):
             teacher=request.user.teacher,
             status=Final.Status.DRAFT)
         final.save()
+
+        AuditLogService().log(request.user, None, f"Teacher created a final for: {request.data['subject_name']}")
+
         return respond(self.get_serializer(final), response_status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(
@@ -63,6 +67,9 @@ class FinalTeacherViewSet(BaseViewSet):
     def close(self, request, pk):
         final = self._get_final(request.user.teacher, pk, Final.Status.OPEN)
         FinalService().close(final)
+
+        AuditLogService().log(request.user, None, f"Teacher closed a final: {final}")
+
         return respond(self.get_serializer(final))
 
     @swagger_auto_schema(
@@ -72,6 +79,9 @@ class FinalTeacherViewSet(BaseViewSet):
     def grade(self, request, pk):
         final = self._get_final(request.user.teacher, pk, Final.Status.PENDING_ACT)
         FinalService().grade(final, request.data['grades'])
+
+        AuditLogService().log(request.user, None, f"Teacher graded a final: {final}")
+        
         return respond(self.get_serializer(final))
 
     @swagger_auto_schema(
@@ -83,6 +93,8 @@ class FinalTeacherViewSet(BaseViewSet):
 
         final = self._get_final(request.user.teacher, pk, Final.Status.PENDING_ACT)
         FinalService().send_act(final)
+
+        AuditLogService().log(request.user, None, f"Teacher closed an act: {final}")
 
         return respond(self.get_serializer(final))
 

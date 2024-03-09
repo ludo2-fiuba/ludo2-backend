@@ -6,10 +6,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from backend.model_validators import FinalExamValidator
-from backend.models import AuditLog, Final, FinalExam, Student
+from backend.models import Final, FinalExam, Student
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import \
     FinalExamTeacherDetailsSerializer
+from backend.services.audit_log_service import AuditLogService
 from backend.views.base_view import BaseViewSet
 
 
@@ -27,8 +28,7 @@ class FinalExamTeacherViews(BaseViewSet):
         if serializer.is_valid():
             serializer.save()
 
-            print(f"Teacher graded a final exam: {self._fe(final_pk, pk, request.user.teacher)}")
-            AuditLog(user=request.user, log=f"Teacher graded a final exam: {self._fe(final_pk, pk, request.user.teacher)}")
+            AuditLogService().log(request.user, None, f"Teacher graded a final exam: {self._fe(final_pk, pk, request.user.teacher)}")
 
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -42,8 +42,7 @@ class FinalExamTeacherViews(BaseViewSet):
         FinalExamValidator(fe).validate()
         fe.save()
 
-        print(f"Teacher added a final exam submission for: {self._final(final_pk, request.user.teacher)}")
-        AuditLog(user=request.user, related_user=self._student(request.data['padron']).user, log=f"Teacher graded a final exam: {self._final(final_pk, request.user.teacher)}")
+        AuditLogService().log(request.user, self._student(request.data['padron']).user, f"Teacher graded a final exam: {self._final(final_pk, request.user.teacher)}")
         
         return Response(self.get_serializer(fe).data, status=status.HTTP_201_CREATED)
 

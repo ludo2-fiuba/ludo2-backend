@@ -10,6 +10,7 @@ from backend.models import Commission, Teacher, TeacherRole
 from backend.permissions import *
 from backend.serializers.teacher_role_serializer import (
     TeacherRolePostSerializer, TeacherRoleSerializer)
+from backend.services.audit_log_service import AuditLogService
 from backend.views.base_view import BaseViewSet
 
 
@@ -41,6 +42,9 @@ class TeacherRoleViewSet(BaseViewSet):
 
         teacherRole = TeacherRole(teacher=teacher, commission=commission, role=request.data["role"], grader_weight=grader_weight)
         teacherRole.save()
+        
+        AuditLogService().log(request.user, teacher, f"User added a teacher to {commission}")
+
         return Response(TeacherRoleSerializer(teacherRole).data, status=status.HTTP_201_CREATED)
     
     @action(detail=False, methods=['PUT'])
@@ -62,6 +66,8 @@ class TeacherRoleViewSet(BaseViewSet):
 
         teacher_role.role = request.data["role"]
         teacher_role.save()
+        
+        AuditLogService().log(request.user, teacher_role.teacher.user, f"User edited a teacher role")
         
         return Response(TeacherRoleSerializer(teacher_role).data, status.HTTP_200_OK)
     
