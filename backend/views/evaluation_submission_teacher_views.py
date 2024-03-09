@@ -6,7 +6,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.models import Evaluation, EvaluationSubmission, Semester
+from backend.models import AuditLog, Evaluation, EvaluationSubmission, Semester
 from backend.models.teacher import Teacher
 from backend.models.teacher_role import TeacherRole
 from backend.permissions import *
@@ -16,7 +16,9 @@ from backend.serializers.evaluation_submission_serializer import (
 from backend.services.evaluation_submission_service import EvaluationSubmissionService
 from backend.services.grader_assignment_service import GraderAssignmentService
 from backend.views.base_view import BaseViewSet
-from backend.views.utils import get_current_datetime, get_stub_chief_teacher_role, teacher_not_in_commission_staff
+from backend.views.utils import (get_current_datetime,
+                                 get_stub_chief_teacher_role,
+                                 teacher_not_in_commission_staff)
 
 
 class EvaluationSubmissionTeacherViewSet(BaseViewSet):
@@ -61,6 +63,9 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
 
         submissions_service = EvaluationSubmissionService()
         submissions_service.set_grade(submission, request.user.teacher, grade)
+
+        print(f"Teacher graded a submission {submission}")
+        AuditLog(user=request.user, related_user=submission.student.user, log=f"Teacher graded a submission {submission}")
 
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
 

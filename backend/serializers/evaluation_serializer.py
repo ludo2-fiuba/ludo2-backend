@@ -14,6 +14,18 @@ class EvaluationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Evaluation
+        fields = ('id', 'evaluation_name', 'is_graded', 'passing_grade', 'start_date', 'end_date')
+
+
+class EvaluationWithMakeupSerializer(serializers.ModelSerializer):
+    evaluation_name = serializers.CharField()
+    is_graded = serializers.BooleanField()
+    passing_grade = serializers.IntegerField()
+    start_date = serializers.DateTimeField()
+    end_date = serializers.DateTimeField()
+
+    class Meta:
+        model = Evaluation
         fields = ('id', 'evaluation_name', 'is_graded', 'passing_grade', 'start_date', 'end_date', 'make_up_evaluation')
     
     def get_fields(self):

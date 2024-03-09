@@ -68,6 +68,11 @@ def is_before_current_datetime(date):
 
     return datetime_object < get_current_datetime()
 
+def datetime_format(date):
+    datetime_object = date
+    if isinstance(date, str):
+        datetime_object = datetime.fromisoformat(date)
+    return datetime_object
 
 def teacher_not_in_commission_staff(teacher: Teacher, commission: Commission) -> bool:
     return (
