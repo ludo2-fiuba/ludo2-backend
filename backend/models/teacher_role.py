@@ -26,4 +26,4 @@ class TeacherRole(models.Model):
         verbose_name_plural = "Rol de Profesor"
 
     def __str__(self):
-        return f"{self.commission} - {self.teacher} {self.role}"
+        return f"{self.teacher} - {self.role} - {self.grader_weight}"

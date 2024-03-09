@@ -13,8 +13,9 @@ from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
     EvaluationSubmissionCorrectionSerializer,
     EvaluationSubmissionPutSerializer, EvaluationSubmissionSerializer)
+from backend.services.grader_assignment_service import GraderAssignmentService
 from backend.views.base_view import BaseViewSet
-from backend.views.utils import get_current_datetime, teacher_not_in_commission_staff
+from backend.views.utils import get_current_datetime, get_stub_chief_teacher_role, teacher_not_in_commission_staff
 
 
 class EvaluationSubmissionTeacherViewSet(BaseViewSet):
@@ -92,7 +93,7 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
 
 
-    @action(detail=False, methods=['POST'])
+    @action(detail=False, methods=['PUT'])
     @swagger_auto_schema(
         tags=["Evaluation Submissions"],
         operation_summary="Automatically assigns grader teachers to an evaluation"
@@ -100,47 +101,16 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
     def auto_assign_graders(self, request):
         evaluation: Evaluation = get_object_or_404(Evaluation.objects, id=request.data['evaluation'])
 
-        # TODO: check que solo el jefe de catedra puede auto-asignar correctores
+        # TODO: check que solo el jefe de catedra puede auto-asignar correctores?
 
-        teacher_roles = list(evaluation.semester.commission.teacher_role.all())
         submissions = list(evaluation.submissions.all())
+        teacher_roles = list(evaluation.semester.commission.teacher_roles.all())
+        teacher_roles.append(get_stub_chief_teacher_role(evaluation.semester.commission))
 
-        # B sumarizar cant profs ya asignados y sin asignar
-        grader_map = {
-            "alvaro": 8,
-            "martin": 2,
-            "unassigned": 10
-        }
+        grader_assignment_service = GraderAssignmentService()
+        new_submissions = grader_assignment_service.auto_assign(teacher_roles, submissions)
 
-        # C calcular total submissions
-        total_submissions = submissions.count()
-
-        # D contar ideal segun weights y total
-        total_weight = sum(role.grader_weight for role in teacher_roles)
-        ideal_graders = {role.teacher_id: 1 for role in teacher_roles} # assign at least one to each in first pass
-        ideal_graders = {role.teacher_id: int((role.grader_weight / total_weight) * total_submissions) for role in teacher_roles}
-        for role in teacher_roles:
-            ideal_graders[role.teacher_id]
-
-        # E mapa con ideal-ya asignados
-        current_graders = {role.teacher_id: submissions.filter(grader_id=role.teacher_id).count() for role in teacher_roles}
-
-        # F asignar graders
-        for role in teacher_roles:
-            ideal_count = ideal_graders.get(role.teacher_id, 0)
-            current_count = current_graders.get(role.teacher_id, 0)
-            remaining_count = ideal_count - current_count
-
-            if remaining_count > 0:
-                unassigned_submissions = submissions.filter(grader_id__isnull=True)
-                unassigned_submissions = unassigned_submissions.exclude(grader_id=role.teacher_id)
-                unassigned_submissions = unassigned_submissions[:remaining_count]
-                
-                for submission in unassigned_submissions:
-                    submission.grader = role.teacher
-                    submission.save()
-
-        return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
+        return Response(EvaluationSubmissionSerializer(new_submissions, many=True).data, status=status.HTTP_200_OK)
 
 
     @action(detail=False, methods=['GET'])

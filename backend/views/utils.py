@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from backend.api_exceptions import InvalidFaceError
 from backend.models.commission import Commission
 from backend.models.teacher import Teacher
+from backend.models.teacher_role import TeacherRole
 from backend.services.image_validator_service import ImageValidatorService
 
 
@@ -28,30 +29,37 @@ def serialize(self, relation):
 
 
 def validate_face(request, model):
-    if not request.data.get('image'):
+    if not request.data.get("image"):
         raise InvalidFaceError()
 
-    is_match = ImageValidatorService(request.data['image']).validate_identity(model)
+    is_match = ImageValidatorService(request.data["image"]).validate_identity(model)
 
     if not is_match:
         return InvalidFaceError()
+
 
 def get_current_semester():
     mes = datetime.now().month
     # TODO: hacerlo configurable
     if (mes >= 8) or (mes <= 2):
-        return 'SS'
-    return 'FS'
+        return "SS"
+    return "FS"
+
 
 def get_current_year():
     return 2023
 
+
 def get_current_datetime():
     return datetime.now(timezone.utc)
 
+
 def get_hours_from_current_time(past_datetime):
     SECONDS_IN_ONE_HOUR = 3600
-    return (get_current_datetime() - past_datetime).total_seconds() / SECONDS_IN_ONE_HOUR
+    return (
+        get_current_datetime() - past_datetime
+    ).total_seconds() / SECONDS_IN_ONE_HOUR
+
 
 def is_before_current_datetime(date):
     datetime_object = date
@@ -60,8 +68,18 @@ def is_before_current_datetime(date):
 
     return datetime_object < get_current_datetime()
 
-def teacher_not_in_commission_staff(teacher: Teacher, commission: Commission) -> bool:
-    return teacher not in commission.teachers.all() and commission.chief_teacher != teacher
 
-def get_chief_teacher_grader_weight() -> float:
-    return 5.0
+def teacher_not_in_commission_staff(teacher: Teacher, commission: Commission) -> bool:
+    return (
+        teacher not in commission.teachers.all() and commission.chief_teacher != teacher
+    )
+
+
+def get_stub_chief_teacher_role(commission: Commission) -> TeacherRole:
+    CHIEF_TEACHER_GRADER_WEIGHT = 5.0
+    return TeacherRole(
+        commission=commission,
+        teacher=commission.chief_teacher,
+        grader_weight=CHIEF_TEACHER_GRADER_WEIGHT,
+        role="T",
+    )
