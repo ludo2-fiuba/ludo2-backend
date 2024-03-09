@@ -6,14 +6,15 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.models import Evaluation, EvaluationSubmission, Semester
+from backend.models import AuditLog, Evaluation, EvaluationSubmission, Semester
 from backend.models.teacher import Teacher
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
     EvaluationSubmissionCorrectionSerializer,
     EvaluationSubmissionPutSerializer, EvaluationSubmissionSerializer)
 from backend.views.base_view import BaseViewSet
-from backend.views.utils import get_current_datetime, teacher_not_in_commission_staff
+from backend.views.utils import (get_current_datetime,
+                                 teacher_not_in_commission_staff)
 
 
 class EvaluationSubmissionTeacherViewSet(BaseViewSet):
@@ -60,6 +61,10 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         submission.grader = request.user.teacher
         submission.updated_at = get_current_datetime()
         submission.save()
+
+        print(f"Teacher graded a submission {submission}")
+        AuditLog(user=request.user, related_user=submission.student.user, log=f"Teacher graded a submission {submission}")
+
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['PUT'])

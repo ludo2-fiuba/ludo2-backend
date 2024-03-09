@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from backend.api_exceptions import InvalidSubjectCodeError
 from backend.model_validators import FinalExamValidator
-from backend.models import Final, FinalExam
+from backend.models import AuditLog, Final, FinalExam
 from backend.permissions import *
 from backend.serializers.final_exam_serializer import (
     FinalExamSerializer, FinalExamStudentSerializer)
@@ -35,6 +35,10 @@ class FinalExamStudentViewSet(BaseViewSet):
         fe = FinalExam(student=request.user.student, final=final)
         FinalExamValidator(fe).validate()
         fe.save()
+
+        print(f"Student took a final exam: {final}")
+        AuditLog(user=request.user, log=f"Student took a final exam: {final}")
+
         return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=["GET"])

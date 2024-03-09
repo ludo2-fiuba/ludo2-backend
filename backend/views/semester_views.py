@@ -70,17 +70,22 @@ class SemesterViewSet(BaseViewSet):
     )
     def is_passing(self, request):
         semester = self.get_queryset().filter(id=request.query_params['semester_id']).first()
-        
-        rule_engine_service = RuleEngineService()
-        rule_engine_service.generate_passing_rules(self.get_serializer(semester).data)
-
-        print(semester)
 
         attendance_qrs = AttendanceQRCode.objects.all().filter(semester=semester).all()
         evaluation_submissions = EvaluationSubmission.objects.all().filter(evaluation__semester=semester, student=request.user.student).all()
+        
+        rule_engine_service = RuleEngineService()
+        rule_engine_service.generate_passed_rules(self.get_serializer(semester).data)
 
 
-        rule_engine_service.is_student_passing(AttendanceQRCodeStudentsSerializerNoSemester(attendance_qrs, many=True).data, 
+        passed = rule_engine_service.is_student_passed(AttendanceQRCodeStudentsSerializerNoSemester(attendance_qrs, many=True).data, 
+                                               EvaluationSubmissionSerializer(evaluation_submissions, many=True).data,
+                                               StudentSerializer(request.user.student).data)
+        
+        rule_engine_service = RuleEngineService()
+        rule_engine_service.generate_failed_rules(self.get_serializer(semester).data)
+
+        failed = rule_engine_service.is_student_failed(AttendanceQRCodeStudentsSerializerNoSemester(attendance_qrs, many=True).data, 
                                                EvaluationSubmissionSerializer(evaluation_submissions, many=True).data,
                                                StudentSerializer(request.user.student).data)
 

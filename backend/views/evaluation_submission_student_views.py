@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from backend.model_validators.EvaluationSubmissionValidator import \
     EvaluationSubmissionValidator
-from backend.models import Evaluation, EvaluationSubmission
+from backend.models import AuditLog, Evaluation, EvaluationSubmission
 from backend.permissions import *
 from backend.serializers.evaluation_submission_serializer import (
     EvaluationSubmissionPostSerializer, EvaluationSubmissionSerializer)
@@ -34,6 +34,10 @@ class EvaluationSubmissionViewSet(BaseViewSet):
         submission = EvaluationSubmission(student=request.user.student, evaluation=evaluation)
         EvaluationSubmissionValidator(submission).validate()
         submission.save()
+
+        print(f"Student made a submission for evaluation {evaluation}")
+        AuditLog(user=request.user, log=f"Student made a submission for evaluation {evaluation}")
+
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED)
         
     @action(detail=False, methods=['GET'])

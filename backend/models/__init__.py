@@ -12,3 +12,4 @@ from .teacher_role import TeacherRole
 from .user import User
 from .attendance import Attendance
 from .attendance_qr_code import AttendanceQRCode
+from .audit_log import AuditLog
