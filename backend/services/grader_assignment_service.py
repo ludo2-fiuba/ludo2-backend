@@ -1,12 +1,15 @@
+import logging
 from typing import List
 from backend.models.evaluation_submission import EvaluationSubmission
 from backend.models.teacher_role import TeacherRole
 from backend.services.evaluation_submission_service import EvaluationSubmissionService
 
+logger = logging.getLogger(__name__)
+
 
 class GraderAssignmentService:
     def _log(self, *obj):
-        print(f"GraderAssignmentService: {obj}")
+        logger.info(f"GraderAssignmentService: {obj}")
 
     def auto_assign(
         self, teacher_roles: List[TeacherRole], submissions: List[EvaluationSubmission]
@@ -25,6 +28,12 @@ class GraderAssignmentService:
             - The `grader` attribute of the EvaluationSubmission objects gets updated to reflect the teacher assignment.
             - Assumes `teacher_roles` and `submissions` are populated and each teacher is uniquely identifiable.
         """
+        if not teacher_roles:
+            self._log(
+                "No teacher roles provided. Returning original submissions without any assignments."
+            )
+            return submissions
+
         submissions_service = EvaluationSubmissionService()
         submissions_count = len(submissions)
         teacher_roles_count = len(teacher_roles)

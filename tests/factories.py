@@ -83,7 +83,7 @@ class SemesterFactory(factory.django.DjangoModelFactory):
             Semester.YearMoment.INTENSIVE_SUMMER,
         ]
     )
-    start_date = factory.Faker("date_time")
+    start_date = factory.Faker("date_time", tzinfo=timezone.utc)
 
 
 class EvaluationFactory(factory.django.DjangoModelFactory):
@@ -94,8 +94,8 @@ class EvaluationFactory(factory.django.DjangoModelFactory):
     evaluation_name = factory.Faker("sentence")
     is_graded = factory.Faker("boolean")
     passing_grade = factory.Faker("random_int", min=0, max=10)
-    start_date = factory.Faker("date_time")
-    end_date = factory.Faker("date_time")
+    start_date = factory.Faker("date_time", tzinfo=timezone.utc)
+    end_date = factory.Faker("date_time", tzinfo=timezone.utc)
 
 
 class SubmissionFactory(factory.django.DjangoModelFactory):
@@ -106,8 +106,8 @@ class SubmissionFactory(factory.django.DjangoModelFactory):
     student = factory.SubFactory(StudentFactory)
     grade = None  # Default to None or another default value
     grader = None  # Default to None or another default value
-    created_at = factory.Faker("date_time")
-    updated_at = factory.Faker("date_time")
+    created_at = factory.Faker("date_time", tzinfo=timezone.utc)
+    updated_at = factory.Faker("date_time", tzinfo=timezone.utc)
 
 
 class TeacherRoleFactory(factory.django.DjangoModelFactory):
