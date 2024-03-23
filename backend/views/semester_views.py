@@ -89,6 +89,8 @@ class SemesterViewSet(BaseViewSet):
         failed = rule_engine_service.is_student_failed(AttendanceQRCodeStudentsSerializerNoSemester(attendance_qrs, many=True).data, 
                                                EvaluationSubmissionSerializer(evaluation_submissions, many=True).data,
                                                StudentSerializer(request.user.student).data)
+        
+        response = {'passed': passed, 'failed': failed}
 
-        return Response(self.get_serializer(semester).data, status.HTTP_200_OK)
+        return Response(response, status.HTTP_200_OK)
 
