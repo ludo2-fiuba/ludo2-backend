@@ -1,4 +1,4 @@
-from django.db import transaction, IntegrityError
+from django.db import IntegrityError, transaction
 
 from backend.api_exceptions import InvalidDataError
 from backend.models import Final
@@ -37,7 +37,7 @@ class FinalService:
         NotificationService().notify_act(final)
 
     def notify_grades(self, final):
-        NotificationService().notify_grade(final)
+        NotificationService().notify_final_grade(final)
 
     def _get_grade(self, fe_id, grades):
         for grade in grades:

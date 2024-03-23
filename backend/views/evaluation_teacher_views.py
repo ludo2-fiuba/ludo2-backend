@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from backend.models import Evaluation, Semester
 from backend.serializers.evaluation_serializer import EvaluationPostSerializer
+from backend.services.notification_service import NotificationService
 from backend.views.base_view import BaseViewSet
 
 
@@ -32,3 +33,15 @@ class EvaluationTeacherViewSet(BaseViewSet):
 
     def _semester(self, semester_pk):
         return get_object_or_404(Semester.objects, id=semester_pk)
+
+
+    @action(detail=True, methods=['POST'])
+    @swagger_auto_schema(
+        tags=["Evaluations"],
+        operation_summary="Notifies grades"
+    )
+    def notify_grades(self, request, pk=None):
+
+        evaluation = get_object_or_404(Evaluation.objects, id=pk)
+
+        NotificationService().notify_evaluation_grade(evaluation)

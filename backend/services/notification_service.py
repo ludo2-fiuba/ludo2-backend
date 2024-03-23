@@ -8,8 +8,11 @@ class NotificationService:
             device.send_message(
                 f"La fecha de final de {final.subject_name} para el día {final.date.date()} fue aprobada")
 
-    def notify_grade(self, final):
+    def notify_final_grade(self, final):
         self.notify_devices(final.final_exams.filter(grade__isnull=False), f"El docente ya subió tu nota para tu final de {final.subject_name} del día {final.date.date()}")
+
+    def notify_evaluation_grade(self, evaluation):
+        self.notify_devices(evaluation.submissions.filter(grade__isnull=False), f"El docente de {evaluation.semester.commission.subject_name} ya subió tu nota de {evaluation.evaluation_name}")
 
     def notify_act(self, final):
         self.notify_devices(final.final_exams.all(), f"Ya está cargada en el SIU el acta con tu nota de {final.subject_name} del día {final.date.date()}")
