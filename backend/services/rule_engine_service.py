@@ -47,11 +47,11 @@ class RuleEngineService:
 
 
     
-    def is_student_passed(self, attendanceQRs, evaluation_submissions, student):
+    def is_student_passed(self, attendanceQRs, evaluation_submissions, student, semester):
         print("PASSED EVALUATION:")
         model_for_rules = {}
         model_for_rules['absences'] = self.get_absences(attendanceQRs, student)
-        model_for_rules['remaining_lectures'] = len(attendanceQRs)
+        model_for_rules['remaining_lectures'] = semester['classes_amount'] - len(attendanceQRs)
         print(model_for_rules)
         is_passing = True
 
@@ -102,12 +102,12 @@ class RuleEngineService:
                 add_rule = True
                 evaluations_for_rule = []
                 evaluations_for_rule.append(evaluation)
-                if(is_before_current_datetime(evaluation['end_date'])):     #Todavia se puede entregar
+                if(not is_before_current_datetime(evaluation['end_date'])):     #Todavia se puede entregar
                     add_rule = False
                 while evaluation['make_up_evaluation']:
                     evaluation = evaluation['make_up_evaluation']
                     evaluations_for_rule.append(evaluation)
-                    if(is_before_current_datetime(evaluation['end_date'])): #Todavia se puede recuperar
+                    if(not is_before_current_datetime(evaluation['end_date'])): #Todavia se puede recuperar
                         add_rule = False
                 if add_rule:
                     self.add_evaluation_failed_rule(evaluations_for_rule)

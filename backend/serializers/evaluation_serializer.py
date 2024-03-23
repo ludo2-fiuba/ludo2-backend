@@ -29,8 +29,8 @@ class EvaluationWithMakeupSerializer(serializers.ModelSerializer):
         fields = ('id', 'evaluation_name', 'is_graded', 'passing_grade', 'start_date', 'end_date', 'make_up_evaluation')
     
     def get_fields(self):
-        fields = super(EvaluationSerializer, self).get_fields()
-        fields['make_up_evaluation'] = EvaluationSerializer()
+        fields = super(EvaluationWithMakeupSerializer, self).get_fields()
+        fields['make_up_evaluation'] = EvaluationWithMakeupSerializer()
         return fields
 
 

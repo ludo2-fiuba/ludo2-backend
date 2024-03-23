@@ -10,7 +10,8 @@ from backend.serializers.attendance_serializer import \
     AttendanceQRCodeStudentsSerializerNoSemester
 from backend.serializers.evaluation_submission_serializer import \
     EvaluationSubmissionSerializer
-from backend.serializers.semester_serializer import SemesterSerializer
+from backend.serializers.semester_serializer import (
+    SemesterSerializer, SemesterWithMakeupSerializer)
 from backend.serializers.student_serializer import StudentSerializer
 from backend.services.rule_engine_service import RuleEngineService
 from backend.views.base_view import BaseViewSet
@@ -75,15 +76,15 @@ class SemesterViewSet(BaseViewSet):
         evaluation_submissions = EvaluationSubmission.objects.all().filter(evaluation__semester=semester, student=request.user.student).all()
         
         rule_engine_service = RuleEngineService()
-        rule_engine_service.generate_passed_rules(self.get_serializer(semester).data)
+        rule_engine_service.generate_passed_rules(SemesterWithMakeupSerializer(semester).data)
 
 
         passed = rule_engine_service.is_student_passed(AttendanceQRCodeStudentsSerializerNoSemester(attendance_qrs, many=True).data, 
                                                EvaluationSubmissionSerializer(evaluation_submissions, many=True).data,
-                                               StudentSerializer(request.user.student).data)
+                                               StudentSerializer(request.user.student).data, SemesterWithMakeupSerializer(semester).data)
         
         rule_engine_service = RuleEngineService()
-        rule_engine_service.generate_failed_rules(self.get_serializer(semester).data)
+        rule_engine_service.generate_failed_rules(SemesterWithMakeupSerializer(semester).data)
 
         failed = rule_engine_service.is_student_failed(AttendanceQRCodeStudentsSerializerNoSemester(attendance_qrs, many=True).data, 
                                                EvaluationSubmissionSerializer(evaluation_submissions, many=True).data,
