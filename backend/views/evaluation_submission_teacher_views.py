@@ -6,7 +6,9 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from backend.models import Evaluation, EvaluationSubmission, Semester
+from backend.model_validators.EvaluationSubmissionValidator import \
+    EvaluationSubmissionValidator
+from backend.models import Evaluation, EvaluationSubmission, Semester, Student
 from backend.models.teacher import Teacher
 from backend.models.teacher_role import TeacherRole
 from backend.permissions import *
@@ -139,3 +141,41 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
 
         result = self.queryset.filter(evaluation__semester=semester).filter(student__user__id=request.query_params["student"]).all()
         return Response(EvaluationSubmissionCorrectionSerializer(result, many=True).data, status.HTTP_200_OK)
+    
+    @action(detail=False, methods=['POST'])
+    @swagger_auto_schema(
+        tags=["Evaluation Submissions"],
+        operation_summary="Adds an evaluation submission for a student"
+    )
+    def add_evaluation_submission(self, request):
+        grade = request.data['grade']
+
+        evaluation = get_object_or_404(Evaluation.objects, id=request.data["evaluation"])
+
+        student = get_object_or_404(Student.objects, user__id=request.data["student"])
+
+        if(student not in evaluation.semester.students.all()):
+            return Response("Student not in commission", status=status.HTTP_403_FORBIDDEN)
+
+        submission = self.queryset.filter(student__user__id=request.data['student'], evaluation__id=request.data['evaluation']).first()
+
+        if submission:
+            return Response("Submission already exists", status=status.HTTP_403_FORBIDDEN)
+        
+        commission = evaluation.semester.commission
+        if teacher_not_in_commission_staff(request.user.teacher, commission):
+            return Response("Forbidden", status=status.HTTP_403_FORBIDDEN)
+        
+        submission = EvaluationSubmission(student=student, evaluation=evaluation)
+        EvaluationSubmissionValidator(submission).validate()
+        submission.save()
+
+        AuditLogService().log(request.user, None, f"Student made a submission for evaluation {evaluation}")
+
+        if grade:
+            submissions_service = EvaluationSubmissionService()
+            submissions_service.set_grade(submission, request.user.teacher, grade)
+
+            AuditLogService().log(request.user, submission.student.user, f"Teacher graded a submission {submission}")
+
+        return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
