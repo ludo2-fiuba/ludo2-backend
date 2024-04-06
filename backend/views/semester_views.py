@@ -59,6 +59,10 @@ class SemesterViewSet(BaseViewSet):
     def commission_present_semester(self, request):
         result = self.get_queryset().filter(commission=request.query_params['commission_id'], 
                                             start_date__year__gte=get_current_year(), year_moment=get_current_semester()).first()
+        
+        if not result:
+            return Response({"detail": "Not found."}, status.HTTP_404_NOT_FOUND)
+
         return Response(self.get_serializer(result).data, status.HTTP_200_OK)
     
     @action(detail=False, methods=["GET"])
