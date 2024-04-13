@@ -26,6 +26,7 @@ class StatisticstudentViewSet(BaseViewSet):
 
         # Average Over Time
 
+        average_over_time = []
         student_final_exams = FinalExam.objects.filter(student=request.user.student).filter(grade__gte=4).values('final__date').annotate(grade=Avg('grade')).all()
         if student_final_exams:
             average_over_time = self._average_over_time(student_final_exams)
