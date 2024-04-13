@@ -678,6 +678,60 @@
     }
   },
   {
+    "model": "backend.finalexam",
+    "pk": 13,
+    "fields": {
+      "final": 1,
+      "student": 14,
+      "grade": 8
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 14,
+    "fields": {
+      "final": 3,
+      "student": 14,
+      "grade": 4
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 15,
+    "fields": {
+      "final": 6,
+      "student": 14,
+      "grade": 10
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 16,
+    "fields": {
+      "final": 8,
+      "student": 14,
+      "grade": 7
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 17,
+    "fields": {
+      "final": 15,
+      "student": 14,
+      "grade": 4
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 18,
+    "fields": {
+      "final": 18,
+      "student": 14,
+      "grade": 6
+    }
+  },
+  {
     "model": "backend.commission",
     "pk": 1,
     "fields": {
