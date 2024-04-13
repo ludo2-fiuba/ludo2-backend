@@ -26,20 +26,9 @@ class StatisticstudentViewSet(BaseViewSet):
 
         # Average Over Time
 
-        average_over_time = []
-
         student_final_exams = FinalExam.objects.filter(student=request.user.student).filter(grade__gte=4).values('final__date').annotate(grade=Avg('grade')).all()
-        min_date = min(student_final_exams, key=lambda x: x['final__date'])['final__date']
-        days_difference = (get_current_datetime() - min_date).days
-        
-        for i in range(6):
-            days_sum = (days_difference / 6) * (i + 1)
-            max_date = min_date + timedelta(days=days_sum)
-            exams_for_interval = [entry for entry in student_final_exams if entry['final__date'] <= max_date]
-            grades = [entry['grade'] for entry in exams_for_interval]
-            average = sum(grades) / len(grades)
-            year_month = f'{max_date.month}/{str(max_date.year)[-2:]}'
-            average_over_time.append({'date': year_month, 'average': average})
+        if student_final_exams:
+            average_over_time = self._average_over_time(student_final_exams)
 
         results['average_over_time'] = average_over_time
 
@@ -83,3 +72,21 @@ class StatisticstudentViewSet(BaseViewSet):
 
         
         return Response(results, status.HTTP_200_OK)
+    
+
+    def _average_over_time(self, student_final_exams):
+        average_over_time = []
+
+        min_date = min(student_final_exams, key=lambda x: x['final__date'])['final__date']
+        days_difference = (get_current_datetime() - min_date).days
+        
+        for i in range(6):
+            days_sum = (days_difference / 6) * (i + 1)
+            max_date = min_date + timedelta(days=days_sum)
+            exams_for_interval = [entry for entry in student_final_exams if entry['final__date'] <= max_date]
+            grades = [entry['grade'] for entry in exams_for_interval]
+            average = sum(grades) / len(grades)
+            year_month = f'{max_date.month}/{str(max_date.year)[-2:]}'
+            average_over_time.append({'date': year_month, 'average': average})
+
+        return average_over_time
