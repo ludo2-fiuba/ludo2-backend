@@ -732,6 +732,51 @@
     }
   },
   {
+    "model": "backend.finalexam",
+    "pk": 19,
+    "fields": {
+      "final": 18,
+      "student": 12,
+      "grade": 9
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 20,
+    "fields": {
+      "final": 15,
+      "student": 12,
+      "grade": 9
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 21,
+    "fields": {
+      "final": 8,
+      "student": 12,
+      "grade": 5
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 22,
+    "fields": {
+      "final": 4,
+      "student": 12,
+      "grade": 6
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 23,
+    "fields": {
+      "final": 2,
+      "student": 12,
+      "grade": 7
+    }
+  },
+  {
     "model": "backend.commission",
     "pk": 1,
     "fields": {
