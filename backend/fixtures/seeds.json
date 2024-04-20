@@ -1141,7 +1141,7 @@
     "fields": {
       "commission": 4,
       "teacher": 14,
-      "role": "Profesor adjunto",
+      "role": "Profesor Adjunto",
       "grader_weight": 3.0
     }
   },
@@ -1151,7 +1151,7 @@
     "fields": {
       "commission": 5,
       "teacher": 13,
-      "role": "Profesor adjunto",
+      "role": "Profesor Adjunto",
       "grader_weight": 3.0
     }
   },
