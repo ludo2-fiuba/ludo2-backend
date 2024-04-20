@@ -81,10 +81,9 @@ def teacher_not_in_commission_staff(teacher: Teacher, commission: Commission) ->
 
 
 def get_stub_chief_teacher_role(commission: Commission) -> TeacherRole:
-    CHIEF_TEACHER_GRADER_WEIGHT = 5.0
     return TeacherRole(
         commission=commission,
         teacher=commission.chief_teacher,
-        grader_weight=CHIEF_TEACHER_GRADER_WEIGHT,
+        grader_weight=commission.chief_teacher_grader_weight,
         role="T",
     )

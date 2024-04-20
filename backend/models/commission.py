@@ -14,6 +14,7 @@ class Commission(models.Model):
     subject_siu_id = models.IntegerField(db_index=True, default=0, null=False, editable=False, verbose_name="SIU ID de Materia")
     subject_name = models.CharField(max_length=100, db_index=True, null=False, editable=False, verbose_name="Nombre de Materia")
     siu_id = models.IntegerField(db_index=True, null=False, editable=False)
+    chief_teacher_grader_weight = models.FloatField(default=5.0, verbose_name="Peso al asignar correctores")
 
     teachers =  models.ManyToManyField(Teacher, through='TeacherRole', verbose_name="Cuerpo Docente")
 
