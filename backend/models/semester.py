@@ -37,4 +37,4 @@ class Semester(models.Model):
         verbose_name_plural = "Semestres"
 
     def __str__(self):
-        return f"{self.commission} - {self.start_date} {self.year_moment}"
+        return f"{self.commission} - {self.start_date.year} {self.year_moment}"

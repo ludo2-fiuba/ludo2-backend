@@ -32,6 +32,8 @@ class AuditLogAdmin(admin.ModelAdmin):
 
 
 admin.site.register(AuditLog, AuditLogAdmin)
+admin.site.register(Commission)
+admin.site.register(Semester)
 
 @memoized
 def subjects():
