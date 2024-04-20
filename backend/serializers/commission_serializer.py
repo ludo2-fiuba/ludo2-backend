@@ -14,3 +14,12 @@ class CommissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Commission
         fields = ('id', 'subject_siu_id', 'subject_name', 'chief_teacher', 'chief_teacher_grader_weight')
+
+
+class CommissionPutSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    chief_teacher_grader_weight = serializers.FloatField()
+
+    class Meta:
+        model = Commission
+        fields = ('id', 'chief_teacher_grader_weight')
