@@ -8,18 +8,7 @@ class TeacherRole(models.Model):
     commission = models.ForeignKey(Commission, on_delete=models.CASCADE, verbose_name="Profesores", related_name='teacher_roles')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name="Semestres")
     grader_weight = models.FloatField(default=1.0, verbose_name="Peso al asignar correctores")
-
-    class Role(models.TextChoices):
-        TEACHER = 'T', 'Teacher'
-        ASSISSTANT = 'A', 'Assisstant'
-        COLLABORATOR = 'C', 'Collaborator'
-
-    role = models.CharField(
-      max_length=1,
-      choices=[(name, name.value) for name in Role],  # Choices is a list of Tuple
-      default=Role.TEACHER,
-      verbose_name="Rol"
-    )
+    role = models.CharField(max_length=25, null=False, verbose_name="Rol")
 
     class Meta:
         verbose_name = "Rol de Profesor"
