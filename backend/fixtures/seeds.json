@@ -1351,5 +1351,35 @@
       "qr_code": 9,
       "submitted_at": "2023-11-14T20:00:00-03:00"
     }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 9,
+    "fields": {
+      "semester": 8,
+      "student": 12,
+      "qr_code": 10,
+      "submitted_at": "2023-11-14T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 10,
+    "fields": {
+      "semester": 8,
+      "student": 13,
+      "qr_code": 10,
+      "submitted_at": "2023-11-14T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 11,
+    "fields": {
+      "semester": 8,
+      "student": 13,
+      "qr_code": 11,
+      "submitted_at": "2023-11-14T20:00:00-03:00"
+    }
   }
 ]
