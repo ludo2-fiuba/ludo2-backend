@@ -271,7 +271,7 @@ ludo_dev=# \d backend_user
 </details>
 
 <details>
- <summary><code>GET</code> <code><b>/api/evaluations/mis_examenes</b></code> <code>(lists evaluations for student)</code></summary>
+ <summary><code>GET</code> <code><b>/api/evaluations/mis_examenes</b></code> <code>(lists future evaluations for student)</code></summary>
 
 ##### Parameters
 
