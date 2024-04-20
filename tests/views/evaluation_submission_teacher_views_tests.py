@@ -5,14 +5,9 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 from backend.services.grader_assignment_service import GraderAssignmentService
-from tests.factories import (
-    EvaluationFactory,
-    SubmissionFactory,
-    TeacherFactory,
-    TeacherRoleFactory,
-    CommissionFactory,
-    SemesterFactory,
-)
+from tests.factories import (CommissionFactory, EvaluationFactory,
+                             SemesterFactory, SubmissionFactory,
+                             TeacherFactory, TeacherRoleFactory)
 
 
 class GraderAssignmentServiceTests(APITestCase):
@@ -302,3 +297,40 @@ class GraderAssignmentServiceTests(APITestCase):
     def tearDown(self) -> None:
         # Stop the mock
         mock.patch.stopall()
+
+    def test_auto_assign_graders_weighted_roles_with_0(self):
+        """
+        Should correctly assign graders based on the weight of each teacher role.
+        """
+        # Create teacher roles with varying weights
+        teacher_a = TeacherRoleFactory(commission=self.commission, grader_weight=0.0)
+        teacher_b = TeacherRoleFactory(commission=self.commission, grader_weight=2.0)
+        teacher_c = TeacherRoleFactory(commission=self.commission, grader_weight=3.0)
+
+        teacher_roles = [
+            teacher_a,
+            teacher_b,
+            teacher_c,
+        ]
+        submissions = SubmissionFactory.create_batch(6, evaluation=self.evaluation)
+
+        # Call the service directly without mocking
+        service = GraderAssignmentService()
+        assigned_submissions = service.auto_assign(teacher_roles, submissions)
+
+        # Assert that the submissions are assigned based on the weight of the teacher roles
+        # This is a simplified assertion. You might need to implement more complex logic to verify the distribution.
+        self.assertEqual(len(assigned_submissions), len(submissions))
+
+        teacher_a_subs = [
+            sub for sub in assigned_submissions if sub.grader == teacher_a.teacher
+        ]
+        teacher_b_subs = [
+            sub for sub in assigned_submissions if sub.grader == teacher_b.teacher
+        ]
+        teacher_c_subs = [
+            sub for sub in assigned_submissions if sub.grader == teacher_c.teacher
+        ]
+        self.assertEqual(len(teacher_a_subs), 0)
+        self.assertEqual(len(teacher_b_subs), 2)
+        self.assertEqual(len(teacher_c_subs), 4)

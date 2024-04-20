@@ -1,8 +1,10 @@
 import logging
 from typing import List
+
 from backend.models.evaluation_submission import EvaluationSubmission
 from backend.models.teacher_role import TeacherRole
-from backend.services.evaluation_submission_service import EvaluationSubmissionService
+from backend.services.evaluation_submission_service import \
+    EvaluationSubmissionService
 
 logger = logging.getLogger(__name__)
 
@@ -33,6 +35,11 @@ class GraderAssignmentService:
                 "No teacher roles provided. Returning original submissions without any assignments."
             )
             return submissions
+        
+        for teacher_role in teacher_roles:
+            if(teacher_role.grader_weight <= 0):
+                teacher_roles.remove(teacher_role)
+                print(f'Removed {teacher_role}')
 
         submissions_service = EvaluationSubmissionService()
         submissions_count = len(submissions)
