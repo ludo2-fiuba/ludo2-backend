@@ -11,8 +11,8 @@ class AuditLog(models.Model):
     timestamp = models.DateTimeField(default=timezone.now, editable=False, verbose_name="Fecha de evento")
 
     class Meta:
-        verbose_name = "Asistencia"
-        verbose_name_plural = "Asistencias"
+        verbose_name = "Registro de Auditoria"
+        verbose_name_plural = "Registro de Auditoria"
 
     def __str__(self):
-        return f"{self.user} - {self.text_log}"
+        return f"{self.user} - {self.log}"

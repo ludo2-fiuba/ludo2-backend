@@ -1,5 +1,4 @@
-from django.contrib.auth.models import AbstractUser
-from django.contrib.auth.models import UserManager
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
@@ -73,6 +72,9 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'dni'
     REQUIRED_FIELDS = ['email', 'is_student', 'is_teacher']
+
+    def __str__(self):
+        return f"{self.dni}, {self.first_name} {self.last_name}"
 
     def file(self):
         return self.student.padron if self.is_student else self.teacher.legajo

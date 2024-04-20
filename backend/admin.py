@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.urls import reverse
 from django.utils.html import format_html
@@ -17,6 +17,21 @@ from .utils import memoized
 def departments():
     return SiuService().list_departments()
 
+class AuditLogAdmin(admin.ModelAdmin):
+
+    search_fields = ['user__first_name', 'user__last_name', 'user__dni', 'related_user__first_name', 'related_user__last_name', 'related_user__dni', 'log']
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+    
+    def has_add_permission(self, request):
+        return False
+    
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
+admin.site.register(AuditLog, AuditLogAdmin)
 
 @memoized
 def subjects():
@@ -401,8 +416,9 @@ class FinalAdmin(admin.ModelAdmin):
     actions = ['download_action']
 
     def download_action(self, request, final_id):
-        import qrcode
         import io
+
+        import qrcode
 
         final = self.get_object(request, final_id)
 
