@@ -83,3 +83,48 @@ class SemesterDetailTeacherViews(BaseViewSet):
         semester.save()
         
         return Response(SemesterSerializer(semester, many=False).data, status.HTTP_200_OK)
+
+    @action(detail=False, methods=['PUT'])
+    @swagger_auto_schema(
+        tags=["Semesters"],
+        operation_summary="Updates a semester"
+    )
+    def update_semester(self, request):
+
+        commission = get_object_or_404(Commission, id=request.data['commission'])
+        
+        if request.data['year_moment'] not in Semester.YearMoment.values:
+            return Response("Invalid year moment", status=status.HTTP_400_BAD_REQUEST)
+        
+        start_date = datetime_format(request.data['start_date'])
+        if not start_date:
+            return Response("Invalid start date", status=status.HTTP_400_BAD_REQUEST)
+
+        if commission.chief_teacher != request.user.teacher:
+            return Response("Teacher not chief teacher in commission", status=status.HTTP_403_FORBIDDEN)
+
+        semesters_in_commission = Semester.objects.filter(commission=commission).all()
+
+        semester = None
+        for a_semester in semesters_in_commission:
+            if (a_semester.start_date.year == start_date.year and
+                request.data['year_moment'] == a_semester.year_moment):
+                semester = a_semester
+
+        if not semester:
+            return Response("Semester already exists", status=status.HTTP_403_FORBIDDEN)
+        
+        classes_amount = request.data['classes_amount']
+        minimum_attendance = request.data['minimum_attendance']
+
+        if classes_amount:
+            semester.classes_amount = classes_amount
+
+        if minimum_attendance:
+            semester.minimum_attendance = minimum_attendance
+
+        semester.start_date = start_date
+
+        semester.save()
+        
+        return Response(SemesterSerializer(semester, many=False).data, status.HTTP_200_OK)
