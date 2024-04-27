@@ -71,7 +71,10 @@ def is_before_current_datetime(date):
 def datetime_format(date):
     datetime_object = date
     if isinstance(date, str):
-        datetime_object = datetime.fromisoformat(date)
+        try:
+            datetime_object = datetime.fromisoformat(date)
+        except ValueError:
+            datetime_object = None
     return datetime_object
 
 def teacher_not_in_commission_staff(teacher: Teacher, commission: Commission) -> bool:

@@ -34,3 +34,15 @@ class SemesterWithMakeupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Semester
         fields = ('id', 'year_moment', 'start_date', 'commission', 'evaluations', 'students', 'classes_amount', 'minimum_attendance')
+
+
+class SemesterPostSerializer(serializers.ModelSerializer):
+    year_moment = serializers.CharField()
+    start_date = serializers.DateTimeField()
+    commission = serializers.IntegerField()
+    classes_amount = serializers.IntegerField()
+    minimum_attendance = serializers.FloatField()
+
+    class Meta:
+        model = Semester
+        fields = ('year_moment', 'start_date', 'commission', 'classes_amount', 'minimum_attendance')
