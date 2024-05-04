@@ -1249,8 +1249,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-20T19:00:00-03:00",
-      "expires_at": "2023-11-20T22:00:00-03:00",
+      "created_at": "2023-11-21T19:00:00-03:00",
+      "expires_at": "2023-11-21T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1273,6 +1273,17 @@
       "owner_teacher": 14,
       "created_at": "2023-11-20T19:00:00-03:00",
       "expires_at": "2023-11-20T22:00:00-03:00",
+      "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+  },
+  {
+    "model": "backend.attendanceQRCode",
+    "pk": 12,
+    "fields": {
+      "semester": 2,
+      "owner_teacher": 5,
+      "created_at": "2023-11-22T19:00:00-03:00",
+      "expires_at": "2023-11-22T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },

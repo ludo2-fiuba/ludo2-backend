@@ -13,13 +13,13 @@ from backend.views.base_view import BaseViewSet
 from backend.views.utils import get_current_datetime
 
 
-class StatisticstudentViewSet(BaseViewSet):
+class StatisticsStudentViewSet(BaseViewSet):
     permission_classes = [IsAuthenticated, IsStudent]
 
 
     @swagger_auto_schema(
         tags=["Statistics"],
-        operation_summary="Gets your average grade compared to the average of every student"
+        operation_summary="Gets student statistics"
     )
     def list(self, request):
         results = {}
