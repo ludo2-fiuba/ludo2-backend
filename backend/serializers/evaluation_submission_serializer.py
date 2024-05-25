@@ -59,7 +59,8 @@ class EvaluationSubmissionPostSerializer(serializers.ModelSerializer):
 class EvaluationSubmissionCorrectionSerializer(serializers.ModelSerializer):
     student = StudentSerializer()
     grade = serializers.IntegerField()
+    grader = TeacherSerializer()
 
     class Meta:
         model = EvaluationSubmission
-        fields = ('student', 'grade')
+        fields = ('student', 'grade', 'grader')
