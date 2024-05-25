@@ -12,3 +12,11 @@ class CommissionInscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommissionInscription
         fields = ('semester', 'status')
+
+class CommissionInscriptionPostSerializer(serializers.ModelSerializer):
+    semester = serializers.IntegerField()
+    student = serializers.IntegerField()
+
+    class Meta:
+        model = CommissionInscription
+        fields = ('semester', 'student')

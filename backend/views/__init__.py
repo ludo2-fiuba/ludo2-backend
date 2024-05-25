@@ -1,6 +1,8 @@
 from .attendance_student_views import AttendanceViewSet
 from .attendance_teacher_views import AttendanceTeacherViewSet
 from .base_view import BaseViewSet
+from .commission_inscription_teacher_views import \
+    CommissionInscriptionTeacherViewSet
 from .commission_teacher_views import CommissionTeacherViewSet
 from .commission_views import CommissionViewSet
 from .commissionInscription_views import CommissionInscriptionViewSet
