@@ -1,3 +1,4 @@
+from .attendance_add_student_to_qr_views import AttendanceAddStudentToQRViewSet
 from .attendance_student_views import AttendanceViewSet
 from .attendance_teacher_views import AttendanceTeacherViewSet
 from .base_view import BaseViewSet
