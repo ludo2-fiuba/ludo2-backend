@@ -74,3 +74,12 @@ class AttendanceQRCodePostSerializer(serializers.ModelSerializer):
     class Meta:
         model = AttendanceQRCode
         fields = ('semester',)
+
+
+class AttendanceAddStudentPostSerializer(serializers.ModelSerializer):
+    qrid = serializers.UUIDField()
+    student = serializers.IntegerField()
+
+    class Meta:
+        model = Attendance
+        fields = ('qrid', 'student')
