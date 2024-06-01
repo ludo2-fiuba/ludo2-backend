@@ -820,7 +820,7 @@
     "model": "backend.commission",
     "pk": 5,
     "fields": {
-      "chief_teacher": 14,
+      "chief_teacher": 12,
       "subject_siu_id": 3,
       "subject_name": "Análisis Matemático II - Catedra 2",
       "siu_id": 5
@@ -1140,7 +1140,7 @@
     "pk": 1,
     "fields": {
       "commission": 4,
-      "teacher": 14,
+      "teacher": 12,
       "role": "Profesor Adjunto",
       "grader_weight": 3.0
     }
@@ -1259,7 +1259,7 @@
     "pk": 10,
     "fields": {
       "semester": 8,
-      "owner_teacher": 14,
+      "owner_teacher": 12,
       "created_at": "2023-11-20T19:00:00-03:00",
       "expires_at": "2023-11-20T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
@@ -1270,7 +1270,7 @@
     "pk": 11,
     "fields": {
       "semester": 8,
-      "owner_teacher": 14,
+      "owner_teacher": 12,
       "created_at": "2023-11-20T19:00:00-03:00",
       "expires_at": "2023-11-20T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
