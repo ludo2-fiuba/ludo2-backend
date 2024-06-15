@@ -96,7 +96,7 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
             return Response("Teacher not present in commission's staff", status=status.HTTP_403_FORBIDDEN)
 
         submissions_service = EvaluationSubmissionService()
-        submissions_service.set_grader(submission, request.user.teacher)
+        submissions_service.set_grader(submission, grader_teacher)
 
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
 
