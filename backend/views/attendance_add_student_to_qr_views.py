@@ -43,3 +43,21 @@ class AttendanceAddStudentToQRViewSet(BaseViewSet):
         attendance.save()
         return Response(AttendanceSerializer(attendance).data, status=status.HTTP_201_CREATED)
     
+    @swagger_auto_schema(
+        tags=["Attendances"],
+        operation_summary="Remove an attendance from a QR code"
+    )
+    def delete(self, request):
+        attendanceQRCode = get_object_or_404(AttendanceQRCode.objects, qrid=request.data['qrid'])
+        student = get_object_or_404(Student.objects, user__id=request.data["student"])
+        teacher = request.user.teacher
+
+        attendance = get_object_or_404(Attendance.objects, qr_code=attendanceQRCode, student=student)
+
+        commission = attendanceQRCode.semester.commission
+        if teacher_not_in_commission_staff(teacher, commission):
+            return Response("Teacher not a member of this semester commission", status=status.HTTP_403_FORBIDDEN)
+        
+        data = AttendanceSerializer(attendance).data
+        attendance.delete()
+        return Response(data, status=status.HTTP_200_OK)
