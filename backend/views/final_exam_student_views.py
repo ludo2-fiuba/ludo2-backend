@@ -37,7 +37,7 @@ class FinalExamStudentViewSet(BaseViewSet):
         FinalExamValidator(fe).validate()
         fe.save()
 
-        AuditLogService().log(request.user, None, f"Student took a final exam: {final}")
+        AuditLogService().log(request.user, None, f"Estudiante realizo la entrega de un examen final: {final}")
 
         return Response(FinalExamSerializer(fe).data, status=status.HTTP_201_CREATED)
 

@@ -21,7 +21,7 @@ class CommissionInscriptionTeacherViewSet(BaseViewSet):
 
     @swagger_auto_schema(
         tags=["Inscriptions"],
-        operation_summary="Gets all semesters the logged in student was inscripted in"
+        operation_summary="Adds a new student to a semester"
     )
     @action(detail=False, methods=["POST"])
     def add_student(self, request):
@@ -41,6 +41,6 @@ class CommissionInscriptionTeacherViewSet(BaseViewSet):
         commission_inscription = CommissionInscription(student=student, semester=semester, status='A')
         commission_inscription.save()
 
-        AuditLogService().log(request.user, student.user, f"Teacher added sudent to semester.")
+        AuditLogService().log(request.user, student.user, f"Docente añadió un estudiante al semestre: {semester}")
 
         return Response(CommissionInscriptionSerializer(commission_inscription).data, status=status.HTTP_200_OK)

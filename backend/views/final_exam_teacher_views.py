@@ -28,7 +28,7 @@ class FinalExamTeacherViews(BaseViewSet):
         if serializer.is_valid():
             serializer.save()
 
-            AuditLogService().log(request.user, None, f"Teacher graded a final exam: {self._fe(final_pk, pk, request.user.teacher)}")
+            AuditLogService().log(request.user, None, f"Docente corrigio un examen final: {self._fe(final_pk, pk, request.user.teacher)}")
 
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -42,7 +42,7 @@ class FinalExamTeacherViews(BaseViewSet):
         FinalExamValidator(fe).validate()
         fe.save()
 
-        AuditLogService().log(request.user, self._student(request.data['padron']).user, f"Teacher graded a final exam: {self._final(final_pk, request.user.teacher)}")
+        AuditLogService().log(request.user, self._student(request.data['padron']).user, f"Docente manualmente agrego una entrega de examen final: {self._final(final_pk, request.user.teacher)}")
         
         return Response(self.get_serializer(fe).data, status=status.HTTP_201_CREATED)
 

@@ -41,7 +41,7 @@ class FinalTeacherViewSet(BaseViewSet):
             status=Final.Status.DRAFT)
         final.save()
 
-        AuditLogService().log(request.user, None, f"Teacher created a final for: {request.data['subject_name']}")
+        AuditLogService().log(request.user, None, f"Docente creo un final para la materia: {request.data['subject_name']}")
 
         return respond(self.get_serializer(final), response_status=status.HTTP_201_CREATED)
 
@@ -68,7 +68,7 @@ class FinalTeacherViewSet(BaseViewSet):
         final = self._get_final(request.user.teacher, pk, Final.Status.OPEN)
         FinalService().close(final)
 
-        AuditLogService().log(request.user, None, f"Teacher closed a final: {final}")
+        AuditLogService().log(request.user, None, f"Docente cerro las entregas de un final: {final}")
 
         return respond(self.get_serializer(final))
 
@@ -80,7 +80,7 @@ class FinalTeacherViewSet(BaseViewSet):
         final = self._get_final(request.user.teacher, pk, Final.Status.PENDING_ACT)
         FinalService().grade(final, request.data['grades'])
 
-        AuditLogService().log(request.user, None, f"Teacher graded a final: {final}")
+        AuditLogService().log(request.user, None, f"Docente corrigió un examen final: {final}")
         
         return respond(self.get_serializer(final))
 
@@ -94,7 +94,7 @@ class FinalTeacherViewSet(BaseViewSet):
         final = self._get_final(request.user.teacher, pk, Final.Status.PENDING_ACT)
         FinalService().send_act(final)
 
-        AuditLogService().log(request.user, None, f"Teacher closed an act: {final}")
+        AuditLogService().log(request.user, None, f"Docente cerro el acta de un final: {final}")
 
         return respond(self.get_serializer(final))
 

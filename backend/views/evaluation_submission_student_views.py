@@ -36,7 +36,7 @@ class EvaluationSubmissionViewSet(BaseViewSet):
         EvaluationSubmissionValidator(submission).validate()
         submission.save()
 
-        AuditLogService().log(request.user, None, f"Student made a submission for evaluation {evaluation}")
+        AuditLogService().log(request.user, None, f"Estudiante realizo una entrega en la evaluación: {evaluation}")
 
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_201_CREATED)
         

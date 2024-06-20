@@ -68,7 +68,7 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         submissions_service = EvaluationSubmissionService()
         submissions_service.set_grade(submission, request.user.teacher, grade)
 
-        AuditLogService().log(request.user, submission.student.user, f"Teacher graded a submission {submission}")
+        AuditLogService().log(request.user, submission.student.user, f"Docente corrigio una entrega: {submission}")
 
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)
 
@@ -170,12 +170,12 @@ class EvaluationSubmissionTeacherViewSet(BaseViewSet):
         EvaluationSubmissionValidator(submission).validate()
         submission.save()
 
-        AuditLogService().log(request.user, None, f"Student made a submission for evaluation {evaluation}")
+        AuditLogService().log(request.user, student.user, f"Docente agrego una entrega manualmente para la evaluacion: {evaluation}")
 
         if grade:
             submissions_service = EvaluationSubmissionService()
             submissions_service.set_grade(submission, request.user.teacher, grade)
 
-            AuditLogService().log(request.user, submission.student.user, f"Teacher graded a submission {submission}")
+            AuditLogService().log(request.user, submission.student.user, f"Docente corrigio una entrega {submission}")
 
         return Response(EvaluationSubmissionSerializer(submission).data, status=status.HTTP_200_OK)

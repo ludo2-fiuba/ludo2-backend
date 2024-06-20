@@ -43,7 +43,7 @@ class TeacherRoleViewSet(BaseViewSet):
         teacherRole = TeacherRole(teacher=teacher, commission=commission, role=request.data["role"], grader_weight=grader_weight)
         teacherRole.save()
         
-        AuditLogService().log(request.user, teacher.user, f"User added a teacher to {commission}")
+        AuditLogService().log(request.user, teacher.user, f"Usuario agregó un nuevo docente a la comisión {commission}")
 
         return Response(TeacherRoleSerializer(teacherRole).data, status=status.HTTP_201_CREATED)
     
@@ -68,7 +68,7 @@ class TeacherRoleViewSet(BaseViewSet):
         teacher_role.grader_weight = request.data["grader_weight"]
         teacher_role.save()
         
-        AuditLogService().log(request.user, teacher_role.teacher.user, f"User edited a teacher role")
+        AuditLogService().log(request.user, teacher_role.teacher.user, f"Usuario edito el rol de un docente en la comision {commission}")
         
         return Response(TeacherRoleSerializer(teacher_role).data, status.HTTP_200_OK)
     
