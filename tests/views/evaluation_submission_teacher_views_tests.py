@@ -4,10 +4,16 @@ from unittest import mock
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from backend.services.evaluation_submission_service import EvaluationSubmissionService
 from backend.services.grader_assignment_service import GraderAssignmentService
-from tests.factories import (CommissionFactory, EvaluationFactory,
-                             SemesterFactory, SubmissionFactory,
-                             TeacherFactory, TeacherRoleFactory)
+from tests.factories import (
+    CommissionFactory,
+    EvaluationFactory,
+    SemesterFactory,
+    SubmissionFactory,
+    TeacherFactory,
+    TeacherRoleFactory,
+)
 
 
 class GraderAssignmentServiceTests(APITestCase):
@@ -334,3 +340,31 @@ class GraderAssignmentServiceTests(APITestCase):
         self.assertEqual(len(teacher_a_subs), 0)
         self.assertEqual(len(teacher_b_subs), 2)
         self.assertEqual(len(teacher_c_subs), 4)
+
+    def test_auto_assign_graders_skips_existing_grades(self):
+        """
+        Should not change the grader if a submission already has a grader assigned.
+        """
+        # Create teacher roles
+        teacher_a = TeacherRoleFactory(commission=self.commission, grader_weight=1.0)
+        teacher_b = TeacherRoleFactory(commission=self.commission, grader_weight=2.0)
+        teacher_roles = [teacher_a, teacher_b]
+
+        # Create submissions and assign a grader to one of them
+        submissions = SubmissionFactory.create_batch(3, evaluation=self.evaluation)
+
+        submissions_service = EvaluationSubmissionService()
+        submissions_service.set_grade(submissions[0], teacher_a.teacher, 1)
+        submissions_service.set_grade(submissions[1], teacher_a.teacher, 2)
+
+        # Call the service directly without mocking
+        service = GraderAssignmentService()
+        assigned_submissions = service.auto_assign(teacher_roles, submissions)
+
+        # Assert that the existing grader is not changed
+        self.assertEqual(assigned_submissions[0].grader, teacher_b.teacher)
+        self.assertEqual(assigned_submissions[0].grade, None)
+        self.assertEqual(assigned_submissions[1].grader, teacher_a.teacher)
+        self.assertEqual(assigned_submissions[1].grade, 1)
+        self.assertEqual(assigned_submissions[2].grader, teacher_a.teacher)
+        self.assertEqual(assigned_submissions[2].grade, 2)
