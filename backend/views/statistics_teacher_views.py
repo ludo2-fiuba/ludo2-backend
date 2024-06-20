@@ -65,10 +65,12 @@ class StatisticsTeacherViewSet(BaseViewSet):
                 if desertion_in_class['date'] == student['last_attendance']:
                     desertion_amount += 1
             
-            desertion_in_class['cumulative_students_deserted'] = desertion_amount
+            desertion_in_class['students_deserted'] = desertion_amount
             desertions.append(desertion_in_class)
+            desertion_amount = 0
 
-        results["cummulative_dessertions"] = desertions
+        desertions_without_last = desertions[:-1] # exclude last data point because it will always detect desertions
+        results["desertions"] = desertions_without_last
 
         # Assistance Rate
 
@@ -79,7 +81,9 @@ class StatisticsTeacherViewSet(BaseViewSet):
         condition2 = Q(status='A')
         students_amount = CommissionInscription.objects.get_queryset().filter(semester=semester).filter(condition1 | condition2).count()
 
-        results["attendance_rate"] = attendances_amount / (classes_with_attendance_amount * students_amount)
+        ideal_total_attendances = classes_with_attendance_amount * students_amount
+        if ideal_total_attendances > 0:
+            results["attendance_rate"] = attendances_amount / ideal_total_attendances
 
         return Response(results, status=status.HTTP_200_OK)
     
