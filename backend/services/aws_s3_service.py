@@ -20,7 +20,7 @@ class AwsS3Service:
         return self.upload_object(io.BytesIO(decode_image(b64_string)), file_name)
 
     def upload_object(self, generic_object, file_name):
-        self.client.upload_fileobj(generic_object, self.bucket, file_name, ExtraArgs={'ACL': 'public-read'})
+        self.client.upload_fileobj(generic_object, self.bucket, file_name)
         return f"https://{self.bucket}.{self.s3_api_url}/{file_name}"
 
     def download_object(self, file_name):
