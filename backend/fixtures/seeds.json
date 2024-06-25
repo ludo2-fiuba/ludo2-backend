@@ -820,7 +820,7 @@
     "model": "backend.commission",
     "pk": 5,
     "fields": {
-      "chief_teacher": 12,
+      "chief_teacher": 13,
       "subject_siu_id": 3,
       "subject_name": "Análisis Matemático II - Catedra 2",
       "siu_id": 5
@@ -967,15 +967,6 @@
   },
   {
     "model": "backend.commissioninscription",
-    "pk": 8,
-    "fields": {
-      "status": "A",
-      "semester": 8,
-      "student": 12
-    }
-  },
-  {
-    "model": "backend.commissioninscription",
     "pk": 9,
     "fields": {
       "status": "A",
@@ -1009,8 +1000,8 @@
       "evaluation_name": "Parcial",
       "is_graded": true,
       "passing_grade": 4,
-      "start_date": "2023-11-13T19:00:00-03:00",
-      "end_date": "2023-11-13T22:00:00-03:00"
+      "start_date": "2024-09-18T19:00:00-03:00",
+      "end_date": "2024-09-18T22:00:00-03:00"
     }
   },
   {
@@ -1021,8 +1012,8 @@
       "evaluation_name": "Parcial",
       "is_graded": true,
       "passing_grade": 4,
-      "start_date": "2023-11-13T19:00:00-03:00",
-      "end_date": "2023-11-13T22:00:00-03:00"
+      "start_date": "2024-09-18T19:00:00-03:00",
+      "end_date": "2024-09-18T22:00:00-03:00"
     }
   },
   {
@@ -1034,8 +1025,8 @@
       "is_graded": true,
       "passing_grade": 4,
       "parent_evaluation": 1,
-      "start_date": "2023-11-20T19:00:00-03:00",
-      "end_date": "2023-11-20T22:00:00-03:00"
+      "start_date": "2024-11-20T19:00:00-03:00",
+      "end_date": "2024-11-20T22:00:00-03:00"
     }
   },
   {
@@ -1049,22 +1040,6 @@
       "parent_evaluation": 3,
       "start_date": "2024-11-20T19:00:00-03:00",
       "end_date": "2024-11-20T22:00:00-03:00"
-    }
-  },
-  {
-    "model": "backend.evaluationsubmission",
-    "pk": 1,
-    "fields": {
-      "evaluation": 2,
-      "student": 12
-    }
-  },
-  {
-    "model": "backend.evaluationsubmission",
-    "pk": 2,
-    "fields": {
-      "evaluation": 2,
-      "student": 13
     }
   },
   {
@@ -1119,14 +1094,6 @@
   },
   {
     "model": "backend.evaluationsubmission",
-    "pk": 10,
-    "fields": {
-      "evaluation": 2,
-      "student": 10
-    }
-  },
-  {
-    "model": "backend.evaluationsubmission",
     "pk": 11,
     "fields": {
       "evaluation": 3,
@@ -1134,7 +1101,7 @@
       "grade": 4,
       "grader": 5
     }
-  },
+  },  
   {
     "model": "backend.teacherRole",
     "pk": 1,
@@ -1151,6 +1118,16 @@
     "fields": {
       "commission": 5,
       "teacher": 13,
+      "role": "Profesor Adjunto",
+      "grader_weight": 3.0
+    }
+  },
+  {
+    "model": "backend.teacherRole",
+    "pk": 3,
+    "fields": {
+      "commission": 1,
+      "teacher": 12,
       "role": "Profesor Adjunto",
       "grader_weight": 3.0
     }
