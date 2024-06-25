@@ -903,6 +903,24 @@
     }
   },
   {
+    "model": "backend.semester",
+    "pk": 9,
+    "fields": {
+      "commission": 5,
+      "year_moment": "SS",
+      "start_date": "2022-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 10,
+    "fields": {
+      "commission": 5,
+      "year_moment": "SS",
+      "start_date": "2021-07-10T19:00:00-03:00"
+    }
+  },
+  {
     "model": "backend.commissioninscription",
     "pk": 1,
     "fields": {
@@ -1002,6 +1020,24 @@
     }
   },
   {
+    "model": "backend.commissioninscription",
+    "pk": 12,
+    "fields": {
+      "status": "A",
+      "semester": 9,
+      "student": 12
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 13,
+    "fields": {
+      "status": "A",
+      "semester": 10,
+      "student": 12
+    }
+  },
+  {
     "model": "backend.evaluation",
     "pk": 1,
     "fields": {
@@ -1052,6 +1088,30 @@
     }
   },
   {
+    "model": "backend.evaluation",
+    "pk": 5,
+    "fields": {
+      "semester": 9,
+      "evaluation_name": "Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "start_date": "2022-11-13T19:00:00-03:00",
+      "end_date": "2022-11-13T22:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 6,
+    "fields": {
+      "semester": 10,
+      "evaluation_name": "Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "start_date": "2021-11-13T19:00:00-03:00",
+      "end_date": "2021-11-13T22:00:00-03:00"
+    }
+  },
+  {
     "model": "backend.evaluationsubmission",
     "pk": 1,
     "fields": {
@@ -1072,7 +1132,9 @@
     "pk": 3,
     "fields": {
       "evaluation": 2,
-      "student": 14
+      "student": 14,
+      "grade": 7,
+      "grader": 14
     }
   },
   {
@@ -1136,6 +1198,26 @@
     }
   },
   {
+    "model": "backend.evaluationsubmission",
+    "pk": 12,
+    "fields": {
+      "evaluation": 5,
+      "student": 12,
+      "grade": 8,
+      "grader": 14
+    }
+  },
+  {
+    "model": "backend.evaluationsubmission",
+    "pk": 13,
+    "fields": {
+      "evaluation": 6,
+      "student": 12,
+      "grade": 7,
+      "grader": 14
+    }
+  },
+  {
     "model": "backend.teacherRole",
     "pk": 1,
     "fields": {
@@ -1151,6 +1233,16 @@
     "fields": {
       "commission": 5,
       "teacher": 13,
+      "role": "Profesor Adjunto",
+      "grader_weight": 3.0
+    }
+  },
+  {
+    "model": "backend.teacherRole",
+    "pk": 3,
+    "fields": {
+      "commission": 5,
+      "teacher": 14,
       "role": "Profesor Adjunto",
       "grader_weight": 3.0
     }

@@ -40,7 +40,7 @@ class StatisticsTeacherViewSet(BaseViewSet):
         # Semester Averages
 
         student_averages = EvaluationSubmission.objects.filter(
-            evaluation__semester=semester).filter(
+            evaluation__semester__commission=semester.commission).filter(
                 evaluation__is_graded=True).filter(
                     grade__isnull=False).values(
                         'evaluation__semester__start_date__year', 
@@ -113,4 +113,11 @@ class StatisticsTeacherViewSet(BaseViewSet):
                 "year_moment": value["year_moment"]
             })
 
-        return semester_averages_list
+        def sort_key(semester):
+            return (semester["year"], semester["year_moment"])
+
+        semester_averages_list.sort(key=sort_key)
+
+        last_five_semesters = semester_averages_list[-5:]
+
+        return last_five_semesters
