@@ -14,6 +14,7 @@ import logging
 import os
 
 import django_heroku
+import firebase_admin
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -164,8 +165,9 @@ REST_FRAMEWORK = {
     'FORM_CONTENTTYPE_OVERRIDE': None
 }
 
+default_app = firebase_admin.initialize_app()
+
 PUSH_NOTIFICATIONS_SETTINGS = {
-    "FCM_API_KEY": os.environ.get("FCM_API_KEY", "FCM_API_KEY_NOT_SET"),
     "UPDATE_ON_DUPLICATE_REG_ID": True
 }
 

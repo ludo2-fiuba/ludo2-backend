@@ -25,3 +25,4 @@ whitenoise
 django-rest-swagger
 drf-yasg
 rule_engine
+firebase-admin

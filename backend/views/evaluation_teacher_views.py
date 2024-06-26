@@ -93,3 +93,4 @@ class EvaluationTeacherViewSet(BaseViewSet):
         evaluation = get_object_or_404(Evaluation.objects, id=pk)
 
         NotificationService().notify_evaluation_grade(evaluation)
+        return Response(status=status.HTTP_200_OK)
