@@ -368,7 +368,7 @@
       "teacher": 6,
       "subject_name": "Física I",
       "subject_siu_id": 1,
-      "date": "2019-07-15T19:00:00-03:00"
+      "date": "2023-07-15T19:00:00-03:00"
     }
   },
   {
@@ -379,7 +379,7 @@
       "teacher": 6,
       "subject_name": "Física I",
       "subject_siu_id": 1,
-      "date": "2019-07-22T19:00:00-03:00"
+      "date": "2023-07-22T19:00:00-03:00"
     }
   },
   {
@@ -390,7 +390,7 @@
       "teacher": 7,
       "subject_name": "Álgebra II",
       "subject_siu_id": 4,
-      "date": "2019-07-15T19:00:00-03:00"
+      "date": "2023-07-15T19:00:00-03:00"
     }
   },
   {
@@ -401,7 +401,7 @@
       "teacher": 7,
       "subject_name": "Álgebra II",
       "subject_siu_id": 4,
-      "date": "2019-07-22T19:00:00-03:00"
+      "date": "2023-07-22T19:00:00-03:00"
     }
   },
   {
@@ -412,7 +412,7 @@
       "teacher": 8,
       "subject_name": "Algoritmos y Programación I",
       "subject_siu_id": 5,
-      "date": "2019-07-15T19:00:00-03:00"
+      "date": "2023-07-15T19:00:00-03:00"
     }
   },
   {
@@ -423,7 +423,7 @@
       "teacher": 8,
       "subject_name": "Algoritmos y Programación I",
       "subject_siu_id": 5,
-      "date": "2019-07-22T19:00:00-03:00"
+      "date": "2023-07-22T19:00:00-03:00"
     }
   },
   {
@@ -434,7 +434,7 @@
       "teacher": 8,
       "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
-      "date": "2019-12-15T19:00:00-03:00"
+      "date": "2023-12-15T19:00:00-03:00"
     }
   },
   {
@@ -467,7 +467,7 @@
       "teacher": 8,
       "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
-      "date": "2020-02-03T19:00:00-03:00"
+      "date": "2024-02-03T19:00:00-03:00"
     }
   },
   {
@@ -478,7 +478,7 @@
       "teacher": 9,
       "subject_name": "Física I",
       "subject_siu_id": 1,
-      "date": "2019-12-15T19:00:00-03:00"
+      "date": "2023-12-15T19:00:00-03:00"
     }
   },
   {
@@ -489,7 +489,7 @@
       "teacher": 9,
       "subject_name": "Física I",
       "subject_siu_id": 1,
-      "date": "2020-02-03T19:00:00-03:00"
+      "date": "2024-02-03T19:00:00-03:00"
     }
   },
   {
@@ -500,7 +500,7 @@
       "teacher": 9,
       "subject_name": "Física I",
       "subject_siu_id": 1,
-      "date": "2020-07-05T19:00:00-03:00"
+      "date": "2024-07-05T19:00:00-03:00"
     }
   },
   {
@@ -511,7 +511,7 @@
       "teacher": 9,
       "subject_name": "Física I",
       "subject_siu_id": 1,
-      "date": "2020-07-12T19:00:00-03:00"
+      "date": "2024-07-12T19:00:00-03:00"
     }
   },
   {
@@ -522,7 +522,7 @@
       "teacher": 5,
       "subject_name": "Química I",
        "subject_siu_id": 8,
-      "date": "2020-07-05T19:00:00-03:00"
+      "date": "2024-07-05T19:00:00-03:00"
     }
   },
   {
@@ -533,7 +533,7 @@
       "teacher": 5,
       "subject_name": "Química I",
        "subject_siu_id": 8,
-      "date": "2020-07-12T19:00:00-03:00"
+      "date": "2024-07-12T19:00:00-03:00"
     }
   },
   {
@@ -544,7 +544,7 @@
       "teacher": 5,
       "subject_name": "Química I",
       "subject_siu_id": 8,
-      "date": "2020-01-11T19:00:00-03:00"
+      "date": "2024-01-11T19:00:00-03:00"
     }
   },
   {
@@ -555,7 +555,7 @@
       "teacher": 5,
       "subject_name": "Matemática Discreta",
       "subject_siu_id": 9,
-      "date": "2020-07-11T19:00:00-03:00"
+      "date": "2024-07-11T19:00:00-03:00"
     }
   },
   {
@@ -566,7 +566,7 @@
       "teacher": 5,
       "subject_name": "Matemática Discreta",
       "subject_siu_id": 9,
-      "date": "2020-07-18T19:00:00-03:00"
+      "date": "2024-07-18T19:00:00-03:00"
     }
   },
   {
@@ -810,7 +810,7 @@
     "model": "backend.commission",
     "pk": 4,
     "fields": {
-      "chief_teacher": 13,
+      "chief_teacher": 12,
       "subject_siu_id": 3,
       "subject_name": "Análisis Matemático II - Catedra 1",
       "siu_id": 4
@@ -832,7 +832,7 @@
     "fields": {
       "commission": 1,
       "year_moment": "FS",
-      "start_date": "2023-03-10T19:00:00-03:00",
+      "start_date": "2024-03-10T19:00:00-03:00",
       "classes_amount": 10,
       "minimum_attendance": 0.8
     }
@@ -843,7 +843,7 @@
     "fields": {
       "commission": 1,
       "year_moment": "SS",
-      "start_date": "2023-07-10T19:00:00-03:00",
+      "start_date": "2024-07-10T19:00:00-03:00",
       "classes_amount": 10,
       "minimum_attendance": 0.8
     }
@@ -853,8 +853,8 @@
     "pk": 3,
     "fields": {
       "commission": 2,
-      "year_moment": "SS",
-      "start_date": "2023-07-10T19:00:00-03:00"
+      "year_moment": "FS",
+      "start_date": "2024-03-10T19:00:00-03:00"
     }
   },
   {
@@ -863,7 +863,7 @@
     "fields": {
       "commission": 2,
       "year_moment": "SS",
-      "start_date": "2022-07-10T19:00:00-03:00"
+      "start_date": "2024-07-10T19:00:00-03:00"
     }
   },
   {
@@ -872,7 +872,7 @@
     "fields": {
       "commission": 3,
       "year_moment": "FS",
-      "start_date": "2023-03-10T19:00:00-03:00"
+      "start_date": "2024-03-10T19:00:00-03:00"
     }
   },
   {
@@ -881,7 +881,7 @@
     "fields": {
       "commission": 3,
       "year_moment": "SS",
-      "start_date": "2023-07-10T19:00:00-03:00"
+      "start_date": "2024-07-10T19:00:00-03:00"
     }
   },
   {
@@ -889,17 +889,17 @@
     "pk": 7,
     "fields": {
       "commission": 4,
-      "year_moment": "SS",
-      "start_date": "2023-07-10T19:00:00-03:00"
+      "year_moment": "FS",
+      "start_date": "2024-03-10T19:00:00-03:00"
     }
   },
   {
     "model": "backend.semester",
     "pk": 8,
     "fields": {
-      "commission": 5,
+      "commission": 4,
       "year_moment": "SS",
-      "start_date": "2023-07-10T19:00:00-03:00"
+      "start_date": "2024-07-10T19:00:00-03:00"
     }
   },
   {
@@ -907,8 +907,8 @@
     "pk": 9,
     "fields": {
       "commission": 5,
-      "year_moment": "SS",
-      "start_date": "2022-07-10T19:00:00-03:00"
+      "year_moment": "FS",
+      "start_date": "2024-03-10T19:00:00-03:00"
     }
   },
   {
@@ -917,7 +917,7 @@
     "fields": {
       "commission": 5,
       "year_moment": "SS",
-      "start_date": "2021-07-10T19:00:00-03:00"
+      "start_date": "2024-07-10T19:00:00-03:00"
     }
   },
   {
@@ -1086,8 +1086,8 @@
       "evaluation_name": "Parcial",
       "is_graded": true,
       "passing_grade": 4,
-      "start_date": "2022-11-13T19:00:00-03:00",
-      "end_date": "2022-11-13T22:00:00-03:00"
+      "start_date": "2024-11-13T19:00:00-03:00",
+      "end_date": "2024-11-13T22:00:00-03:00"
     }
   },
   {
@@ -1098,8 +1098,8 @@
       "evaluation_name": "Parcial",
       "is_graded": true,
       "passing_grade": 4,
-      "start_date": "2021-11-13T19:00:00-03:00",
-      "end_date": "2021-11-13T22:00:00-03:00"
+      "start_date": "2024-11-13T19:00:00-03:00",
+      "end_date": "2024-11-13T22:00:00-03:00"
     }
   },
   {
@@ -1225,13 +1225,23 @@
     }
   },
   {
+    "model": "backend.teacherRole",
+    "pk": 5,
+    "fields": {
+      "commission": 5,
+      "teacher": 12,
+      "role": "Profesor Adjunto",
+      "grader_weight": 3.0
+    }
+  },
+  {
     "model": "backend.attendanceQRCode",
     "pk": 1,
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-13T19:00:00-03:00",
-      "expires_at": "2023-11-13T22:00:00-03:00",
+      "created_at": "2024-06-13T19:00:00-03:00",
+      "expires_at": "2024-06-13T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1241,8 +1251,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-14T19:00:00-03:00",
-      "expires_at": "2023-11-14T22:00:00-03:00",
+      "created_at": "2024-06-14T19:00:00-03:00",
+      "expires_at": "2024-06-14T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1252,8 +1262,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-15T19:00:00-03:00",
-      "expires_at": "2023-11-15T22:00:00-03:00",
+      "created_at": "2024-06-15T19:00:00-03:00",
+      "expires_at": "2024-06-15T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1263,8 +1273,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-16T19:00:00-03:00",
-      "expires_at": "2023-11-16T22:00:00-03:00",
+      "created_at": "2024-06-16T19:00:00-03:00",
+      "expires_at": "2024-06-16T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1274,8 +1284,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-17T19:00:00-03:00",
-      "expires_at": "2023-11-17T22:00:00-03:00",
+      "created_at": "2024-06-17T19:00:00-03:00",
+      "expires_at": "2024-06-17T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1285,8 +1295,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-18T19:00:00-03:00",
-      "expires_at": "2023-11-18T22:00:00-03:00",
+      "created_at": "2024-06-18T19:00:00-03:00",
+      "expires_at": "2024-06-18T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1296,8 +1306,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-19T19:00:00-03:00",
-      "expires_at": "2023-11-19T22:00:00-03:00",
+      "created_at": "2024-06-19T19:00:00-03:00",
+      "expires_at": "2024-06-19T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1307,8 +1317,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-20T19:00:00-03:00",
-      "expires_at": "2023-11-20T22:00:00-03:00",
+      "created_at": "2024-06-20T19:00:00-03:00",
+      "expires_at": "2024-06-20T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1318,8 +1328,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-21T19:00:00-03:00",
-      "expires_at": "2023-11-21T22:00:00-03:00",
+      "created_at": "2024-06-21T19:00:00-03:00",
+      "expires_at": "2024-06-21T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1329,8 +1339,8 @@
     "fields": {
       "semester": 8,
       "owner_teacher": 12,
-      "created_at": "2023-11-20T19:00:00-03:00",
-      "expires_at": "2023-11-20T22:00:00-03:00",
+      "created_at": "2024-06-20T19:00:00-03:00",
+      "expires_at": "2024-06-20T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1340,8 +1350,8 @@
     "fields": {
       "semester": 8,
       "owner_teacher": 12,
-      "created_at": "2023-11-20T19:00:00-03:00",
-      "expires_at": "2023-11-20T22:00:00-03:00",
+      "created_at": "2024-06-20T19:00:00-03:00",
+      "expires_at": "2024-06-20T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1351,8 +1361,8 @@
     "fields": {
       "semester": 2,
       "owner_teacher": 5,
-      "created_at": "2023-11-22T19:00:00-03:00",
-      "expires_at": "2023-11-22T22:00:00-03:00",
+      "created_at": "2024-06-22T19:00:00-03:00",
+      "expires_at": "2024-06-22T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1363,7 +1373,7 @@
       "semester": 2,
       "student": 14,
       "qr_code": 1,
-      "submitted_at": "2023-11-13T20:00:00-03:00"
+      "submitted_at": "2024-11-13T20:00:00-03:00"
     }
   },
   {
@@ -1373,7 +1383,7 @@
       "semester": 2,
       "student": 14,
       "qr_code": 2,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   },
   {
@@ -1383,7 +1393,7 @@
       "semester": 2,
       "student": 14,
       "qr_code": 3,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   },
   {
@@ -1393,7 +1403,7 @@
       "semester": 2,
       "student": 14,
       "qr_code": 4,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   },
   {
@@ -1403,7 +1413,7 @@
       "semester": 2,
       "student": 14,
       "qr_code": 5,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   },
   {
@@ -1413,7 +1423,7 @@
       "semester": 2,
       "student": 14,
       "qr_code": 7,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   },
   {
@@ -1423,7 +1433,7 @@
       "semester": 2,
       "student": 14,
       "qr_code": 8,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   },
   {
@@ -1433,17 +1443,7 @@
       "semester": 2,
       "student": 14,
       "qr_code": 9,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
-    }
-  },
-  {
-    "model": "backend.attendance",
-    "pk": 9,
-    "fields": {
-      "semester": 8,
-      "student": 12,
-      "qr_code": 10,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   },
   {
@@ -1453,7 +1453,7 @@
       "semester": 8,
       "student": 13,
       "qr_code": 10,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   },
   {
@@ -1463,7 +1463,7 @@
       "semester": 8,
       "student": 13,
       "qr_code": 11,
-      "submitted_at": "2023-11-14T20:00:00-03:00"
+      "submitted_at": "2024-11-14T20:00:00-03:00"
     }
   }
 ]

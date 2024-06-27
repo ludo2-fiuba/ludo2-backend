@@ -35,7 +35,7 @@ def validate_face(request, model):
     is_match = ImageValidatorService(request.data["image"]).validate_identity(model)
 
     if not is_match:
-        return InvalidFaceError()
+        raise InvalidFaceError()
 
 
 def get_current_semester():
@@ -47,7 +47,7 @@ def get_current_semester():
 
 
 def get_current_year():
-    return 2023
+    return 2024
 
 
 def get_current_datetime():
@@ -88,5 +88,5 @@ def get_stub_chief_teacher_role(commission: Commission) -> TeacherRole:
         commission=commission,
         teacher=commission.chief_teacher,
         grader_weight=commission.chief_teacher_grader_weight,
-        role="T",
+        role="Profesor Titular",
     )
