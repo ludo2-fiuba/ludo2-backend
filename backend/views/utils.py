@@ -41,7 +41,7 @@ def validate_face(request, model):
 def get_current_semester():
     mes = datetime.now().month
     # TODO: hacerlo configurable
-    if (mes >= 8) or (mes <= 2):
+    if (mes >= 7) or (mes <= 2):
         return "SS"
     return "FS"
 

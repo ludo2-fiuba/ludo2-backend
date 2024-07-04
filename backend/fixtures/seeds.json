@@ -810,7 +810,7 @@
     "model": "backend.commission",
     "pk": 4,
     "fields": {
-      "chief_teacher": 12,
+      "chief_teacher": 13,
       "subject_siu_id": 3,
       "subject_name": "Análisis Matemático II - Catedra 1",
       "siu_id": 4
@@ -820,7 +820,7 @@
     "model": "backend.commission",
     "pk": 5,
     "fields": {
-      "chief_teacher": 13,
+      "chief_teacher": 12,
       "subject_siu_id": 3,
       "subject_name": "Análisis Matemático II - Catedra 2",
       "siu_id": 5
@@ -1029,6 +1029,24 @@
     }
   },
   {
+    "model": "backend.commissioninscription",
+    "pk": 14,
+    "fields": {
+      "status": "A",
+      "semester": 10,
+      "student": 1
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 15,
+    "fields": {
+      "status": "A",
+      "semester": 10,
+      "student": 2
+    }
+  },
+  {
     "model": "backend.evaluation",
     "pk": 1,
     "fields": {
@@ -1163,22 +1181,12 @@
       "grade": 4,
       "grader": 5
     }
-  },  
-  {
-    "model": "backend.evaluationsubmission",
-    "pk": 12,
-    "fields": {
-      "evaluation": 5,
-      "student": 12,
-      "grade": 8,
-      "grader": 14
-    }
   },
   {
     "model": "backend.evaluationsubmission",
     "pk": 13,
     "fields": {
-      "evaluation": 6,
+      "evaluation": 5,
       "student": 12,
       "grade": 7,
       "grader": 14
@@ -1219,16 +1227,6 @@
     "pk": 4,
     "fields": {
       "commission": 1,
-      "teacher": 12,
-      "role": "Profesor Adjunto",
-      "grader_weight": 3.0
-    }
-  },
-  {
-    "model": "backend.teacherRole",
-    "pk": 5,
-    "fields": {
-      "commission": 5,
       "teacher": 12,
       "role": "Profesor Adjunto",
       "grader_weight": 3.0
