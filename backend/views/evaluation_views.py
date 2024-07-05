@@ -50,10 +50,14 @@ class EvaluationViewSet(BaseViewSet):
         operation_summary="Gets future evaluations from semesters in which the logged in student student in inscripted in",
     )
     def mis_examenes(self, request):
-        result = self.queryset.filter(
-            semester__students=request.user.student,
-            start_date__gt=get_current_datetime(),
-        ).all()
+        result = (
+            self.queryset.filter(
+                semester__students=request.user.student,
+                end_date__gt=get_current_datetime(),
+            )
+            .order_by("end_date")
+            .all()
+        )
         return Response(
             EvaluationSemesterSerializer(result, many=True).data, status.HTTP_200_OK
         )
