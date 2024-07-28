@@ -445,7 +445,7 @@
       "teacher": 13,
       "subject_name": "Análisis Matemático II",
        "subject_siu_id": 3,
-      "date": "2024-02-03T19:00:00-03:00"
+      "date": "2024-10-03T19:00:00-03:00"
     }
   },
   {
@@ -455,8 +455,9 @@
       "siu_id": 9,
       "teacher": 13,
       "subject_name": "Análisis Matemático II",
+      "status": "OP",
        "subject_siu_id": 3,
-      "date": "2024-03-06T19:00:00-03:00"
+      "date": "2024-07-24T19:00:00-03:00"
     }
   },
   {
@@ -567,6 +568,18 @@
       "subject_name": "Matemática Discreta",
       "subject_siu_id": 9,
       "date": "2024-07-18T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 20,
+    "fields": {
+      "siu_id": 9,
+      "teacher": 13,
+      "subject_name": "Análisis Matemático II",
+      "status": "PA",
+       "subject_siu_id": 3,
+      "date": "2024-07-10T19:00:00-03:00"
     }
   },
   {
@@ -777,6 +790,33 @@
     }
   },
   {
+    "model": "backend.finalexam",
+    "pk": 24,
+    "fields": {
+      "final": 9,
+      "student": 12,
+      "grade": 7
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 25,
+    "fields": {
+      "final": 9,
+      "student": 1,
+      "grade": 4
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 26,
+    "fields": {
+      "final": 9,
+      "student": 2,
+      "grade": 9
+    }
+  },
+  {
     "model": "backend.commission",
     "pk": 1,
     "fields": {
@@ -841,9 +881,9 @@
     "model": "backend.semester",
     "pk": 2,
     "fields": {
-      "commission": 1,
+      "commission": 4,
       "year_moment": "SS",
-      "start_date": "2024-07-10T19:00:00-03:00",
+      "start_date": "2023-07-10T19:00:00-03:00",
       "classes_amount": 10,
       "minimum_attendance": 0.8
     }
@@ -918,6 +958,15 @@
       "commission": 5,
       "year_moment": "SS",
       "start_date": "2024-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.semester",
+    "pk": 11,
+    "fields": {
+      "commission": 4,
+      "year_moment": "FS",
+      "start_date": "2024-04-10T19:00:00-03:00"
     }
   },
   {
@@ -989,7 +1038,7 @@
     "fields": {
       "status": "A",
       "semester": 8,
-      "student": 13
+      "student": 12
     }
   },
   {
@@ -1047,6 +1096,51 @@
     }
   },
   {
+    "model": "backend.commissioninscription",
+    "pk": 16,
+    "fields": {
+      "status": "A",
+      "semester": 8,
+      "student": 1
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 17,
+    "fields": {
+      "status": "A",
+      "semester": 8,
+      "student": 2
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 18,
+    "fields": {
+      "status": "A",
+      "semester": 8,
+      "student": 3
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 19,
+    "fields": {
+      "status": "A",
+      "semester": 8,
+      "student": 4
+    }
+  },
+  {
+    "model": "backend.commissioninscription",
+    "pk": 20,
+    "fields": {
+      "status": "A",
+      "semester": 11,
+      "student": 14
+    }
+  },
+  {
     "model": "backend.evaluation",
     "pk": 1,
     "fields": {
@@ -1063,7 +1157,7 @@
     "pk": 2,
     "fields": {
       "semester": 8,
-      "evaluation_name": "Parcial",
+      "evaluation_name": "Primer Parcial",
       "is_graded": true,
       "passing_grade": 4,
       "start_date": "2024-09-18T19:00:00-03:00",
@@ -1121,11 +1215,35 @@
     }
   },
   {
+    "model": "backend.evaluation",
+    "pk": 7,
+    "fields": {
+      "semester": 8,
+      "evaluation_name": "Segundo Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "start_date": "2024-10-21T19:00:00-03:00",
+      "end_date": "2024-10-21T22:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 8,
+    "fields": {
+      "semester": 11,
+      "evaluation_name": "Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "start_date": "2024-04-21T19:00:00-03:00",
+      "end_date": "2024-04-21T22:00:00-03:00"
+    }
+  },
+  {
     "model": "backend.evaluationsubmission",
     "pk": 3,
     "fields": {
       "evaluation": 2,
-      "student": 14,
+      "student": 12,
       "grade": 7,
       "grader": 14
     }
@@ -1136,7 +1254,7 @@
     "fields": {
       "evaluation": 1,
       "student": 14,
-      "grade": 2,
+      "grade": 5,
       "grader": 5
     }
   },
@@ -1193,11 +1311,21 @@
     }
   },
   {
+    "model": "backend.evaluationsubmission",
+    "pk": 14,
+    "fields": {
+      "evaluation": 8,
+      "student": 14,
+      "grade": 8,
+      "grader": 13
+    }
+  },
+  {
     "model": "backend.teacherRole",
     "pk": 1,
     "fields": {
       "commission": 4,
-      "teacher": 12,
+      "teacher": 14,
       "role": "Profesor Adjunto",
       "grader_weight": 3.0
     }
@@ -1337,8 +1465,8 @@
     "fields": {
       "semester": 8,
       "owner_teacher": 12,
-      "created_at": "2024-06-20T19:00:00-03:00",
-      "expires_at": "2024-06-20T22:00:00-03:00",
+      "created_at": "2024-06-13T19:00:00-03:00",
+      "expires_at": "2024-06-13T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1361,6 +1489,28 @@
       "owner_teacher": 5,
       "created_at": "2024-06-22T19:00:00-03:00",
       "expires_at": "2024-06-22T22:00:00-03:00",
+      "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+  },
+  {
+    "model": "backend.attendanceQRCode",
+    "pk": 13,
+    "fields": {
+      "semester": 8,
+      "owner_teacher": 12,
+      "created_at": "2024-07-08T19:00:00-03:00",
+      "expires_at": "2024-07-08T22:00:00-03:00",
+      "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    }
+  },
+  {
+    "model": "backend.attendanceQRCode",
+    "pk": 14,
+    "fields": {
+      "semester": 8,
+      "owner_teacher": 12,
+      "created_at": "2024-07-15T19:00:00-03:00",
+      "expires_at": "2024-07-15T22:00:00-03:00",
       "qrid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
     }
   },
@@ -1449,9 +1599,9 @@
     "pk": 10,
     "fields": {
       "semester": 8,
-      "student": 13,
+      "student": 12,
       "qr_code": 10,
-      "submitted_at": "2024-11-14T20:00:00-03:00"
+      "submitted_at": "2024-06-13T20:00:00-03:00"
     }
   },
   {
@@ -1459,9 +1609,99 @@
     "pk": 11,
     "fields": {
       "semester": 8,
-      "student": 13,
+      "student": 12,
       "qr_code": 11,
-      "submitted_at": "2024-11-14T20:00:00-03:00"
+      "submitted_at": "2024-06-20T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 12,
+    "fields": {
+      "semester": 8,
+      "student": 1,
+      "qr_code": 10,
+      "submitted_at": "2024-06-20T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 13,
+    "fields": {
+      "semester": 8,
+      "student": 2,
+      "qr_code": 10,
+      "submitted_at": "2024-06-20T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 14,
+    "fields": {
+      "semester": 8,
+      "student": 12,
+      "qr_code": 13,
+      "submitted_at": "2024-07-01T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 15,
+    "fields": {
+      "semester": 8,
+      "student": 3,
+      "qr_code": 11,
+      "submitted_at": "2024-06-20T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 16,
+    "fields": {
+      "semester": 8,
+      "student": 3,
+      "qr_code": 10,
+      "submitted_at": "2024-06-13T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 17,
+    "fields": {
+      "semester": 8,
+      "student": 4,
+      "qr_code": 10,
+      "submitted_at": "2024-06-13T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 18,
+    "fields": {
+      "semester": 8,
+      "student": 4,
+      "qr_code": 11,
+      "submitted_at": "2024-06-20T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 19,
+    "fields": {
+      "semester": 8,
+      "student": 4,
+      "qr_code": 13,
+      "submitted_at": "2024-07-08T20:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.attendance",
+    "pk": 20,
+    "fields": {
+      "semester": 8,
+      "student": 12,
+      "qr_code": 14,
+      "submitted_at": "2024-07-15T20:00:00-03:00"
     }
   }
 ]
