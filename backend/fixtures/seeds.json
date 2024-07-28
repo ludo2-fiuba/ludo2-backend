@@ -817,6 +817,33 @@
     }
   },
   {
+    "model": "backend.finalexam",
+    "pk": 27,
+    "fields": {
+      "final": 20,
+      "student": 12,
+      "grade": 9
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 28,
+    "fields": {
+      "final": 20,
+      "student": 2,
+      "grade": 8
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 29,
+    "fields": {
+      "final": 20,
+      "student": 1,
+      "grade": 6
+    }
+  },
+  {
     "model": "backend.commission",
     "pk": 1,
     "fields": {
