@@ -368,3 +368,31 @@ class GraderAssignmentServiceTests(APITestCase):
         self.assertEqual(assigned_submissions[1].grade, 1)
         self.assertEqual(assigned_submissions[2].grader, teacher_a.teacher)
         self.assertEqual(assigned_submissions[2].grade, 2)
+
+    def test_auto_assign_graders_with_many_submissions(self):
+        # Create teacher roles
+        teacher_a = TeacherRoleFactory(commission=self.commission, grader_weight=55.0)
+        teacher_b = TeacherRoleFactory(commission=self.commission, grader_weight=35.0)
+        teacher_c = TeacherRoleFactory(commission=self.commission, grader_weight=10.0)
+        teacher_roles = [teacher_a, teacher_b, teacher_c]
+
+        # Create submissions and assign a grader to one of them
+        submissions = SubmissionFactory.create_batch(30, evaluation=self.evaluation)
+
+        # Call the service directly without mocking
+        service = GraderAssignmentService()
+        assigned_submissions = service.auto_assign(teacher_roles, submissions)
+
+        teacher_a_subs = [
+            sub for sub in assigned_submissions if sub.grader == teacher_a.teacher
+        ]
+        teacher_b_subs = [
+            sub for sub in assigned_submissions if sub.grader == teacher_b.teacher
+        ]
+        teacher_c_subs = [
+            sub for sub in assigned_submissions if sub.grader == teacher_c.teacher
+        ]
+
+        self.assertEqual(len(teacher_a_subs), 17)
+        self.assertEqual(len(teacher_b_subs), 10)
+        self.assertEqual(len(teacher_c_subs), 3)
