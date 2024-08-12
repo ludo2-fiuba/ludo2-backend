@@ -1219,7 +1219,7 @@
     "pk": 13,
     "fields": {
       "semester": 6,
-      "evaluation_name": "Entrega TP1",
+      "evaluation_name": "Trabajo Práctico 1",
       "is_graded": false,
       "passing_grade": 7,
       "start_date": "2024-08-06T19:00:00-03:00",
@@ -1243,7 +1243,7 @@
     "pk": 14,
     "fields": {
       "semester": 6,
-      "evaluation_name": "Entrega TP2",
+      "evaluation_name": "Trabajo Práctico 2",
       "is_graded": false,
       "passing_grade": 7,
       "start_date": "2024-09-06T19:00:00-03:00",
