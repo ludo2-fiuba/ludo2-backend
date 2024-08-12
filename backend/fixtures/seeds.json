@@ -1203,6 +1203,80 @@
     }
   },
   {
+    "model": "backend.evaluation",
+    "pk": 9,
+    "fields": {
+      "semester": 6,
+      "evaluation_name": "Primer Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "start_date": "2024-08-21T19:00:00-03:00",
+      "end_date": "2024-08-21T22:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 13,
+    "fields": {
+      "semester": 6,
+      "evaluation_name": "Entrega TP1",
+      "is_graded": false,
+      "passing_grade": 7,
+      "start_date": "2024-08-06T19:00:00-03:00",
+      "end_date": "2024-09-06T23:59:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 10,
+    "fields": {
+      "semester": 6,
+      "evaluation_name": "Segundo Parcial",
+      "is_graded": true,
+      "passing_grade": 4,
+      "start_date": "2024-10-17T19:00:00-03:00",
+      "end_date": "2024-10-17T22:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 14,
+    "fields": {
+      "semester": 6,
+      "evaluation_name": "Entrega TP2",
+      "is_graded": false,
+      "passing_grade": 7,
+      "start_date": "2024-09-06T19:00:00-03:00",
+      "end_date": "2024-10-17T23:59:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 11,
+    "fields": {
+      "semester": 6,
+      "evaluation_name": "Primer Recuperatorio",
+      "is_graded": true,
+      "parent_evaluation": 9,
+      "passing_grade": 4,
+      "start_date": "2024-11-21T19:00:00-03:00",
+      "end_date": "2024-11-21T22:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.evaluation",
+    "pk": 12,
+    "fields": {
+      "semester": 6,
+      "evaluation_name": "Segundo Recuperatorio",
+      "is_graded": true,
+      "parent_evaluation": 10,
+      "passing_grade": 4,
+      "start_date": "2024-12-12T19:00:00-03:00",
+      "end_date": "2024-12-12T22:00:00-03:00"
+    }
+  },
+  {
     "model": "backend.evaluationsubmission",
     "pk": 3,
     "fields": {
