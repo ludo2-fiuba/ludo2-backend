@@ -989,24 +989,6 @@
   },
   {
     "model": "backend.commissioninscription",
-    "pk": 3,
-    "fields": {
-      "status": "A",
-      "semester": 1,
-      "student": 12
-    }
-  },
-  {
-    "model": "backend.commissioninscription",
-    "pk": 4,
-    "fields": {
-      "status": "A",
-      "semester": 2,
-      "student": 12
-    }
-  },
-  {
-    "model": "backend.commissioninscription",
     "pk": 5,
     "fields": {
       "status": "A",
@@ -1056,15 +1038,6 @@
     "fields": {
       "status": "A",
       "semester": 6,
-      "student": 12
-    }
-  },
-  {
-    "model": "backend.commissioninscription",
-    "pk": 12,
-    "fields": {
-      "status": "A",
-      "semester": 9,
       "student": 12
     }
   },
@@ -1235,7 +1208,7 @@
     "fields": {
       "evaluation": 2,
       "student": 12,
-      "grade": 7,
+      "grade": 8,
       "grader": 14
     }
   },
