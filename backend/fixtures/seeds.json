@@ -746,29 +746,11 @@
   },
   {
     "model": "backend.finalexam",
-    "pk": 19,
-    "fields": {
-      "final": 18,
-      "student": 12,
-      "grade": 9
-    }
-  },
-  {
-    "model": "backend.finalexam",
     "pk": 20,
     "fields": {
       "final": 15,
       "student": 12,
       "grade": 9
-    }
-  },
-  {
-    "model": "backend.finalexam",
-    "pk": 21,
-    "fields": {
-      "final": 8,
-      "student": 12,
-      "grade": 5
     }
   },
   {
@@ -785,15 +767,6 @@
     "pk": 23,
     "fields": {
       "final": 2,
-      "student": 12,
-      "grade": 7
-    }
-  },
-  {
-    "model": "backend.finalexam",
-    "pk": 24,
-    "fields": {
-      "final": 9,
       "student": 12,
       "grade": 7
     }
@@ -1092,15 +1065,6 @@
     "fields": {
       "status": "A",
       "semester": 9,
-      "student": 12
-    }
-  },
-  {
-    "model": "backend.commissioninscription",
-    "pk": 13,
-    "fields": {
-      "status": "A",
-      "semester": 10,
       "student": 12
     }
   },
