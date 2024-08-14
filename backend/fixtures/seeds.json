@@ -574,12 +574,24 @@
     "model": "backend.final",
     "pk": 20,
     "fields": {
-      "siu_id": 9,
+      "siu_id": 20,
       "teacher": 13,
       "subject_name": "Análisis Matemático II",
       "status": "PA",
        "subject_siu_id": 3,
       "date": "2024-07-10T19:00:00-03:00"
+    }
+  },
+  {
+    "model": "backend.final",
+    "pk": 21,
+    "fields": {
+      "siu_id": 21,
+      "teacher": 13,
+      "subject_name": "Análisis Matemático II",
+      "status": "AS",
+      "subject_siu_id": 3,
+      "date": "2024-07-03T19:00:00-03:00"
     }
   },
   {
@@ -812,6 +824,33 @@
     "pk": 29,
     "fields": {
       "final": 20,
+      "student": 1,
+      "grade": 6
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 30,
+    "fields": {
+      "final": 21,
+      "student": 12,
+      "grade": 8
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 31,
+    "fields": {
+      "final": 21,
+      "student": 2,
+      "grade": 8
+    }
+  },
+  {
+    "model": "backend.finalexam",
+    "pk": 32,
+    "fields": {
+      "final": 21,
       "student": 1,
       "grade": 6
     }
