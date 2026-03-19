@@ -6,7 +6,8 @@ from rest_framework_nested import routers
 
 from . import views
 from .views import CustomGCMDeviceViewSet
-from .views.user_views import UserCustomViewSet
+from .views.user_views import UserCustomViewSet, simple_login
+from .views.google_auth_views import google_sign_in, google_complete_registration
 
 router = routers.SimpleRouter()
 router.register(r'final_exams', views.FinalExamStudentViewSet, 'final_exam')
@@ -24,12 +25,14 @@ router.register(r'evaluations', views.EvaluationViewSet, 'evaluation')
 router.register(r'evaluations/submissions', views.EvaluationSubmissionViewSet, 'evaluation')
 router.register(r'teacher/evaluations', views.EvaluationTeacherViewSet, 'evaluation')
 router.register(r'teacher/evaluations/submissions', views.EvaluationSubmissionTeacherViewSet, 'evaluation')
+router.register(r'teacher/profile', views.TeacherProfileViewSet, 'teacher_profile')
 router.register(r'teachers', views.TeacherViews, 'teachers')
 router.register(r'students', views.StudentViews, 'students')
 router.register(r'commission_inscription', views.CommissionInscriptionViewSet, 'commission_inscription')
 router.register(r'teacher/commission_inscription', views.CommissionInscriptionTeacherViewSet, 'commission_inscription')
 router.register(r'statistics/student', views.StatisticsStudentViewSet, 'statistics_student')
 router.register(r'statistics/teacher', views.StatisticsTeacherViewSet, 'statistics_teacher')
+router.register(r'notifications', views.NotificationViewSet, 'notification')
 router.register(r'device/gcm', CustomGCMDeviceViewSet)
 
 teacher_finals_router = routers.NestedSimpleRouter(router, r'finals', lookup='final')
@@ -55,7 +58,10 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
 
     path('', include(auth_router.urls)),
-    re_path(r'^auth/oauth/$', views.user_views.token_obtain_pair, name='api-oauth'),
+    re_path(r'^auth/login/$', simple_login, name='api-login'),
     
+    path('auth/google/', google_sign_in, name='google-sign-in'),
+    path('auth/google/registration/', google_complete_registration, name='google-registration'),
+
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0),name='schema-swagger-ui')
 ]
